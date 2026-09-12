@@ -168,6 +168,12 @@
   #lightboxCaption{ position:absolute; bottom:28px; left:0; right:0; text-align:center; color:var(--ink-dim); font-size:14px; }
 
   /* ---------- ADMIN ---------- */
+  body.preview-mode #adminToggle{ display:none; }
+  body.preview-mode #adminDrawer{ right:-420px !important; }
+  #previewExit{ position:fixed; bottom:20px; right:20px; z-index:320; display:none; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px; background:var(--surface); border:1px solid var(--teal); color:var(--ink);
+    font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+  body.preview-mode #previewExit{ display:inline-flex; }
   #adminToggle{ position:fixed; bottom:20px; right:20px; z-index:300; width:44px; height:44px; border-radius:50%; background:var(--surface); border:1px solid var(--line); color:var(--ink-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; }
   #adminToggle:hover{ color:var(--ink); border-color:var(--teal); }
   #adminDrawer{ position:fixed; top:0; right:-420px; width:400px; max-width:92vw; height:100%; z-index:400; background:#0c0e11; border-left:1px solid var(--line); transition:right .3s ease; display:flex; flex-direction:column; }
@@ -186,7 +192,7 @@
   .admin-row{ display:flex; gap:6px; }
   .admin-row button{ flex:1; }
   label.al{ font-size:11px; color:var(--ink-dim); display:block; margin-bottom:2px; }
-  input, textarea{ background:#111417; border:1px solid var(--line); color:var(--ink); border-radius:3px; padding:7px 9px; font-size:13px; font-family:inherit; width:100%; }
+  input, textarea, select{ background:#111417; border:1px solid var(--line); color:var(--ink); border-radius:3px; padding:7px 9px; font-size:13px; font-family:inherit; width:100%; }
   textarea{ resize:vertical; min-height:60px; }
   .mini-btn{ padding:6px 8px; font-size:11px; border-radius:3px; border:1px solid var(--line); background:transparent; color:var(--ink-dim); cursor:pointer; font-family:inherit; }
   .mini-btn:hover{ color:var(--ink); border-color:var(--teal); }
@@ -364,6 +370,7 @@
 
 <!-- ================= ADMIN ================= -->
 <button id="adminToggle" title="Адмін-панель">⚙</button>
+<button id="previewExit">← Вийти з перегляду</button>
 <div id="adminDrawer">
   <div class="admin-head"><b>Адмін-панель</b><button class="admin-close" id="adminClose">✕</button></div>
   <div class="admin-tabs">
@@ -378,6 +385,7 @@
   </div>
   <div class="admin-footer">
     <div class="admin-note">Фото/відео вантажаться прямо у файл сайту — без Instagram чи YouTube, нічого не зламається при блокуванні акаунта. Зміни зберігаються в цьому браузері одразу. Щоб клієнти на публічному лінку побачили оновлення — натисни "Зберегти сайт" і надішли файл для повторної публікації.</div>
+    <button class="mini-btn" id="previewBtn" style="padding:10px;">👁 Переглянути як клієнт</button>
     <button class="btn btn-primary" id="exportBtn" style="justify-content:center;">Зберегти сайт (.html)</button>
     <button class="mini-btn" id="resetBtn">Скинути локальні зміни</button>
   </div>
@@ -394,6 +402,37 @@
   }catch(e){ DATA = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
 
   function saveLocal(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(DATA)); }catch(e){} }
+
+  // --- YouTube helpers ---
+  function ytId(url){
+    if(!url) return '';
+    var m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : '';
+  }
+  function ytThumb(url){
+    var id = ytId(url);
+    return id ? ('https://img.youtube.com/vi/'+id+'/hqdefault.jpg') : '';
+  }
+  function ytEmbed(url, autoplay){
+    var id = ytId(url);
+    if(!id) return '';
+    return 'https://www.youtube.com/embed/'+id+'?rel=0&modestbranding=1&playsinline=1'+(autoplay?'&autoplay=1&mute=1':'');
+  }
+  // preview source priority: uploaded video > uploaded image > YouTube thumbnail
+  function clipPreview(clip){
+    if(clip.videoUrl) return {kind:'video', src:clip.videoUrl, poster:clip.image||''};
+    if(clip.video) return {kind:'video', src:clip.video, poster:clip.image||''};
+    if(clip.image) return {kind:'image', src:clip.image};
+    var t = ytThumb(clip.link);
+    if(t) return {kind:'image', src:t};
+    return {kind:'none', src:''};
+  }
+  function anyMedia(clip){
+    return !!(clip.videoUrl || clip.video || clip.image || ytId(clip.link));
+  }
+  function playableVideo(clip){
+    return clip.videoUrl || clip.video || '';
+  }
   function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function fileToDataUrl(file, cb){ const r = new FileReader(); r.onload=function(){ cb(r.result); }; r.readAsDataURL(file); }
 
@@ -448,8 +487,10 @@
     host.innerHTML = DATA.tracks.map(function(track){
       const clipsHtml = track.clips.map(function(clip, ci){
         const grad = 'g'+(ci%8);
-        const media = clip.video ? ('<video src="'+clip.video+'" muted loop playsinline></video>') : (clip.image ? ('<img src="'+clip.image+'" alt="">') : '');
-        const bgClass = (!clip.image && !clip.video) ? (' '+grad) : '';
+        const pv = clipPreview(clip);
+        const media = pv.kind === 'video' ? ('<video src="'+pv.src+'" muted loop playsinline preload="metadata"'+(pv.poster?(' poster="'+pv.poster+'"'):'')+'></video>')
+                    : pv.kind === 'image' ? ('<img src="'+pv.src+'" alt="" loading="lazy">') : '';
+        const bgClass = (pv.kind === 'none') ? (' '+grad) : '';
         return '<a class="clip'+bgClass+'" data-w="'+ci+'" style="width:'+clipWidth(clip.views)+'px" href="'+esc(clip.link||'#')+'" '+(clip.link?'target="_blank" rel="noopener"':'onclick="return false;"')+' data-track="'+track.id+'" data-clip="'+ci+'">'+
           media +
           '<span class="clip-dur">👁 '+esc(clip.views||'')+'</span>'+
@@ -465,8 +506,13 @@
       const track = DATA.tracks.find(function(t){ return t.id===tId; });
       const clip = track.clips[cIdx];
       el.addEventListener('click', function(e){
-        if(clip.image || clip.video){ e.preventDefault(); openLightbox(clip); }
+        if(anyMedia(clip)){ e.preventDefault(); openLightbox(clip); }
       });
+      const tileVid = el.querySelector('video');
+      if(tileVid){
+        el.addEventListener('mouseenter', function(){ tileVid.play().catch(function(){}); });
+        el.addEventListener('mouseleave', function(){ tileVid.pause(); tileVid.currentTime = 0; });
+      }
       attachHoverExpand(el, clip);
     });
 
@@ -548,19 +594,31 @@
 
   function expandFrom(el, item){
     if(EX.open) return;
-    if(!item.video && !item.image) return;
+    if(!anyMedia(item)) return;
     const r = el.getBoundingClientRect();
 
     EX.stage.innerHTML = '';
-    if(item.video){
+    const embHover = ytEmbed(item.link, true);
+    const localHover = playableVideo(item);
+    if(localHover){
       const v = document.createElement('video');
-      v.src = item.video; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.controls = false;
+      v.src = localHover; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.controls = false;
       EX.stage.appendChild(v);
       EX.media = v;
       v.play().catch(function(){});
-    } else {
+    }
+    else if(embHover){
+      const fr = document.createElement('iframe');
+      fr.src = embHover; fr.frameBorder = '0';
+      fr.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      fr.allowFullscreen = true;
+      fr.style.width = '100%'; fr.style.height = '100%'; fr.style.border = '0';
+      EX.stage.appendChild(fr);
+      EX.media = fr;
+    }
+    else {
       const im = document.createElement('img');
-      im.src = item.image;
+      im.src = item.image || ytThumb(item.link);
       EX.stage.appendChild(im);
       EX.media = im;
     }
@@ -644,7 +702,22 @@
   function openLightbox(clip){
     const box = document.getElementById('lightboxBody');
     box.innerHTML = '';
-    if(clip.video){ const v=document.createElement('video'); v.src=clip.video; v.controls=true; v.autoplay=true; box.appendChild(v); }
+    const localVid = playableVideo(clip);
+    const emb = ytEmbed(clip.link, true);
+    if(localVid){
+      const v = document.createElement('video');
+      v.src = localVid; v.controls = true; v.autoplay = true; v.playsInline = true;
+      if(clip.image) v.poster = clip.image;
+      box.appendChild(v);
+    }
+    else if(emb){
+      const fr = document.createElement('iframe');
+      fr.src = emb; fr.width = '960'; fr.height = '540'; fr.frameBorder = '0';
+      fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      fr.allowFullscreen = true;
+      fr.style.maxWidth = '100%'; fr.style.maxHeight = '80vh'; fr.style.aspectRatio = '16/9';
+      box.appendChild(fr);
+    }
     else if(clip.image){ const im=document.createElement('img'); im.src=clip.image; box.appendChild(im); }
     document.getElementById('lightboxCaption').textContent = clip.title + (clip.meta?(' · '+clip.meta):'');
     document.getElementById('lightbox').classList.add('open');
@@ -655,7 +728,15 @@
 
   function renderAdmin(){
     const clipsPane = document.getElementById('pane-clips');
-    clipsPane.innerHTML = '';
+    clipsPane.innerHTML =
+      '<div class="admin-clip" style="border-color:var(--teal);">' +
+        '<label class="al">Масове додавання — вставте посилання YouTube, по одному в рядок</label>' +
+        '<textarea id="bulkLinks" style="min-height:90px;" placeholder="https://youtu.be/xxxxxxxxxxx\nhttps://www.youtube.com/watch?v=yyyyyyyyyyy"></textarea>' +
+        '<label class="al">Додати у доріжку</label>' +
+        '<select id="bulkTrack">' + DATA.tracks.map(function(t,i){ return '<option value="'+i+'">'+esc(t.name)+'</option>'; }).join('') + '</select>' +
+        '<button class="mini-btn" id="bulkAddBtn">Додати всі</button>' +
+        '<div class="admin-note" style="margin-top:2px;">Обкладинки підтягнуться з YouTube автоматично. Назви заміните нижче.</div>' +
+      '</div>';
     DATA.tracks.forEach(function(track, ti){
       const h = document.createElement('div'); h.className='admin-track-h'; h.textContent = track.tag+' · '+track.name;
       clipsPane.appendChild(h);
@@ -664,8 +745,9 @@
         box.innerHTML =
           '<label class="al">Назва</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="title" value="'+esc(clip.title)+'">' +
           '<label class="al">Підпис</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="meta" value="'+esc(clip.meta)+'">' +
-          '<label class="al">Фото прев\'ю</label><input type="file" accept="image/*" data-img="'+ti+':'+ci+'">' +
-          '<label class="al">Відео (короткий файл)</label><input type="file" accept="video/*" data-vid="'+ti+':'+ci+'">' +
+          '<label class="al">Відеофайл на сайті (напр. video/tamagochi.mp4)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="videoUrl" value="'+esc(clip.videoUrl||'')+'" placeholder="video/назва.mp4">' +
+          '<label class="al">Фото прев\'ю / постер</label><input type="file" accept="image/*" data-img="'+ti+':'+ci+'">' +
+          '<label class="al">Або вбудувати відео у файл сайту (тільки короткі)</label><input type="file" accept="video/*" data-vid="'+ti+':'+ci+'">' +
           '<label class="al">Перегляди (текст)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="views" value="'+esc(clip.views)+'">' +
           '<label class="al">Зовнішнє посилання (необов\'язково)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="link" value="'+esc(clip.link)+'">' +
           '<div class="admin-row"><button class="mini-btn" data-up="'+ti+':'+ci+'">↑</button><button class="mini-btn" data-down="'+ti+':'+ci+'">↓</button><button class="mini-btn danger" data-del="'+ti+':'+ci+'">Видалити</button></div>';
@@ -730,8 +812,25 @@
     document.querySelectorAll('[data-down]').forEach(function(btn){
       btn.addEventListener('click', function(){ const p=btn.dataset.down.split(':'); const t=+p[0],c=+p[1]; const a=DATA.tracks[t].clips; if(c<a.length-1){ [a[c+1],a[c]]=[a[c],a[c+1]]; saveLocal(); render(); } });
     });
+    const bulkBtn = document.getElementById('bulkAddBtn');
+    if(bulkBtn) bulkBtn.addEventListener('click', function(){
+      const ta = document.getElementById('bulkLinks');
+      const ti = +document.getElementById('bulkTrack').value;
+      const lines = (ta.value||'').split(/[\n\s]+/).map(function(s){ return s.trim(); }).filter(Boolean);
+      if(!lines.length){ alert('Вставте хоча б одне посилання.'); return; }
+      let added = 0;
+      lines.forEach(function(url){
+        if(!ytId(url)) return;
+        DATA.tracks[ti].clips.push({title:'Без назви', meta:'', link:url, views:'', image:'', video:'', videoUrl:''});
+        added++;
+      });
+      ta.value = '';
+      if(!added){ alert('Не знайдено жодного дійсного YouTube-посилання.'); return; }
+      saveLocal(); render();
+    });
+
     document.querySelectorAll('[data-add-track]').forEach(function(btn){
-      btn.addEventListener('click', function(){ const t=+btn.dataset.addTrack; DATA.tracks[t].clips.push({title:'Нова робота', meta:'', link:'', views:'0', image:'', video:''}); saveLocal(); render(); });
+      btn.addEventListener('click', function(){ const t=+btn.dataset.addTrack; DATA.tracks[t].clips.push({title:'Нова робота', meta:'', link:'', views:'', image:'', video:'', videoUrl:''}); saveLocal(); render(); });
     });
 
     const bindText = function(id, cb){ const el=document.getElementById(id); if(el) el.addEventListener('input', function(){ cb(el.value); saveLocal(); render(); }); };
@@ -781,10 +880,22 @@
       document.getElementById('pane-'+tab.dataset.tab).classList.add('active');
     });
   });
+  document.getElementById('previewBtn').addEventListener('click', function(){
+    document.getElementById('adminDrawer').classList.remove('open');
+    document.body.classList.add('preview-mode');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  document.getElementById('previewExit').addEventListener('click', function(){
+    document.body.classList.remove('preview-mode');
+    document.getElementById('adminDrawer').classList.add('open');
+  });
+
   document.getElementById('resetBtn').addEventListener('click', function(){
     if(confirm('Скинути всі локальні зміни до останньої опублікованої версії?')){ DATA = JSON.parse(JSON.stringify(DEFAULT_DATA)); saveLocal(); render(); }
   });
   document.getElementById('exportBtn').addEventListener('click', async function(){
+    document.body.classList.remove('preview-mode');
+    document.getElementById('adminDrawer').classList.remove('open');
     document.getElementById('site-data').textContent = JSON.stringify(DATA, null, 2);
     const htmlStr = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     try{
