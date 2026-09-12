@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Den Ostrovskiy — Director / D.O.P / Filmmaker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080a; --bg-soft:#0e1013; --surface:#15181c; --line:#24282e;
+    --ink:#f3f1ea; --ink-dim:#8d939b; --teal:#2fb6ad; --amber:#e8a33d;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; line-height:1.5; overflow-x:hidden; }
+  ::selection{ background:var(--teal); color:#04100f; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  .display{ font-family:'Anton', sans-serif; text-transform:uppercase; }
+  .wrap{ max-width:1220px; margin:0 auto; padding:0 28px; }
+
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:18px 28px; background:linear-gradient(to bottom, rgba(7,8,10,0.92), rgba(7,8,10,0)); }
+  .nav-id{ display:flex; align-items:center; gap:9px; }
+  .nav-id span{ font-size:13px; color:var(--ink-dim); letter-spacing:0.03em; }
+  .nav-links{ display:flex; gap:26px; }
+  .nav-links a{ color:var(--ink); text-decoration:none; font-size:14px; font-weight:500; opacity:0.7; transition:opacity .2s; }
+  .nav-links a:hover{ opacity:1; }
+  @media (max-width:640px){ .nav-links{ display:none; } }
+
+  .hero{ min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end; position:relative; padding:130px 28px 70px;
+    background:radial-gradient(ellipse 75% 55% at 18% 10%, rgba(47,182,173,0.17), transparent 62%), radial-gradient(ellipse 65% 45% at 88% 85%, rgba(232,163,61,0.15), transparent 62%), var(--bg); }
+  .vf{ position:absolute; inset:16px; pointer-events:none; }
+  .vf-corner{ position:absolute; width:24px; height:24px; border-color:rgba(243,241,234,0.3); }
+  .vf-corner.tl{ top:0; left:0; border-top:2px solid; border-left:2px solid; }
+  .vf-corner.tr{ top:0; right:0; border-top:2px solid; border-right:2px solid; }
+  .vf-corner.bl{ bottom:0; left:0; border-bottom:2px solid; border-left:2px solid; }
+  .vf-corner.br{ bottom:0; right:0; border-bottom:2px solid; border-right:2px solid; }
+  .vf-top{ position:absolute; top:0; left:32px; right:32px; display:flex; justify-content:space-between; font-size:11px; color:var(--ink-dim); }
+  .scope{ position:absolute; top:56px; right:44px; width:96px; height:96px; opacity:0.85; }
+  @media (max-width:800px){ .scope{ display:none; } }
+  .hero-role-line{ display:flex; align-items:center; gap:14px; margin-bottom:20px; flex-wrap:wrap; }
+  .hero-role-line .mono{ font-size:13px; color:var(--teal); }
+  .hero-role-line .div{ width:1px; height:12px; background:var(--line); }
+  h1.hero-name{ font-size:clamp(50px,11.5vw,132px); line-height:0.9; background:linear-gradient(100deg, var(--ink) 50%, var(--amber) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero-sub{ margin-top:20px; font-size:clamp(16px,2.2vw,20px); color:var(--ink-dim); max-width:540px; }
+  .hero-sub b{ color:var(--ink); font-weight:600; }
+  .hero-cta{ display:flex; gap:14px; margin-top:36px; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:2px; font-size:14px; font-weight:600; text-decoration:none; border:1px solid var(--line); transition:transform .15s ease, background .15s ease; cursor:pointer; font-family:inherit; }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-primary{ background:var(--ink); color:#07080a; border-color:var(--ink); }
+  .btn-primary:hover{ background:var(--teal); border-color:var(--teal); color:#04100f; }
+  .btn-ghost{ background:transparent; color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--ink-dim); }
+
+  .section{ padding:96px 0; }
+  .scene{ display:flex; align-items:baseline; gap:16px; margin-bottom:40px; flex-wrap:wrap; }
+  .scene-num{ font-size:13px; color:var(--ink-dim); white-space:nowrap; }
+  .scene-num b{ color:var(--amber); font-weight:600; }
+  .scene h2{ font-size:clamp(30px,4.5vw,44px); font-weight:700; letter-spacing:-0.01em; }
+  .scene-line{ flex:1; height:1px; background:var(--line); min-width:40px; }
+
+  .timeline-ruler{ display:flex; justify-content:space-between; padding:0 2px 8px; border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .timeline-ruler span{ font-size:10px; color:#565b62; }
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px; }
+  .filter-btn{ padding:9px 18px; border-radius:999px; border:1px solid var(--line); background:transparent; color:var(--ink-dim); font-size:13px; font-weight:600; cursor:pointer; transition:all .15s ease; font-family:inherit; }
+  .filter-btn.active, .filter-btn:hover{ border-color:var(--teal); color:var(--ink); background:rgba(47,182,173,0.08); }
+  .track{ margin-bottom:26px; }
+  .track-label{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .track-tag{ font-size:11px; padding:3px 9px; border-radius:2px; font-weight:700; }
+  .track-tag.v3{ background:rgba(47,182,173,0.15); color:var(--teal); }
+  .track-tag.v2{ background:rgba(232,163,61,0.15); color:var(--amber); }
+  .track-tag.v1{ background:rgba(243,241,234,0.1); color:var(--ink-dim); }
+  .track-name{ font-size:13px; color:var(--ink-dim); }
+  .track-scroll{ display:flex; gap:8px; overflow-x:auto; padding-bottom:14px; scrollbar-width:thin; }
+  .track-scroll::-webkit-scrollbar{ height:5px; }
+  .track-scroll::-webkit-scrollbar-thumb{ background:var(--line); border-radius:4px; }
+  .clip{ position:relative; flex-shrink:0; height:216px; border-radius:2px; overflow:hidden; border:1px solid var(--line); cursor:pointer; display:flex; flex-direction:column; justify-content:flex-end; transition:transform .2s ease, border-color .2s ease; text-decoration:none; color:inherit; background-size:cover; background-position:center; }
+  .clip:hover{ transform:translateY(-4px) scale(1.01); border-color:rgba(47,182,173,0.45); z-index:5; }
+  @media (max-width:640px){ .clip{ height:170px; } }
+  .clip img, .clip video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .clip::after{ content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%, transparent 78%); z-index:1; }
+  .clip-info{ position:relative; z-index:2; padding:12px; }
+  .clip-title{ font-size:14px; font-weight:700; margin-bottom:3px; white-space:nowrap; }
+  .clip-meta{ display:flex; justify-content:space-between; font-size:11px; color:var(--ink-dim); gap:10px; }
+  .clip-dur{ position:absolute; top:8px; right:8px; z-index:2; font-size:10px; padding:2px 6px; background:rgba(7,8,10,0.6); color:var(--ink-dim); border-radius:2px; backdrop-filter:blur(3px); }
+  .g0{ background:linear-gradient(135deg,#0d3d3a,#143a4a,#2a1810); } .g1{ background:linear-gradient(150deg,#1a2a3d,#0f1f24,#3d2410); }
+  .g2{ background:linear-gradient(120deg,#123a35,#1c1c28,#40260f); } .g3{ background:linear-gradient(160deg,#0e2e30,#241a30,#452c11); }
+  .g4{ background:linear-gradient(140deg,#163331,#1a222e,#3a2712); } .g5{ background:linear-gradient(130deg,#102a2e,#21283a,#3f280f); }
+  .g6{ background:linear-gradient(155deg,#0f3532,#182236,#402c14); } .g7{ background:linear-gradient(145deg,#123331,#1e2436,#3d2a13); }
+
+  .about{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:56px; align-items:center; }
+  @media (max-width:800px){ .about{ grid-template-columns:1fr; gap:32px; } }
+  .about-frame{ aspect-ratio:4/5; border-radius:2px; position:relative; overflow:hidden; border:1px solid var(--line); background:linear-gradient(150deg,#123331,#1a2233,#3d2712); background-size:cover; background-position:center; }
+  .about-text h2{ font-size:clamp(28px,4vw,38px); margin-bottom:18px; font-weight:700; }
+  .about-text p{ color:var(--ink-dim); font-size:16px; margin-bottom:15px; max-width:52ch; white-space:pre-line; }
+  .about-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; }
+  .about-tags span{ font-size:12px; padding:6px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink-dim); }
+  .stat-row{ display:flex; gap:34px; margin-top:30px; flex-wrap:wrap; }
+  .stat-row div{ display:flex; flex-direction:column; }
+  .stat-num{ font-size:27px; font-weight:700; }
+  .stat-label{ font-size:12px; color:var(--ink-dim); margin-top:2px; }
+
+  .reel{ position:relative; aspect-ratio:16/9; border:1px solid var(--line); border-radius:2px; overflow:hidden; background:linear-gradient(135deg,#0d3d3a,#143a4a,#2a1810); display:flex; align-items:center; justify-content:center; cursor:pointer; background-size:cover; background-position:center; }
+  .reel video, .reel img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .reel-play{ position:relative; z-index:2; width:76px; height:76px; border-radius:50%; border:1px solid rgba(243,241,234,0.6); background:rgba(7,8,10,0.45); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; transition:transform .2s ease, background .2s ease; }
+  .reel:hover .reel-play{ transform:scale(1.08); background:rgba(47,182,173,0.3); }
+  .reel-play svg{ width:22px; height:22px; fill:var(--ink); margin-left:4px; }
+  .reel-empty{ position:relative; z-index:2; color:var(--ink-dim); font-size:14px; }
+
+  .pipeline{ display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+  @media (max-width:800px){ .pipeline{ grid-template-columns:1fr; } }
+  .step{ border-top:2px solid var(--teal); padding:20px 20px 24px; background:var(--bg-soft); }
+  .step .sn{ font-size:12px; color:var(--teal); margin-bottom:12px; }
+  .step h3{ font-size:17px; font-weight:700; margin-bottom:8px; }
+  .step p{ font-size:14px; color:var(--ink-dim); }
+
+  .clients-strip{ margin-top:44px; padding-top:26px; border-top:1px solid var(--line); }
+  .clients-strip .cs-label{ font-size:12px; color:var(--ink-dim); margin-bottom:14px; }
+  .clients-strip .cs-list{ display:flex; flex-wrap:wrap; gap:10px 26px; }
+  .clients-strip .cs-list span{ font-size:15px; font-weight:600; color:#6f757d; transition:color .2s; }
+  .clients-strip .cs-list span:hover{ color:var(--ink); }
+
+  .services{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:800px){ .services{ grid-template-columns:repeat(2,1fr); } }
+  .service{ background:var(--bg); padding:30px 24px; }
+  .service .tc{ font-size:12px; color:var(--amber); margin-bottom:16px; }
+  .service h3{ font-size:18px; margin-bottom:9px; font-weight:700; }
+  .service p{ font-size:14px; color:var(--ink-dim); }
+
+  .contact{ text-align:center; padding:120px 24px 76px; background:radial-gradient(ellipse 60% 60% at 50% 100%, rgba(47,182,173,0.12), transparent 70%), var(--bg-soft); border-top:1px solid var(--line); }
+  .contact h2{ font-size:clamp(32px,6vw,60px); font-weight:700; margin-bottom:14px; letter-spacing:-0.02em; }
+  .contact p{ color:var(--ink-dim); margin-bottom:34px; font-size:16px; }
+  .contact-links{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-bottom:60px; }
+  footer{ text-align:center; padding:24px 24px 90px; font-size:12px; color:#4d525a; border-top:1px solid var(--line); }
+  .contact-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:2px; max-width:820px; margin:0 auto 44px; text-align:left; }
+  .cbox{ background:var(--bg); border:1px solid var(--line); padding:18px 20px; text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:4px; transition:border-color .2s, transform .15s; }
+  .cbox:hover{ border-color:var(--teal); transform:translateY(-2px); }
+  .cbox .k{ font-size:11px; color:var(--ink-dim); }
+  .cbox .v{ font-size:15px; font-weight:600; }
+  #stickyBar{ position:fixed; left:0; right:0; bottom:0; z-index:250; display:flex; gap:1px; background:var(--line); border-top:1px solid var(--line); }
+  #stickyBar a{ flex:1; text-align:center; padding:14px 6px; background:rgba(14,16,19,0.96); backdrop-filter:blur(6px); text-decoration:none; color:var(--ink); font-size:13px; font-weight:600; }
+  #stickyBar a:hover{ background:rgba(47,182,173,0.18); }
+  @media (min-width:900px){ #stickyBar{ left:auto; right:22px; bottom:22px; border:1px solid var(--line); border-radius:3px; overflow:hidden; width:auto; } #stickyBar a{ padding:12px 20px; } }
+
+  /* ---------- hover expand ---------- */
+  #expandBackdrop{ position:fixed; inset:0; z-index:480; background:rgba(5,6,7,0); pointer-events:none; transition:background .42s cubic-bezier(.22,.61,.36,1); }
+  #expandBackdrop.on{ background:rgba(5,6,7,0.94); pointer-events:auto; }
+  #expandStage{ position:fixed; z-index:490; overflow:hidden; border-radius:2px; background:#0a0b0d; pointer-events:none;
+    transition:top .45s cubic-bezier(.22,.61,.36,1), left .45s cubic-bezier(.22,.61,.36,1), width .45s cubic-bezier(.22,.61,.36,1), height .45s cubic-bezier(.22,.61,.36,1), border-radius .45s ease; }
+  #expandStage.on{ pointer-events:auto; }
+  #expandStage video, #expandStage img{ width:100%; height:100%; object-fit:cover; display:block; }
+  #expandStage.full video, #expandStage.full img{ object-fit:contain; background:#000; }
+  #expandCaption{ position:fixed; z-index:495; left:0; right:0; bottom:34px; text-align:center; color:var(--ink); font-size:15px; opacity:0; transition:opacity .3s ease .2s; pointer-events:none; }
+  #expandCaption.on{ opacity:1; }
+  #expandCaption small{ display:block; color:var(--ink-dim); font-size:12px; margin-top:4px; }
+  #expandHint{ position:fixed; z-index:495; top:26px; right:30px; color:var(--ink-dim); font-size:12px; opacity:0; transition:opacity .3s ease .2s; }
+  #expandHint.on{ opacity:1; }
+  @media (prefers-reduced-motion: reduce){
+    #expandStage{ transition:none; } #expandBackdrop{ transition:none; }
+  }
+
+  /* ---------- lightbox ---------- */
+  #lightbox{ position:fixed; inset:0; background:rgba(6,6,5,0.95); z-index:500; display:none; align-items:center; justify-content:center; padding:40px; }
+  #lightbox.open{ display:flex; }
+  #lightbox img, #lightbox video{ max-width:100%; max-height:80vh; }
+  #lightboxClose{ position:absolute; top:24px; right:32px; background:none; border:none; color:var(--ink); font-size:22px; cursor:pointer; }
+  #lightboxCaption{ position:absolute; bottom:28px; left:0; right:0; text-align:center; color:var(--ink-dim); font-size:14px; }
+
+  /* ---------- ADMIN ---------- */
+  #adminToggle{ position:fixed; bottom:20px; right:20px; z-index:300; width:44px; height:44px; border-radius:50%; background:var(--surface); border:1px solid var(--line); color:var(--ink-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; }
+  #adminToggle:hover{ color:var(--ink); border-color:var(--teal); }
+  #adminDrawer{ position:fixed; top:0; right:-420px; width:400px; max-width:92vw; height:100%; z-index:400; background:#0c0e11; border-left:1px solid var(--line); transition:right .3s ease; display:flex; flex-direction:column; }
+  #adminDrawer.open{ right:0; }
+  .admin-head{ padding:18px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .admin-head b{ font-size:14px; }
+  .admin-close{ cursor:pointer; color:var(--ink-dim); font-size:20px; background:none; border:none; }
+  .admin-tabs{ display:flex; border-bottom:1px solid var(--line); }
+  .admin-tab{ flex:1; padding:12px; text-align:center; font-size:12px; color:var(--ink-dim); cursor:pointer; background:none; border:none; font-family:inherit; }
+  .admin-tab.active{ color:var(--teal); border-bottom:2px solid var(--teal); }
+  .admin-body{ flex:1; overflow-y:auto; padding:18px 20px; }
+  .admin-pane{ display:none; flex-direction:column; gap:10px; }
+  .admin-pane.active{ display:flex; }
+  .admin-track-h{ font-size:12px; color:var(--amber); margin:14px 0 6px; text-transform:uppercase; letter-spacing:0.04em; }
+  .admin-clip{ border:1px solid var(--line); border-radius:4px; padding:10px; display:flex; flex-direction:column; gap:6px; background:var(--surface); }
+  .admin-row{ display:flex; gap:6px; }
+  .admin-row button{ flex:1; }
+  label.al{ font-size:11px; color:var(--ink-dim); display:block; margin-bottom:2px; }
+  input, textarea{ background:#111417; border:1px solid var(--line); color:var(--ink); border-radius:3px; padding:7px 9px; font-size:13px; font-family:inherit; width:100%; }
+  textarea{ resize:vertical; min-height:60px; }
+  .mini-btn{ padding:6px 8px; font-size:11px; border-radius:3px; border:1px solid var(--line); background:transparent; color:var(--ink-dim); cursor:pointer; font-family:inherit; }
+  .mini-btn:hover{ color:var(--ink); border-color:var(--teal); }
+  .mini-btn.danger:hover{ border-color:#c96565; color:#c96565; }
+  .add-clip-btn{ margin-top:4px; }
+  .admin-footer{ padding:14px 20px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px; }
+  .admin-note{ font-size:11px; color:var(--ink-dim); line-height:1.5; }
+</style>
+</head>
+<body>
+
+<script type="application/json" id="site-data">
+{
+  "hero": {
+    "role": ["DIRECTOR","D.O.P","FILMMAKER"],
+    "first": "Den",
+    "last": "Ostrovskiy",
+    "sub": "Знімаю музичні кліпи, рекламу для брендів і контент для соцмереж.",
+    "cities": "Kyiv, Khmelnytskyi, Lviv"
+  },
+  "about": {
+    "heading": "Режисую, знімаю, монтую.",
+    "text": "Den Ostrovskiy — режисер і продюсер відеопроєктів. Реалізовую проєкти під ключ: від ідеї та сценарію до фінального монтажу і кольору.\n\nВиступаю як головний режисер — формую знімальну команду під конкретний проєкт (оператор, світло, продакшн, монтаж) і відповідаю за результат на кожному етапі. За потреби організовую зйомку як продакшн: локації, техніку, команду.\n\nЗнімав кліпи для Насті Борщ та Шугара: «Токсік» (19 млн переглядів), «Тьотя» (38 млн переглядів), «Ягода» (7 млн переглядів), а також «Відбита», «Френдзона», «OnlyFans».\n\nОкремий напрямок — робота з брендами одягу, прикрас і fashion-сегментом.",
+    "tags": ["Режисура","Операторська робота","Монтаж","Кольорокорекція","Reels / Shorts"],
+    "clients": ["Золота Країна","Reytel","Oniks","Wishlist","MustHave","Nonsens","HILARY","Esme","D.O.T.","Stimma"],
+    "stats": [
+      {"num":"38М","label":"переглядів (топ-кліп)"},
+      {"num":"18,9К","label":"аудиторія Instagram"},
+      {"num":"210+","label":"знятих проєктів"}
+    ],
+    "image": ""
+  },
+  "services": [
+    {"title":"Музичні кліпи","desc":"Концепт, зйомка, монтаж і кольорокорекція під артиста та трек."},
+    {"title":"Реклама для брендів","desc":"Комерційні ролики для брендів одягу, закладів та продуктів."},
+    {"title":"Контент для соцмереж","desc":"Reels та вертикальний контент, дизайнований під алгоритми, а не просто знятий."},
+    {"title":"Пост-продакшн","desc":"Монтаж, кольорокорекція та звук — можу підключитись на будь-якому етапі."}
+  ],
+  "contact": {
+    "heading":"Знімемо щось круте?",
+    "sub":"Напишіть — обговоримо ідею, терміни та бюджет.",
+    "telegram":"https://t.me/Visual_Calm",
+    "tgchannel":"",
+    "instagram":"https://www.instagram.com/den_ostrovskiy/",
+    "phone":"",
+    "whatsapp":"",
+    "email":""
+  },
+  "showreel": { "title":"Showreel 2026", "video":"", "image":"" },
+  "process": [
+    {"title":"Бриф і концепт","desc":"Розбираємо задачу, аудиторію та бюджет. На виході — чітка ідея та референси, погоджені до зйомки."},
+    {"title":"Препродакшн","desc":"Сценарій, розкадровка, підбір локацій і касту. Формую команду під проєкт: оператор, світло, стиліст, продакшн."},
+    {"title":"Зйомка","desc":"Виступаю головним режисером на майданчику. Контролюю кадр, темп і роботу команди від першого до останнього дубля."},
+    {"title":"Пост-продакшн","desc":"Монтаж, кольорокорекція, звук і графіка. Здаю готовий матеріал у всіх потрібних форматах — від 16:9 до вертикалі."}
+  ],
+  "tracks": [
+    { "id":"v3", "tag":"V3", "name":"Музичні кліпи", "clips":[
+      {"title":"Тьотя","meta":"Музичне відео","link":"","views":"38 млн","image":"","video":""},
+      {"title":"Токсік","meta":"Музичне відео","link":"","views":"19 млн","image":"","video":""},
+      {"title":"Ягода","meta":"Музичне відео","link":"","views":"7 млн","image":"","video":""},
+      {"title":"Відбита","meta":"Музичне відео","link":"","views":"","image":"","video":""},
+      {"title":"Френдзона","meta":"Музичне відео","link":"","views":"","image":"","video":""},
+      {"title":"OnlyFans","meta":"Музичне відео","link":"","views":"","image":"","video":""}
+    ]},
+    { "id":"v2", "tag":"V2", "name":"Бренди & Реклама", "clips":[
+      {"title":"Золота Країна","meta":"Бренд прикрас","link":"","views":"","image":"","video":""},
+      {"title":"Reytel","meta":"Бренд прикрас","link":"","views":"","image":"","video":""},
+      {"title":"Oniks","meta":"Бренд прикрас","link":"","views":"","image":"","video":""},
+      {"title":"Wishlist","meta":"Бренд","link":"","views":"","image":"","video":""},
+      {"title":"MustHave","meta":"Бренд одягу","link":"","views":"","image":"","video":""},
+      {"title":"Nonsens","meta":"Бренд одягу","link":"","views":"","image":"","video":""},
+      {"title":"HILARY","meta":"Бренд","link":"","views":"","image":"","video":""},
+      {"title":"D.O.T.","meta":"Ролик","link":"","views":"6,5 тис.","image":"","video":""}
+    ]},
+    { "id":"v1", "tag":"V1", "name":"Backstage & Life", "clips":[
+      {"title":"Процес монтажу","meta":"DaVinci / Premiere","link":"","views":"41,7 тис.","image":"","video":""},
+      {"title":"На майданчику","meta":"Backstage","link":"","views":"12,4 тис.","image":"","video":""},
+      {"title":"Дорога","meta":"Life","link":"","views":"11,2 тис.","image":"","video":""},
+      {"title":"Contact sheet","meta":"BTS","link":"","views":"9,9 тис.","image":"","video":""}
+    ]}
+  ]
+}
+</script>
+
+<nav>
+  <div class="nav-id"><span class="mono">DEN_OSTROVSKIY</span></div>
+  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#process">Процес</a><a href="#services">Послуги</a><a href="#contact">Контакти</a></div>
+</nav>
+
+<header class="hero">
+  <div class="vf">
+    <div class="vf-top"><span class="mono" id="tc">00:00:00:00</span><span class="mono">4K · 23.976</span></div>
+    <div class="vf-corner tl"></div><div class="vf-corner tr"></div><div class="vf-corner bl"></div><div class="vf-corner br"></div>
+  </div>
+  <svg class="scope" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#24282e" stroke-width="1"/>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#24282e" stroke-width="1"/>
+    <line x1="4" y1="50" x2="96" y2="50" stroke="#24282e" stroke-width="1"/>
+    <line x1="50" y1="4" x2="50" y2="96" stroke="#24282e" stroke-width="1"/>
+    <circle cx="62" cy="38" r="3" fill="var(--teal)" opacity="0.9"/>
+    <circle cx="40" cy="60" r="2.5" fill="var(--amber)" opacity="0.9"/>
+    <circle cx="58" cy="55" r="2" fill="var(--ink)" opacity="0.6"/>
+    <circle cx="45" cy="42" r="2" fill="var(--teal)" opacity="0.5"/>
+  </svg>
+  <div class="hero-content wrap" style="padding-left:0; padding-right:0;">
+    <div class="hero-role-line" id="heroRole"></div>
+    <h1 class="hero-name display" id="heroName"></h1>
+    <p class="hero-sub" id="heroSub"></p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">Дивитись роботи</a>
+      <a href="#contact" class="btn btn-ghost">Написати</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section" id="showreel">
+    <div class="scene"><span class="scene-num mono">SCENE <b>01</b></span><h2 id="showreelTitle"></h2><div class="scene-line"></div><span class="scene-num mono">HERO REEL</span></div>
+    <div class="reel" id="reelBox"></div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="scene"><span class="scene-num mono">SCENE <b>02</b></span><h2>Роботи</h2><div class="scene-line"></div><span class="scene-num mono">TIMELINE VIEW</span></div>
+    <div class="timeline-ruler mono"><span>00:00</span><span>00:15</span><span>00:30</span><span>00:45</span><span>01:00</span><span>01:15</span><span>01:30</span></div>
+    <div class="filters" id="filters"></div>
+    <div id="tracksHost"></div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="scene"><span class="scene-num mono">SCENE <b>03</b></span><h2>Про мене</h2><div class="scene-line"></div></div>
+    <div class="about">
+      <div class="about-frame" id="aboutFrame"></div>
+      <div class="about-text">
+        <h2 id="aboutHeading"></h2>
+        <p id="aboutText"></p>
+        <div class="about-tags" id="aboutTags"></div>
+        <p style="margin-top:18px; font-size:13px; color:var(--ink-dim);"><span style="color:var(--ink);">Бренди:</span> <span id="aboutClients"></span></p>
+        <div class="stat-row" id="aboutStats"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="scene"><span class="scene-num mono">SCENE <b>04</b></span><h2>Як я працюю</h2><div class="scene-line"></div><span class="scene-num mono">PIPELINE</span></div>
+    <div class="pipeline" id="processHost"></div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="scene"><span class="scene-num mono">SCENE <b>05</b></span><h2>Що я роблю</h2><div class="scene-line"></div></div>
+    <div class="services" id="servicesHost"></div>
+    <div class="clients-strip" id="clientsStrip"></div>
+  </section>
+</main>
+
+<section class="contact" id="contact">
+  <h2 id="contactHeading"></h2>
+  <p id="contactSub"></p>
+  <div class="contact-grid" id="contactGrid"></div>
+</section>
+
+<div id="stickyBar"></div>
+
+<footer>© Den Ostrovskiy — Director / D.O.P / Filmmaker</footer>
+
+<div id="expandBackdrop"></div>
+<div id="expandStage"></div>
+<div id="expandCaption"></div>
+<div id="expandHint">Наведи вбік або натисни Esc, щоб закрити</div>
+
+<div id="lightbox">
+  <button id="lightboxClose">✕</button>
+  <div id="lightboxBody"></div>
+  <div id="lightboxCaption"></div>
+</div>
+
+<!-- ================= ADMIN ================= -->
+<button id="adminToggle" title="Адмін-панель">⚙</button>
+<div id="adminDrawer">
+  <div class="admin-head"><b>Адмін-панель</b><button class="admin-close" id="adminClose">✕</button></div>
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="clips">Кліпи</button>
+    <button class="admin-tab" data-tab="texts">Тексти</button>
+    <button class="admin-tab" data-tab="contact">Контакти</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-pane active" id="pane-clips"></div>
+    <div class="admin-pane" id="pane-texts"></div>
+    <div class="admin-pane" id="pane-contact"></div>
+  </div>
+  <div class="admin-footer">
+    <div class="admin-note">Фото/відео вантажаться прямо у файл сайту — без Instagram чи YouTube, нічого не зламається при блокуванні акаунта. Зміни зберігаються в цьому браузері одразу. Щоб клієнти на публічному лінку побачили оновлення — натисни "Зберегти сайт" і надішли файл для повторної публікації.</div>
+    <button class="btn btn-primary" id="exportBtn" style="justify-content:center;">Зберегти сайт (.html)</button>
+    <button class="mini-btn" id="resetBtn">Скинути локальні зміни</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const LS_KEY = 'denOstrovskiySiteDataV3';
+  const DEFAULT_DATA = JSON.parse(document.getElementById('site-data').textContent);
+  let DATA;
+  try{
+    const saved = localStorage.getItem(LS_KEY);
+    DATA = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }catch(e){ DATA = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+
+  function saveLocal(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(DATA)); }catch(e){} }
+  function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function fileToDataUrl(file, cb){ const r = new FileReader(); r.onload=function(){ cb(r.result); }; r.readAsDataURL(file); }
+
+  function parseViews(str){
+    if(!str) return 0;
+    let s = str.toString().toLowerCase().replace(',', '.').trim();
+    let mult = 1;
+    if(s.indexOf('тис') !== -1 || s.indexOf('k') !== -1) mult = 1000;
+    if(s.indexOf('млн') !== -1 || s.indexOf('m') !== -1) mult = 1000000;
+    let num = parseFloat(s.replace(/[^0-9.]/g,''));
+    if(isNaN(num)) return 0;
+    return num*mult;
+  }
+  function clipWidth(views){
+    const v = parseViews(views);
+    const w = 140 + Math.sqrt(v)/6;
+    return Math.max(130, Math.min(340, Math.round(w)));
+  }
+
+  let activeTrack = 'all';
+
+  function renderFilters(){
+    const host = document.getElementById('filters');
+    const btns = [{id:'all', tag:'Все'}].concat(DATA.tracks.map(function(t){ return {id:t.id, tag:t.name}; }));
+    host.innerHTML = btns.map(function(b){
+      return '<button class="filter-btn'+(activeTrack===b.id?' active':'')+'" data-track-filter="'+b.id+'">'+esc(b.tag)+'</button>';
+    }).join('');
+    host.querySelectorAll('.filter-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        activeTrack = btn.dataset.trackFilter;
+        renderFilters();
+        applyTrackFilter();
+      });
+    });
+  }
+
+  function applyTrackFilter(){
+    document.querySelectorAll('.track').forEach(function(el){
+      el.style.display = (activeTrack === 'all' || el.dataset.trackId === activeTrack) ? '' : 'none';
+    });
+  }
+
+  function render(){
+    renderFilters();
+    document.getElementById('heroRole').innerHTML = DATA.hero.role.map(function(r,i){
+      return (i>0?'<span class="div"></span>':'') + '<span class="mono">'+esc(r)+'</span>';
+    }).join('');
+    document.getElementById('heroName').innerHTML = esc(DATA.hero.first)+'<br>'+esc(DATA.hero.last);
+    document.getElementById('heroSub').innerHTML = esc(DATA.hero.sub)+'<br><b>'+esc(DATA.hero.cities)+'</b>';
+
+    const host = document.getElementById('tracksHost');
+    host.innerHTML = DATA.tracks.map(function(track){
+      const clipsHtml = track.clips.map(function(clip, ci){
+        const grad = 'g'+(ci%8);
+        const media = clip.video ? ('<video src="'+clip.video+'" muted loop playsinline></video>') : (clip.image ? ('<img src="'+clip.image+'" alt="">') : '');
+        const bgClass = (!clip.image && !clip.video) ? (' '+grad) : '';
+        return '<a class="clip'+bgClass+'" data-w="'+ci+'" style="width:'+clipWidth(clip.views)+'px" href="'+esc(clip.link||'#')+'" '+(clip.link?'target="_blank" rel="noopener"':'onclick="return false;"')+' data-track="'+track.id+'" data-clip="'+ci+'">'+
+          media +
+          '<span class="clip-dur">👁 '+esc(clip.views||'')+'</span>'+
+          '<div class="clip-info"><div class="clip-title">'+esc(clip.title)+'</div><div class="clip-meta"><span>'+esc(clip.meta||'')+'</span></div></div>'+
+        '</a>';
+      }).join('');
+      return '<div class="track" data-track-id="'+track.id+'"><div class="track-label"><span class="track-tag '+track.id+'">'+esc(track.tag)+'</span><span class="track-name">'+esc(track.name)+'</span></div><div class="track-scroll">'+clipsHtml+'</div></div>';
+    }).join('');
+    applyTrackFilter();
+
+    document.querySelectorAll('.clip').forEach(function(el){
+      const tId = el.dataset.track, cIdx = el.dataset.clip;
+      const track = DATA.tracks.find(function(t){ return t.id===tId; });
+      const clip = track.clips[cIdx];
+      el.addEventListener('click', function(e){
+        if(clip.image || clip.video){ e.preventDefault(); openLightbox(clip); }
+      });
+      attachHoverExpand(el, clip);
+    });
+
+    document.getElementById('aboutHeading').textContent = DATA.about.heading;
+    document.getElementById('aboutText').textContent = DATA.about.text;
+    document.getElementById('aboutTags').innerHTML = DATA.about.tags.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
+    document.getElementById('aboutClients').textContent = (DATA.about.clients||[]).join(', ');
+    document.getElementById('aboutStats').innerHTML = DATA.about.stats.map(function(s){ return '<div><span class="stat-num">'+esc(s.num)+'</span><span class="stat-label">'+esc(s.label)+'</span></div>'; }).join('');
+    document.getElementById('aboutFrame').style.backgroundImage = DATA.about.image ? ('url(\''+DATA.about.image+'\')') : '';
+
+    document.getElementById('servicesHost').innerHTML = DATA.services.map(function(s,i){
+      return '<div class="service"><div class="tc mono">0'+(i+1)+'</div><h3>'+esc(s.title)+'</h3><p>'+esc(s.desc)+'</p></div>';
+    }).join('');
+
+    // showreel
+    const sr = DATA.showreel || {title:'Showreel', video:'', image:''};
+    document.getElementById('showreelTitle').textContent = sr.title || 'Showreel';
+    const reelBox = document.getElementById('reelBox');
+    reelBox.style.backgroundImage = '';
+    if(sr.video){
+      reelBox.innerHTML = '<video src="'+sr.video+'" muted loop playsinline></video><div class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>';
+      reelBox.onclick = function(){ openLightbox({video:sr.video, title:sr.title, meta:''}); };
+      attachHoverExpand(reelBox, {video:sr.video, title:sr.title, meta:''});
+    } else if(sr.image){
+      reelBox.innerHTML = '<img src="'+sr.image+'" alt=""><div class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>';
+      reelBox.onclick = function(){ openLightbox({image:sr.image, title:sr.title, meta:''}); };
+    } else {
+      reelBox.innerHTML = '<div class="reel-empty">Завантажте шоурил в адмін-панелі</div>';
+      reelBox.onclick = null;
+    }
+
+    // process
+    document.getElementById('processHost').innerHTML = (DATA.process||[]).map(function(p,i){
+      return '<div class="step"><div class="sn mono">0'+(i+1)+'</div><h3>'+esc(p.title)+'</h3><p>'+esc(p.desc)+'</p></div>';
+    }).join('');
+
+    // clients strip
+    const cls = DATA.about.clients || [];
+    document.getElementById('clientsStrip').innerHTML = cls.length
+      ? '<div class="cs-label">Працював з брендами</div><div class="cs-list">'+cls.map(function(x){ return '<span>'+esc(x)+'</span>'; }).join('')+'</div>'
+      : '';
+
+    // contacts
+    document.getElementById('contactHeading').textContent = DATA.contact.heading;
+    document.getElementById('contactSub').textContent = DATA.contact.sub;
+    const ct = DATA.contact;
+    const boxes = [];
+    if(ct.telegram) boxes.push({k:'Telegram', v:'Написати особисто', href:ct.telegram});
+    if(ct.tgchannel) boxes.push({k:'Telegram-канал', v:'Мої роботи', href:ct.tgchannel});
+    if(ct.instagram) boxes.push({k:'Instagram', v:'@den_ostrovskiy', href:ct.instagram});
+    if(ct.phone) boxes.push({k:'Телефон', v:ct.phone, href:'tel:'+ct.phone.replace(/[^0-9+]/g,'')});
+    if(ct.whatsapp) boxes.push({k:'WhatsApp', v:'Написати', href:'https://wa.me/'+ct.whatsapp.replace(/[^0-9]/g,'')});
+    if(ct.email) boxes.push({k:'Email', v:ct.email, href:'mailto:'+ct.email});
+    document.getElementById('contactGrid').innerHTML = boxes.map(function(b){
+      return '<a class="cbox" href="'+esc(b.href)+'" target="_blank" rel="noopener"><span class="k">'+esc(b.k)+'</span><span class="v">'+esc(b.v)+'</span></a>';
+    }).join('');
+
+    // sticky quick-contact bar
+    const quick = [];
+    if(ct.telegram) quick.push('<a href="'+esc(ct.telegram)+'" target="_blank" rel="noopener">Telegram</a>');
+    if(ct.whatsapp) quick.push('<a href="https://wa.me/'+ct.whatsapp.replace(/[^0-9]/g,'')+'" target="_blank" rel="noopener">WhatsApp</a>');
+    if(ct.phone) quick.push('<a href="tel:'+ct.phone.replace(/[^0-9+]/g,'')+'">Подзвонити</a>');
+    if(ct.instagram) quick.push('<a href="'+esc(ct.instagram)+'" target="_blank" rel="noopener">Instagram</a>');
+    document.getElementById('stickyBar').innerHTML = quick.join('');
+
+    renderAdmin();
+  }
+
+  /* ---------- hover-to-fullscreen expand ---------- */
+  const EX = {
+    backdrop: document.getElementById('expandBackdrop'),
+    stage: document.getElementById('expandStage'),
+    caption: document.getElementById('expandCaption'),
+    hint: document.getElementById('expandHint'),
+    timer: null,
+    open: false,
+    media: null
+  };
+
+  function expandFrom(el, item){
+    if(EX.open) return;
+    if(!item.video && !item.image) return;
+    const r = el.getBoundingClientRect();
+
+    EX.stage.innerHTML = '';
+    if(item.video){
+      const v = document.createElement('video');
+      v.src = item.video; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.controls = false;
+      EX.stage.appendChild(v);
+      EX.media = v;
+      v.play().catch(function(){});
+    } else {
+      const im = document.createElement('img');
+      im.src = item.image;
+      EX.stage.appendChild(im);
+      EX.media = im;
+    }
+
+    // start exactly where the tile is
+    EX.stage.style.transition = 'none';
+    EX.stage.style.top = r.top + 'px';
+    EX.stage.style.left = r.left + 'px';
+    EX.stage.style.width = r.width + 'px';
+    EX.stage.style.height = r.height + 'px';
+    EX.stage.style.borderRadius = '2px';
+    EX.stage.offsetHeight; // force reflow
+    EX.stage.style.transition = '';
+
+    EX.open = true;
+    EX.stage.classList.add('on');
+    EX.backdrop.classList.add('on');
+
+    // grow to fill the viewport
+    const pad = Math.min(window.innerWidth, window.innerHeight) * 0.05;
+    EX.stage.style.top = pad + 'px';
+    EX.stage.style.left = pad + 'px';
+    EX.stage.style.width = (window.innerWidth - pad*2) + 'px';
+    EX.stage.style.height = (window.innerHeight - pad*2) + 'px';
+    EX.stage.style.borderRadius = '3px';
+    setTimeout(function(){ if(EX.open) EX.stage.classList.add('full'); }, 240);
+
+    EX.caption.innerHTML = esc(item.title||'') + (item.meta ? '<small>'+esc(item.meta)+'</small>' : '');
+    EX.caption.classList.add('on');
+    EX.hint.classList.add('on');
+    EX._origin = r;
+    EX._item = item;
+  }
+
+  function collapseExpand(){
+    if(!EX.open) return;
+    EX.open = false;
+    EX.stage.classList.remove('full');
+    EX.caption.classList.remove('on');
+    EX.hint.classList.remove('on');
+    EX.backdrop.classList.remove('on');
+    const r = EX._origin;
+    if(r){
+      EX.stage.style.top = r.top + 'px';
+      EX.stage.style.left = r.left + 'px';
+      EX.stage.style.width = r.width + 'px';
+      EX.stage.style.height = r.height + 'px';
+    }
+    EX.stage.style.borderRadius = '2px';
+    setTimeout(function(){
+      if(!EX.open){
+        EX.stage.classList.remove('on');
+        EX.stage.innerHTML = '';
+        EX.media = null;
+      }
+    }, 460);
+  }
+
+  function attachHoverExpand(el, item){
+    el.addEventListener('mouseenter', function(){
+      if(window.matchMedia('(hover: none)').matches) return;
+      clearTimeout(EX.timer);
+      EX.timer = setTimeout(function(){ expandFrom(el, item); }, 450);
+    });
+    el.addEventListener('mouseleave', function(){ clearTimeout(EX.timer); });
+  }
+
+  EX.backdrop.addEventListener('mouseenter', collapseExpand);
+  EX.backdrop.addEventListener('click', collapseExpand);
+  EX.stage.addEventListener('click', function(){
+    // click while expanded -> full lightbox with sound controls
+    if(!EX.open) return;
+    const capTitle = EX.caption.textContent;
+    const item = EX._item;
+    collapseExpand();
+    if(item) setTimeout(function(){ openLightbox(item); }, 120);
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') collapseExpand(); });
+  window.addEventListener('scroll', function(){ if(EX.open) collapseExpand(); }, {passive:true});
+
+  function openLightbox(clip){
+    const box = document.getElementById('lightboxBody');
+    box.innerHTML = '';
+    if(clip.video){ const v=document.createElement('video'); v.src=clip.video; v.controls=true; v.autoplay=true; box.appendChild(v); }
+    else if(clip.image){ const im=document.createElement('img'); im.src=clip.image; box.appendChild(im); }
+    document.getElementById('lightboxCaption').textContent = clip.title + (clip.meta?(' · '+clip.meta):'');
+    document.getElementById('lightbox').classList.add('open');
+  }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target.id==='lightbox') closeLightbox(); });
+  function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); document.getElementById('lightboxBody').innerHTML=''; }
+
+  function renderAdmin(){
+    const clipsPane = document.getElementById('pane-clips');
+    clipsPane.innerHTML = '';
+    DATA.tracks.forEach(function(track, ti){
+      const h = document.createElement('div'); h.className='admin-track-h'; h.textContent = track.tag+' · '+track.name;
+      clipsPane.appendChild(h);
+      track.clips.forEach(function(clip, ci){
+        const box = document.createElement('div'); box.className='admin-clip';
+        box.innerHTML =
+          '<label class="al">Назва</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="title" value="'+esc(clip.title)+'">' +
+          '<label class="al">Підпис</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="meta" value="'+esc(clip.meta)+'">' +
+          '<label class="al">Фото прев\'ю</label><input type="file" accept="image/*" data-img="'+ti+':'+ci+'">' +
+          '<label class="al">Відео (короткий файл)</label><input type="file" accept="video/*" data-vid="'+ti+':'+ci+'">' +
+          '<label class="al">Перегляди (текст)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="views" value="'+esc(clip.views)+'">' +
+          '<label class="al">Зовнішнє посилання (необов\'язково)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="link" value="'+esc(clip.link)+'">' +
+          '<div class="admin-row"><button class="mini-btn" data-up="'+ti+':'+ci+'">↑</button><button class="mini-btn" data-down="'+ti+':'+ci+'">↓</button><button class="mini-btn danger" data-del="'+ti+':'+ci+'">Видалити</button></div>';
+        clipsPane.appendChild(box);
+      });
+      const addBtn = document.createElement('button'); addBtn.className='mini-btn add-clip-btn'; addBtn.textContent='+ Додати кліп у '+track.tag; addBtn.dataset.addTrack=ti;
+      clipsPane.appendChild(addBtn);
+    });
+
+    document.getElementById('pane-texts').innerHTML =
+      '<label class="al">Роль (3 слова через кому)</label><input id="f-role" value="'+esc(DATA.hero.role.join(', '))+'">' +
+      '<label class="al">Ім\'я</label><input id="f-first" value="'+esc(DATA.hero.first)+'">' +
+      '<label class="al">Прізвище</label><input id="f-last" value="'+esc(DATA.hero.last)+'">' +
+      '<label class="al">Підзаголовок хіро</label><textarea id="f-sub">'+esc(DATA.hero.sub)+'</textarea>' +
+      '<label class="al">Міста</label><input id="f-cities" value="'+esc(DATA.hero.cities)+'">' +
+      '<label class="al">Заголовок "Про мене"</label><input id="f-aboutH" value="'+esc(DATA.about.heading)+'">' +
+      '<label class="al">Текст "Про мене"</label><textarea id="f-aboutT" style="min-height:120px;">'+esc(DATA.about.text)+'</textarea>' +
+      '<label class="al">Бренди (через кому)</label><textarea id="f-clients">'+esc((DATA.about.clients||[]).join(', '))+'</textarea>' +
+      '<label class="al">Фото "Про мене"</label><input type="file" accept="image/*" id="f-aboutImg">' +
+      '<div class="admin-track-h">Шоурил</div>' +
+      '<label class="al">Назва шоурилу</label><input id="f-srTitle" value="'+esc((DATA.showreel&&DATA.showreel.title)||'')+'">' +
+      '<label class="al">Відео шоурилу</label><input type="file" accept="video/*" id="f-srVideo">' +
+      '<label class="al">Або обкладинка (фото)</label><input type="file" accept="image/*" id="f-srImage">';
+
+    document.getElementById('pane-contact').innerHTML =
+      '<label class="al">Заголовок контактів</label><input id="f-cHead" value="'+esc(DATA.contact.heading)+'">' +
+      '<label class="al">Підпис</label><input id="f-cSub" value="'+esc(DATA.contact.sub)+'">' +
+      '<label class="al">Telegram (особистий)</label><input id="f-cTg" value="'+esc(DATA.contact.telegram)+'">' +
+      '<label class="al">Telegram-канал</label><input id="f-cTgCh" value="'+esc(DATA.contact.tgchannel||'')+'">' +
+      '<label class="al">Instagram</label><input id="f-cIg" value="'+esc(DATA.contact.instagram)+'">' +
+      '<label class="al">Телефон (напр. +380931234567)</label><input id="f-cPhone" value="'+esc(DATA.contact.phone||'')+'">' +
+      '<label class="al">WhatsApp (номер)</label><input id="f-cWa" value="'+esc(DATA.contact.whatsapp||'')+'">' +
+      '<label class="al">Email</label><input id="f-cEmail" value="'+esc(DATA.contact.email||'')+'">';
+
+    bindAdminEvents();
+  }
+
+  function bindAdminEvents(){
+    document.querySelectorAll('#pane-clips input[data-f]').forEach(function(inp){
+      inp.addEventListener('input', function(){ DATA.tracks[inp.dataset.t].clips[inp.dataset.c][inp.dataset.f] = inp.value; saveLocal(); render(); });
+    });
+    document.querySelectorAll('#pane-clips input[type=file][data-img]').forEach(function(inp){
+      inp.addEventListener('change', function(){
+        if(!inp.files[0]) return;
+        const p = inp.dataset.img.split(':');
+        fileToDataUrl(inp.files[0], function(url){ DATA.tracks[p[0]].clips[p[1]].image = url; saveLocal(); render(); });
+      });
+    });
+    document.querySelectorAll('#pane-clips input[type=file][data-vid]').forEach(function(inp){
+      inp.addEventListener('change', function(){
+        if(!inp.files[0]) return;
+        const p = inp.dataset.vid.split(':');
+        fileToDataUrl(inp.files[0], function(url){ DATA.tracks[p[0]].clips[p[1]].video = url; saveLocal(); render(); });
+      });
+    });
+    document.querySelectorAll('[data-del]').forEach(function(btn){
+      btn.addEventListener('click', function(){ const p=btn.dataset.del.split(':'); DATA.tracks[p[0]].clips.splice(p[1],1); saveLocal(); render(); });
+    });
+    document.querySelectorAll('[data-up]').forEach(function(btn){
+      btn.addEventListener('click', function(){ const p=btn.dataset.up.split(':'); const t=+p[0],c=+p[1]; if(c>0){ const a=DATA.tracks[t].clips; [a[c-1],a[c]]=[a[c],a[c-1]]; saveLocal(); render(); } });
+    });
+    document.querySelectorAll('[data-down]').forEach(function(btn){
+      btn.addEventListener('click', function(){ const p=btn.dataset.down.split(':'); const t=+p[0],c=+p[1]; const a=DATA.tracks[t].clips; if(c<a.length-1){ [a[c+1],a[c]]=[a[c],a[c+1]]; saveLocal(); render(); } });
+    });
+    document.querySelectorAll('[data-add-track]').forEach(function(btn){
+      btn.addEventListener('click', function(){ const t=+btn.dataset.addTrack; DATA.tracks[t].clips.push({title:'Нова робота', meta:'', link:'', views:'0', image:'', video:''}); saveLocal(); render(); });
+    });
+
+    const bindText = function(id, cb){ const el=document.getElementById(id); if(el) el.addEventListener('input', function(){ cb(el.value); saveLocal(); render(); }); };
+    bindText('f-role', function(v){ DATA.hero.role = v.split(',').map(function(s){return s.trim();}).filter(Boolean); });
+    bindText('f-first', function(v){ DATA.hero.first=v; });
+    bindText('f-last', function(v){ DATA.hero.last=v; });
+    bindText('f-sub', function(v){ DATA.hero.sub=v; });
+    bindText('f-cities', function(v){ DATA.hero.cities=v; });
+    bindText('f-aboutH', function(v){ DATA.about.heading=v; });
+    bindText('f-aboutT', function(v){ DATA.about.text=v; });
+    bindText('f-clients', function(v){ DATA.about.clients = v.split(',').map(function(s){return s.trim();}).filter(Boolean); });
+    bindText('f-cHead', function(v){ DATA.contact.heading=v; });
+    bindText('f-cSub', function(v){ DATA.contact.sub=v; });
+    bindText('f-cTg', function(v){ DATA.contact.telegram=v; });
+    bindText('f-cTgCh', function(v){ DATA.contact.tgchannel=v; });
+    bindText('f-cIg', function(v){ DATA.contact.instagram=v; });
+    bindText('f-cPhone', function(v){ DATA.contact.phone=v; });
+    bindText('f-cWa', function(v){ DATA.contact.whatsapp=v; });
+    bindText('f-cEmail', function(v){ DATA.contact.email=v; });
+
+    bindText('f-srTitle', function(v){ if(!DATA.showreel) DATA.showreel={}; DATA.showreel.title=v; });
+    const srVid = document.getElementById('f-srVideo');
+    if(srVid) srVid.addEventListener('change', function(){
+      if(!srVid.files[0]) return;
+      fileToDataUrl(srVid.files[0], function(url){ if(!DATA.showreel) DATA.showreel={}; DATA.showreel.video=url; saveLocal(); render(); });
+    });
+    const srImg = document.getElementById('f-srImage');
+    if(srImg) srImg.addEventListener('change', function(){
+      if(!srImg.files[0]) return;
+      fileToDataUrl(srImg.files[0], function(url){ if(!DATA.showreel) DATA.showreel={}; DATA.showreel.image=url; saveLocal(); render(); });
+    });
+
+    const aboutImgInp = document.getElementById('f-aboutImg');
+    if(aboutImgInp) aboutImgInp.addEventListener('change', function(){
+      if(!aboutImgInp.files[0]) return;
+      fileToDataUrl(aboutImgInp.files[0], function(url){ DATA.about.image = url; saveLocal(); render(); });
+    });
+  }
+
+  document.getElementById('adminToggle').addEventListener('click', function(){ document.getElementById('adminDrawer').classList.add('open'); });
+  document.getElementById('adminClose').addEventListener('click', function(){ document.getElementById('adminDrawer').classList.remove('open'); });
+  document.querySelectorAll('.admin-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.admin-pane').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('pane-'+tab.dataset.tab).classList.add('active');
+    });
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if(confirm('Скинути всі локальні зміни до останньої опублікованої версії?')){ DATA = JSON.parse(JSON.stringify(DEFAULT_DATA)); saveLocal(); render(); }
+  });
+  document.getElementById('exportBtn').addEventListener('click', async function(){
+    document.getElementById('site-data').textContent = JSON.stringify(DATA, null, 2);
+    const htmlStr = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    try{
+      const downloads = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null;
+      if(downloads){ await downloads.save({ filename:'den-ostrovskiy-site.html', data: htmlStr }); }
+      else {
+        const blob = new Blob([htmlStr], {type:'text/html'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'den-ostrovskiy-site.html';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+    }catch(e){ alert('Не вдалося зберегти файл: ' + (e && e.message ? e.message : e)); }
+  });
+
+  (function(){
+    let f=0,s=0,m=0,h=0; const tc=document.getElementById('tc');
+    function pad(n){ return n.toString().padStart(2,'0'); }
+    setInterval(function(){
+      f+=1; if(f>=24){f=0;s+=1;} if(s>=60){s=0;m+=1;} if(m>=60){m=0;h+=1;}
+      if(tc) tc.textContent = pad(h)+':'+pad(m)+':'+pad(s)+':'+pad(f);
+    }, 1000/24);
+  })();
+
+  render();
+})();
+</script>
+</body>
+</html>
