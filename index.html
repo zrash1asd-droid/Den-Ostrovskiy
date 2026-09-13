@@ -14,6 +14,10 @@
     --teal:#1f8f8a; --amber:#f08a26; --red:#c9412c;
     --grain:0.11; --vignette:0.6; --halo:0.85; --bloom:0.85; --warmth:0.5;
     --sat:1; --contrast:1; --fringe:0.6; --shadow-depth:0;
+    --glow-a:rgba(255,150,48,0.24); --glow-b:rgba(255,196,120,0.14);
+    --glow-c:rgba(214,70,44,0.16);  --glow-d:rgba(255,120,60,0.10);
+    --bloom-a:rgba(255,145,40,0.18); --bloom-b:rgba(206,60,40,0.13); --bloom-c:rgba(40,150,145,0.08);
+    --glow-solid:#ff922c;
     /* live-editable design tokens */
     --wrap-max:1400px;
     --sec-pad:96px;
@@ -64,10 +68,10 @@
     position:fixed; inset:0; z-index:1; pointer-events:none; mix-blend-mode:screen;
     opacity:var(--halo);
     background:
-      radial-gradient(ellipse 62% 44% at 80% 14%, rgba(255,150,48,0.24), transparent 60%),
-      radial-gradient(ellipse 44% 34% at 74% 22%, rgba(255,196,120,0.14), transparent 58%),
-      radial-gradient(ellipse 52% 40% at 14% 84%, rgba(214,70,44,0.16), transparent 64%),
-      radial-gradient(ellipse 38% 30% at 22% 74%, rgba(255,120,60,0.10), transparent 60%);
+      radial-gradient(ellipse 62% 44% at 80% 14%, var(--glow-a), transparent 60%),
+      radial-gradient(ellipse 44% 34% at 74% 22%, var(--glow-b), transparent 58%),
+      radial-gradient(ellipse 52% 40% at 14% 84%, var(--glow-c), transparent 64%),
+      radial-gradient(ellipse 38% 30% at 22% 74%, var(--glow-d), transparent 60%);
     filter:blur(22px) saturate(var(--sat));
   }
   /* second bloom pass — wide, soft, drifting */
@@ -76,9 +80,9 @@
     filter:blur(70px) saturate(var(--sat)); pointer-events:none; mix-blend-mode:screen;
     opacity:var(--bloom);
     background:
-      radial-gradient(circle 42vw at 76% 16%, rgba(255,145,40,0.18), transparent 62%),
-      radial-gradient(circle 32vw at 18% 80%, rgba(206,60,40,0.13), transparent 64%),
-      radial-gradient(circle 26vw at 46% 44%, rgba(40,150,145,0.08), transparent 66%);
+      radial-gradient(circle 42vw at 76% 16%, var(--bloom-a), transparent 62%),
+      radial-gradient(circle 32vw at 18% 80%, var(--bloom-b), transparent 64%),
+      radial-gradient(circle 26vw at 46% 44%, var(--bloom-c), transparent 66%);
   }
   body.no-film #bloom{ display:none; }
   body.no-film #filmGrain, body.no-film #vignette, body.no-film #halation{ display:none; }
@@ -139,7 +143,7 @@
     position:absolute; inset:0; z-index:0; pointer-events:none; user-select:none;
     font-family:var(--head-font); text-transform:uppercase;
     font-size:clamp(50px,11.5vw,150px); line-height:0.9;
-    color:rgba(255,146,44,0.9);
+    color:var(--glow-solid);
     filter:blur(26px) saturate(1.5);
     opacity:calc(var(--halo) * 1.15);
     mix-blend-mode:screen;
@@ -166,8 +170,8 @@
   body.no-film h1.hero-name{ background-image:linear-gradient(98deg, var(--ink) 30%, var(--amber) 72%, var(--red) 100%); }
   body.no-film .hero-name-glow{ display:none; }
   /* section headings get the same bleed, quieter */
-  .scene h2{ text-shadow:0 0 30px rgba(255,146,44,calc(var(--halo) * 0.30)), 0 0 8px rgba(201,65,44,calc(var(--fringe) * 0.45)); }
-  .slide-title{ text-shadow:0 0 34px rgba(255,150,48,calc(var(--halo) * 0.4)), 0 0 10px rgba(201,65,44,calc(var(--fringe) * 0.5)), 0 2px 14px rgba(0,0,0,0.6); }
+  .scene h2{ text-shadow:0 0 30px var(--glow-a), 0 0 8px rgba(201,65,44,calc(var(--fringe) * 0.45)); }
+  .slide-title{ text-shadow:0 0 34px var(--glow-a), 0 0 10px rgba(201,65,44,calc(var(--fringe) * 0.5)), 0 2px 14px rgba(0,0,0,0.6); }
   .hero-sub{ margin-top:20px; font-size:clamp(16px,2.2vw,20px); color:var(--ink-dim); max-width:560px; }
   .hero-sub b{ color:var(--ink); font-weight:600; }
   .hero-cta{ display:flex; gap:14px; margin-top:36px; flex-wrap:wrap; }
@@ -222,8 +226,37 @@
     background:linear-gradient(to top, rgba(4,20,22,0.90) 0%, rgba(6,26,28,0.16) 52%, transparent 76%); }
   .slide-info{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:26px 28px; }
   .slide-title{ font-family:var(--head-font); text-transform:uppercase; font-size:clamp(24px,3.6vw,48px); line-height:1; margin-bottom:8px; }
-  .slide-meta{ display:flex; gap:16px; font-size:13px; color:var(--ink-dim); flex-wrap:wrap; }
-  .slide-views{ color:var(--amber); font-weight:600; }
+  .slide-meta{ display:flex; gap:18px; font-size:13px; color:var(--ink-dim); flex-wrap:wrap; align-items:center; }
+  .stat{ display:inline-flex; align-items:center; gap:6px; font-weight:600; }
+  .stat svg{ width:14px; height:14px; fill:currentColor; opacity:0.9; }
+  .slide-views{ color:var(--amber); }
+  .slide-likes{ color:var(--ink); }
+  .vtile-stats{ position:absolute; top:10px; right:10px; z-index:2; display:flex; flex-direction:column; gap:4px; align-items:flex-end; }
+  .vtile-stats span{ font-size:10px; padding:3px 7px; border-radius:2px; background:rgba(7,5,4,0.66);
+    color:var(--ink-dim); backdrop-filter:blur(3px); display:inline-flex; align-items:center; gap:4px; }
+  .vtile-stats svg{ width:10px; height:10px; fill:currentColor; }
+  .slide.playing .slide-info, .slide.playing::after, .slide.playing .playbadge{ opacity:0; pointer-events:none; }
+  .slide.playing{ cursor:default; }
+  .slide-player{ position:absolute; inset:0; z-index:5; background:#000; display:none; }
+  .slide.playing .slide-player{ display:block; }
+  .slide-player video, .slide-player iframe{ width:100%; height:100%; border:0; display:block; object-fit:contain; background:#000; }
+  .slide-stop{ position:absolute; top:14px; right:14px; z-index:6; width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(243,241,234,0.35); background:rgba(10,7,5,0.72); color:var(--ink); font-size:16px;
+    cursor:pointer; display:none; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
+  .slide.playing .slide-stop{ display:flex; }
+  .slide-stop:hover{ background:var(--red); border-color:var(--red); }
+  .slide::after, .slide-info, .playbadge{ transition:opacity .3s ease; }
+
+  .vtile.playing .vtile-info, .vtile.playing::after, .vtile.playing .vtile-stats{ opacity:0; pointer-events:none; }
+  .vtile-player{ position:absolute; inset:0; z-index:5; background:#000; display:none; }
+  .vtile.playing .vtile-player{ display:block; }
+  .vtile-player video, .vtile-player iframe{ width:100%; height:100%; border:0; display:block; object-fit:contain; background:#000; }
+  .vtile-stop{ position:absolute; top:8px; right:8px; z-index:6; width:30px; height:30px; border-radius:50%;
+    border:1px solid rgba(243,241,234,0.3); background:rgba(10,7,5,0.72); color:var(--ink); font-size:13px;
+    cursor:pointer; display:none; align-items:center; justify-content:center; }
+  .vtile.playing .vtile-stop{ display:flex; }
+  .vtile::after, .vtile-info, .vtile-stats{ transition:opacity .3s ease; }
+
   .playbadge{ position:absolute; top:18px; right:18px; z-index:2; width:46px; height:46px; border-radius:50%;
     border:1px solid rgba(243,241,234,0.5); background:rgba(7,8,10,0.45); backdrop-filter:blur(4px);
     display:flex; align-items:center; justify-content:center; transition:all .2s ease; }
@@ -251,8 +284,32 @@
   .g6{background:linear-gradient(155deg,#113330,#4a2611,#742c1a);} .g7{background:linear-gradient(145deg,#143130,#55300f,#8a3d12);}
 
   /* ---------- ABOUT / PROCESS / SERVICES ---------- */
-  .about{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:56px; align-items:center; }
-  @media (max-width:800px){ .about{ grid-template-columns:1fr; gap:32px; } }
+  /* two tabs sitting side by side; the open one grows and fills */
+  .switcher{ display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap; }
+  .swtab{ display:flex; align-items:baseline; gap:10px; padding:14px 24px; cursor:pointer;
+    border:1px solid var(--line); border-radius:2px; background:rgba(10,7,5,0.45); color:var(--ink-dim);
+    font-family:inherit; transition:all .35s cubic-bezier(.22,.61,.36,1); }
+  .swtab:hover{ border-color:rgba(240,138,38,0.5); color:var(--ink); }
+  .swtab .sw-name{ font-size:17px; font-weight:700; transition:font-size .35s ease; white-space:nowrap; }
+  .swtab .sw-count{ font-size:12px; opacity:0.75; }
+  .swtab.on{ color:var(--ink); border-color:var(--amber); background:rgba(240,138,38,0.12);
+    padding:18px 34px; box-shadow:0 0 30px var(--glow-a); }
+  .swtab.on .sw-name{ font-size:clamp(22px,2.8vw,32px); }
+  .swpane{ display:none; }
+  .swpane.on{ display:block; animation:swIn .4s ease; }
+  @keyframes swIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+  @media (max-width:560px){
+    .switcher{ gap:6px; }
+    .swtab{ padding:11px 16px; flex:1 1 auto; justify-content:center; }
+    .swtab.on{ padding:14px 18px; }
+    .swtab .sw-name{ font-size:15px; }
+    .swtab.on .sw-name{ font-size:19px; }
+  }
+
+  .about{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:40px; align-items:start; }
+  @media (max-width:900px){
+    .about{ grid-template-columns:1fr; gap:28px; }
+  }
   .about-frame{ aspect-ratio:4/5; border-radius:2px; position:relative; overflow:hidden; border:1px solid var(--line);
     background:linear-gradient(150deg,#123331,#1a2233,#3d2712); background-size:cover; background-position:center; }
   .about-text h2{ font-size:clamp(28px,4vw,38px); margin-bottom:18px; font-weight:700; }
@@ -304,6 +361,22 @@
   #expandStage.on{ pointer-events:auto; }
   #expandStage video, #expandStage img, #expandStage iframe{ width:100%; height:100%; object-fit:cover; display:block; border:0; }
   #expandStage.full video, #expandStage.full img{ object-fit:contain; background:#000; }
+  #expandClose{ position:fixed; z-index:497; top:22px; right:26px; width:46px; height:46px; border-radius:50%;
+    border:1px solid rgba(243,241,234,0.35); background:rgba(10,7,5,0.75); backdrop-filter:blur(6px);
+    color:var(--ink); font-size:20px; cursor:pointer; display:none; align-items:center; justify-content:center; }
+  #expandClose.on{ display:flex; }
+  #expandClose:hover{ border-color:var(--amber); background:rgba(240,138,38,0.22); }
+  #expandClose{ position:fixed; z-index:497; top:22px; right:26px; width:46px; height:46px; border-radius:50%;
+    border:1px solid rgba(243,241,234,0.35); background:rgba(10,7,5,0.75); backdrop-filter:blur(6px);
+    color:var(--ink); font-size:20px; cursor:pointer; display:none; align-items:center; justify-content:center;
+    transition:background .2s ease, border-color .2s ease, transform .2s ease; }
+  #expandClose.on{ display:flex; }
+  #expandClose:hover{ background:var(--red); border-color:var(--red); transform:scale(1.08); }
+  #expandHintBar{ position:fixed; z-index:496; top:30px; left:50%; transform:translateX(-50%);
+    font-size:12px; color:var(--ink-dim); background:rgba(10,7,5,0.7); padding:7px 14px; border-radius:999px;
+    backdrop-filter:blur(6px); display:none; }
+  #expandHintBar.on{ display:block; }
+  @media (max-width:640px){ #expandHintBar{ display:none !important; } }
   #expandCaption{ position:fixed; z-index:495; left:0; right:0; bottom:30px; text-align:center; color:var(--ink); font-size:16px; opacity:0;
     transition:opacity .3s ease .2s; pointer-events:none; }
   #expandCaption small{ display:block; color:var(--ink-dim); font-size:12px; margin-top:4px; }
@@ -402,7 +475,8 @@
     "slideH": 78, "vcols": 4, "vcolsM": 3, "headFont": "Anton",
     "teal": "#1f8f8a", "amber": "#f08a26", "red": "#c9412c",
     "grain": 11, "vignette": 60, "halo": 70, "bloom": 60, "dust": 45, "warmth": 40,
-    "sat": 80, "contrast": 100, "fringe": 60, "shadowDepth": 0, "film": true,
+    "sat": 80, "contrast": 100, "fringe": 60, "shadowDepth": 0,
+    "glowTemp": 78, "glowTint": 50, "film": true,
     "sections": [
       {"id":"work","label":"Роботи","show":true,"align":"left"},
       {"id":"about","label":"Про мене","show":true,"align":"left"},
@@ -518,16 +592,26 @@
   <section class="section" id="about" data-sec="about">
     <div class="wrap">
       <div class="scene"><span class="scene-num mono">SCENE <b>02</b></span><h2>Про мене</h2><div class="scene-line"></div></div>
-      <div class="about">
-        <div class="about-frame" id="aboutFrame"></div>
-        <div class="about-text">
-          <h2 id="aboutHeading"></h2>
-          <p id="aboutText"></p>
-          <div class="about-tags" id="aboutTags"></div>
-          <p style="margin-top:18px; font-size:13px; color:var(--ink-dim);"><span style="color:var(--ink);">Бренди:</span> <span id="aboutClients"></span></p>
-          <div class="stat-row" id="aboutStats"></div>
-          <div class="about-gallery-cta" id="aboutGalleryCta"></div>
+      <div class="switcher" id="aboutSwitcher">
+        <button class="swtab on" data-sw="about"><span class="sw-name">Про мене</span></button>
+        <button class="swtab" data-sw="backstage"><span class="sw-name" id="bsName">Backstage</span><span class="sw-count" id="bsCount"></span></button>
+      </div>
+
+      <div class="swpane on" id="paneAbout">
+        <div class="about">
+          <div class="about-frame" id="aboutFrame"></div>
+          <div class="about-text">
+            <h2 id="aboutHeading"></h2>
+            <p id="aboutText"></p>
+            <div class="about-tags" id="aboutTags"></div>
+            <p style="margin-top:18px; font-size:13px; color:var(--ink-dim);"><span style="color:var(--ink);">Бренди:</span> <span id="aboutClients"></span></p>
+            <div class="stat-row" id="aboutStats"></div>
+          </div>
         </div>
+      </div>
+
+      <div class="swpane" id="paneBackstage">
+        <div class="vgrid" id="backstageGrid"></div>
       </div>
     </div>
   </section>
@@ -553,6 +637,9 @@
 <div id="expandBackdrop"></div>
 <div id="expandStage"></div>
 <div id="expandCaption"></div>
+<button id="expandClose" title="Закрити (Esc)">✕</button>
+<div id="expandHintBar">Esc або ✕ — закрити</div>
+<button id="expandClose" title="Закрити (Esc)">✕</button>
 
 <div id="gallery">
   <div class="gallery-head">
@@ -627,6 +714,29 @@
     const c = hexToHsl(hex);
     return hslToHex(c.h, Math.max(0, Math.min(100, c.s * factor)), c.l);
   }
+  function hslaStr(h, s, l, a){
+    h = ((h % 360) + 360) % 360;
+    return 'hsla('+h.toFixed(1)+','+s.toFixed(1)+'%,'+l.toFixed(1)+'%,'+a+')';
+  }
+  // temperature 0 = cold cyan-blue, 100 = warm orange-red; tint 0 = green, 100 = yellow
+  function applyGlowGrade(d, r, satV){
+    const temp = (d.glowTemp==null?78:d.glowTemp)/100;
+    const tint = (d.glowTint==null?50:d.glowTint)/100;
+    const baseHue = 200 - (200 - 14) * temp;        // 200° cyan → 14° orange-red
+    const tintShift = (tint - 0.5) * 70;            // −35° toward green, +35° toward yellow
+    const h = baseHue + tintShift;
+    const s = Math.max(0, Math.min(100, 92 * satV));
+    // halation: hot core, soft skirt, cooler counter-glow
+    r.setProperty('--glow-a', hslaStr(h,      s,      58, 0.24));
+    r.setProperty('--glow-b', hslaStr(h + 14, s*0.8,  74, 0.14));
+    r.setProperty('--glow-c', hslaStr(h - 18, s,      50, 0.16));
+    r.setProperty('--glow-d', hslaStr(h + 6,  s,      60, 0.10));
+    // bloom: same family, wider and weaker, with a complementary third
+    r.setProperty('--bloom-a', hslaStr(h,       s,      56, 0.18));
+    r.setProperty('--bloom-b', hslaStr(h - 22,  s,      48, 0.13));
+    r.setProperty('--bloom-c', hslaStr(h + 170, s*0.75, 44, 0.08));
+    r.setProperty('--glow-solid', hslaStr(h, s, 58, 0.9));
+  }
   function DUST_DENSITY(){ const d=DATA.design||{}; return (d.dust==null?45:d.dust)/100 * 2.6; }
   function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function fileToDataUrl(file, cb){ const r=new FileReader(); r.onload=function(){ cb(r.result); }; r.readAsDataURL(file); }
@@ -647,6 +757,16 @@
     if(c.image) return {kind:'image', src:c.image};
     var t = ytThumb(c.link); if(t) return {kind:'image', src:t};
     return {kind:'none', src:''};
+  }
+  const ICON_EYE = '<svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>';
+  const ICON_HEART = '<svg viewBox="0 0 24 24"><path d="M12 21s-8-4.9-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.6C20 16.1 12 21 12 21z"/></svg>';
+
+  function statBadges(c){
+    if(!c.views && !c.likes) return '';
+    return '<div class="vtile-stats">'+
+      (c.views?('<span>'+ICON_EYE+esc(c.views)+'</span>'):'')+
+      (c.likes?('<span>'+ICON_HEART+esc(c.likes)+'</span>'):'')+
+    '</div>';
   }
   function mediaTag(c, idx){
     const pv = preview(c);
@@ -680,6 +800,7 @@
     r.setProperty('--contrast', ((d.contrast==null?100:d.contrast)/100));
     r.setProperty('--fringe', ((d.fringe==null?60:d.fringe)/100));
     r.setProperty('--shadow-depth', ((d.shadowDepth==null?0:d.shadowDepth)/100));
+    applyGlowGrade(d, r, satV);
     document.body.classList.toggle('no-film', d.film === false);
     (d.sections||[]).forEach(function(s){
       const el = document.querySelector('[data-sec="'+s.id+'"]');
@@ -779,15 +900,20 @@
           return '<div class="slide'+(preview(c).kind==='none' ? ' g'+(ci%8) : '')+'" data-t="'+ti+'" data-c="'+ci+'">'+
             mediaTag(c, ci)+
             '<div class="playbadge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>'+
+            '<div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button>'+
             '<div class="slide-info"><div class="slide-title">'+esc(c.title)+'</div>'+
-            '<div class="slide-meta"><span>'+esc(c.meta||'')+'</span>'+(c.views?('<span class="slide-views">'+esc(c.views)+' переглядів</span>'):'')+'</div></div>'+
+            '<div class="slide-meta">'+(c.meta?('<span>'+esc(c.meta)+'</span>'):'')+
+              (c.views?('<span class="stat slide-views">'+ICON_EYE+esc(c.views)+'</span>'):'')+
+              (c.likes?('<span class="stat slide-likes">'+ICON_HEART+esc(c.likes)+'</span>'):'')+
+            '</div></div>'+
           '</div>';
         }).join('') + '</div></div>';
       } else {
         body = '<div class="wrap"><div class="vgrid">'+ track.clips.map(function(c, ci){
           return '<div class="vtile'+(preview(c).kind==='none' ? ' g'+(ci%8) : '')+'" data-t="'+ti+'" data-c="'+ci+'">'+
             mediaTag(c, ci)+
-            (c.views?('<span class="vtile-views">👁 '+esc(c.views)+'</span>'):'')+
+            statBadges(c)+
+            '<div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button>'+
             '<div class="vtile-info"><div class="vtile-title">'+esc(c.title)+'</div><div class="vtile-meta">'+esc(c.meta||'')+'</div></div>'+
           '</div>';
         }).join('') + '</div></div>';
@@ -810,51 +936,107 @@
     });
   }
 
+  let PLAYING = null;
+  function stopInline(){
+    if(!PLAYING) return;
+    const box = PLAYING.querySelector('.slide-player, .vtile-player');
+    if(box) box.innerHTML = '';
+    PLAYING.classList.remove('playing');
+    PLAYING = null;
+  }
+  function playInline(el, clip){
+    if(PLAYING === el) return;
+    stopInline();
+    const box = el.querySelector('.slide-player, .vtile-player');
+    if(!box) return;
+    const local = playableVideo(clip), emb = ytEmbed(clip.link, true);
+    if(local){
+      const v = document.createElement('video');
+      v.src = local; v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+      if(clip.image) v.poster = clip.image;
+      box.appendChild(v);
+      v.play().catch(function(){});
+    } else if(emb){
+      const fr = document.createElement('iframe');
+      fr.src = emb.replace('&mute=1','');
+      fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      fr.allowFullscreen = true;
+      box.appendChild(fr);
+    } else { return; }
+    el.classList.add('playing');
+    PLAYING = el;
+  }
+
   function bindTiles(scope){
     scope.querySelectorAll('.slide, .vtile').forEach(function(el){
-      const clip = DATA.tracks[el.dataset.t].clips[el.dataset.c];
+      const clip = DATA.tracks[el.dataset.t] && DATA.tracks[el.dataset.t].clips[el.dataset.c];
       if(!clip) return;
+
+      // muted loop preview on hover, only for self-hosted footage
       const v = el.querySelector('video');
       if(v){
-        el.addEventListener('mouseenter', function(){ v.play().catch(function(){}); });
-        el.addEventListener('mouseleave', function(){ v.pause(); v.currentTime = 0; });
+        el.addEventListener('mouseenter', function(){ if(!el.classList.contains('playing')) v.play().catch(function(){}); });
+        el.addEventListener('mouseleave', function(){ if(!el.classList.contains('playing')){ v.pause(); v.currentTime = 0; } });
       }
-      el.addEventListener('click', function(e){ if(anyMedia(clip)){ e.preventDefault(); openLightbox(clip); } });
-      attachHoverExpand(el, clip);
+
+      const stop = el.querySelector('.slide-stop, .vtile-stop');
+      if(stop) stop.addEventListener('click', function(e){ e.stopPropagation(); stopInline(); });
+
+      el.addEventListener('click', function(e){
+        if(el.classList.contains('playing')) return;
+        if(e.target.closest('.slide-stop, .vtile-stop')) return;
+        if(!playableVideo(clip) && !ytId(clip.link)){
+          if(clip.image){ e.preventDefault(); openLightbox(clip); }
+          return;
+        }
+        e.preventDefault();
+        playInline(el, clip);
+      });
     });
   }
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') stopInline(); });
 
   /* ---------- BACKSTAGE GALLERY (lives inside About) ---------- */
   function aboutTracks(){ return DATA.tracks.filter(function(t){ return t.place === 'about'; }); }
 
   function renderAboutGallery(){
-    const host = document.getElementById('aboutGalleryCta');
-    if(!host) return;
     const tracks = aboutTracks();
-    host.innerHTML = '';
-    tracks.forEach(function(track){
-      const ti = DATA.tracks.indexOf(track);
-      const n = track.clips.length;
-      if(!n) return;
-      // three most recent stills as a teaser strip
-      const thumbs = track.clips.slice(0,3).map(function(cl){
-        const pv = preview(cl);
-        const src = pv.kind==='image' ? pv.src : (cl.image || ytThumb(cl.link) || '');
-        return '<span'+(src?(' style="background-image:url(\''+src+'\')"'):'')+'></span>';
-      }).join('');
-      const btn = document.createElement('button');
-      btn.className = 'gallery-btn';
-      btn.innerHTML = '<span>'+esc(track.name)+'</span><span class="count">'+n+'</span>';
-      btn.addEventListener('click', function(){ openGallery(ti); });
-      const strip = document.createElement('div');
-      strip.className = 'gallery-thumbs';
-      strip.innerHTML = thumbs;
-      host.appendChild(btn);
-      host.appendChild(strip);
-    });
+    const tab = document.querySelector('#aboutSwitcher .swtab[data-sw="backstage"]');
+    if(!tab) return;
+    if(!tracks.length){ tab.style.display = 'none'; return; }
+    tab.style.display = '';
+    const track = tracks[0];
+    const ti = DATA.tracks.indexOf(track);
+    document.getElementById('bsName').textContent = track.name;
+    document.getElementById('bsCount').textContent = track.clips.length;
+    const grid = document.getElementById('backstageGrid');
+    grid.innerHTML = track.clips.map(function(cl, ci){
+      return '<div class="vtile'+(preview(cl).kind==='none' ? ' g'+(ci%8) : '')+'" data-t="'+ti+'" data-c="'+ci+'">'+
+        mediaTag(cl, ci)+
+        statBadges(cl)+
+        '<div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button>'+
+        '<div class="vtile-info"><div class="vtile-title">'+esc(cl.title)+'</div><div class="vtile-meta">'+esc(cl.meta||'')+'</div></div>'+
+      '</div>';
+    }).join('');
+    bindTiles(grid);
   }
 
-  function openGallery(ti){
+  function switchPanel(which){
+    const isAbout = which === 'about';
+    const pa = document.getElementById('paneAbout'), pb = document.getElementById('paneBackstage');
+    if(pa) pa.classList.toggle('on', isAbout);
+    if(pb) pb.classList.toggle('on', !isAbout);
+    document.querySelectorAll('#aboutSwitcher .swtab').forEach(function(t){
+      t.classList.toggle('on', t.dataset.sw === which);
+    });
+  }
+  document.addEventListener('click', function(e){
+    if(!e.target.closest) return;
+    const tab = e.target.closest('#aboutSwitcher .swtab');
+    if(tab) switchPanel(tab.dataset.sw);
+  });
+
+  function openGallery(ti){ // kept for any extra galleries
     const track = DATA.tracks[ti];
     if(!track) return;
     document.getElementById('galleryTitle').textContent = track.name;
@@ -863,7 +1045,8 @@
     grid.innerHTML = track.clips.map(function(cl, ci){
       return '<div class="vtile'+(preview(cl).kind==='none' ? ' g'+(ci%8) : '')+'" data-t="'+ti+'" data-c="'+ci+'">'+
         mediaTag(cl, ci)+
-        (cl.views?('<span class="vtile-views">👁 '+esc(cl.views)+'</span>'):'')+
+        statBadges(cl)+
+        '<div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button>'+
         '<div class="vtile-info"><div class="vtile-title">'+esc(cl.title)+'</div><div class="vtile-meta">'+esc(cl.meta||'')+'</div></div>'+
       '</div>';
     }).join('');
@@ -908,11 +1091,17 @@
     setTimeout(function(){ if(EX.open) EX.stage.classList.add('full'); }, 250);
     EX.caption.innerHTML = esc(item.title||'') + (item.meta?('<small>'+esc(item.meta)+'</small>'):'');
     EX.caption.classList.add('on');
+    const cb = document.getElementById('expandClose'); if(cb) cb.classList.add('on');
+    const hb = document.getElementById('expandHintBar'); if(hb) hb.classList.add('on');
+    const xb = document.getElementById('expandClose'); if(xb) xb.classList.add('on');
   }
   function collapseExpand(){
     if(!EX.open) return;
     EX.open=false;
     EX.stage.classList.remove('full'); EX.caption.classList.remove('on'); EX.backdrop.classList.remove('on');
+    const cb = document.getElementById('expandClose'); if(cb) cb.classList.remove('on');
+    const hb = document.getElementById('expandHintBar'); if(hb) hb.classList.remove('on');
+    const xb = document.getElementById('expandClose'); if(xb) xb.classList.remove('on');
     const r=EX.origin;
     if(r){ EX.stage.style.top=r.top+'px'; EX.stage.style.left=r.left+'px'; EX.stage.style.width=r.width+'px'; EX.stage.style.height=r.height+'px'; }
     setTimeout(function(){ if(!EX.open){ EX.stage.classList.remove('on'); EX.stage.innerHTML=''; } }, 460);
@@ -925,11 +1114,24 @@
     });
     el.addEventListener('mouseleave', function(){ clearTimeout(EX.timer); });
   }
+  document.getElementById('expandClose').addEventListener('click', collapseExpand);
+  // a YouTube player swallows its own mouse events, so watch the pointer at document level
+  document.addEventListener('mousemove', function(e){
+    if(!EX.open) return;
+    const r = EX.stage.getBoundingClientRect();
+    const pad = 40;
+    if(e.clientX < r.left - pad || e.clientX > r.right + pad ||
+       e.clientY < r.top - pad  || e.clientY > r.bottom + pad){ collapseExpand(); }
+  });
+  document.getElementById('expandClose').addEventListener('click', function(e){ e.stopPropagation(); collapseExpand(); });
+  // an embedded player swallows pointer events, so only close on mouse-out when it can actually be seen
   EX.backdrop.addEventListener('mouseenter', collapseExpand);
   EX.backdrop.addEventListener('click', collapseExpand);
   EX.stage.addEventListener('click', function(){ const it=EX.item; collapseExpand(); if(it) setTimeout(function(){ openLightbox(it); },120); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ collapseExpand(); closeLightbox(); closeGallery(); } });
-  window.addEventListener('scroll', function(){ if(EX.open) collapseExpand(); }, {passive:true});
+  window.addEventListener('scroll', function(){
+    if(EX.open && !EX.stage.querySelector('iframe')) collapseExpand();
+  }, {passive:true});
 
   /* ---------- LIGHTBOX ---------- */
   function openLightbox(clip){
@@ -964,7 +1166,23 @@
         '<label class="al">У доріжку</label><select id="bulkTrack">'+
           DATA.tracks.map(function(t,i){ return '<option value="'+i+'">'+esc(t.name)+'</option>'; }).join('')+'</select>'+
         '<button class="mini-btn" id="bulkAddBtn">Додати всі</button>'+
-      '</div>';
+      '</div>'+
+      '<details class="admin-clip" style="border-color:var(--amber);">'+
+        '<summary style="cursor:pointer; font-size:13px; font-weight:600; color:var(--amber);">Як залити своє відео на сайт</summary>'+
+        '<div class="admin-note" style="margin-top:10px; line-height:1.65;">'+
+          '<b style="color:var(--ink);">Крок 1 — підготуй файл.</b><br>'+
+          'Формат MP4, кодек H.264, профіль High, піксель yuv420p.<br>'+
+          'Горизонталь 1920×1080, вертикаль 1080×1920.<br>'+
+          'Частота 25 або 30 кадрів, бітрейт 4–6 Мбіт/с.<br>'+
+          'Звук AAC 128–192 кбіт/с. Обов\'язково «faststart» — інакше відео почне грати лише після повного завантаження.<br>'+
+          'Довжина 15–60 с, вага до 20 МБ на файл.<br><br>'+
+          '<b style="color:var(--ink);">Крок 2 — залий у репозиторій.</b><br>'+
+          'На GitHub: Add file → Upload files, перетягни mp4 у папку <code>video</code>.<br><br>'+
+          '<b style="color:var(--ink);">Крок 3 — впиши шлях</b> у поле «Відеофайл на сайті» нижче: <code>video/назва.mp4</code><br><br>'+
+          '<b style="color:var(--ink);">Експорт із DaVinci:</b> Format MP4, Codec H.264, Quality Restrict to 5000 Kb/s, '+
+          'Key Frames every 48, Audio AAC 192.'+
+        '</div>'+
+      '</details>';
     DATA.tracks.forEach(function(track, ti){
       const h=document.createElement('div'); h.className='admin-track-h'; h.textContent=track.tag+' · '+track.name; cp.appendChild(h);
       const lay=document.createElement('div'); lay.className='admin-clip';
@@ -984,7 +1202,10 @@
         box.innerHTML =
           '<label class="al">Назва</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="title" value="'+esc(clip.title)+'">'+
           '<label class="al">Підпис</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="meta" value="'+esc(clip.meta||'')+'">'+
-          '<label class="al">Перегляди</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="views" value="'+esc(clip.views||'')+'">'+
+          '<div class="admin-row">'+
+            '<div style="flex:1;"><label class="al">Перегляди</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="views" value="'+esc(clip.views||'')+'"></div>'+
+            '<div style="flex:1;"><label class="al">Лайки</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="likes" value="'+esc(clip.likes||'')+'"></div>'+
+          '</div>'+
           '<label class="al">Посилання YouTube</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="link" value="'+esc(clip.link||'')+'">'+
           '<label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="'+ti+'" data-c="'+ci+'" data-f="videoUrl" value="'+esc(clip.videoUrl||'')+'">'+
           '<label class="al">Фото / постер</label><input type="file" accept="image/*" data-img="'+ti+':'+ci+'">'+
@@ -1050,6 +1271,14 @@
       slider('dHalo','Halation — світіння країв', (d.halo==null?70:d.halo), 0, 180, 5, '%')+
       slider('dBloom','Bloom — широке сяйво', (d.bloom==null?60:d.bloom), 0, 180, 5, '%')+
       slider('dFringe','Червона обводка на світлому', (d.fringe==null?60:d.fringe), 0, 160, 5, '%')+
+      '<div class="admin-track-h">Колір світіння</div>'+
+      slider('dGlowTemp','Температура · холодне → тепле', (d.glowTemp==null?78:d.glowTemp), 0, 100, 2, '')+
+      slider('dGlowTint','Відтінок · зелене → жовте', (d.glowTint==null?50:d.glowTint), 0, 100, 2, '')+
+      '<div class="admin-row">'+
+        '<button class="mini-btn" data-glow="tungsten">Лампа</button>'+
+        '<button class="mini-btn" data-glow="daylight">Денне</button>'+
+        '<button class="mini-btn" data-glow="neon">Неон</button>'+
+      '</div>'+
       '<div class="admin-track-h">Колірність</div>'+
       slider('dSat','Насиченість', (d.sat==null?80:d.sat), 0, 160, 5, '%')+
       slider('dContrast','Контраст', (d.contrast==null?100:d.contrast), 60, 160, 5, '%')+
@@ -1117,14 +1346,14 @@
     q('[data-trdown]').forEach(function(b){ b.addEventListener('click', function(){ const t=+b.dataset.trdown;
       const a=DATA.tracks; if(t<a.length-1){ [a[t+1],a[t]]=[a[t],a[t+1]]; saveLocal(); render(); } }); });
     q('[data-add-track]').forEach(function(b){ b.addEventListener('click', function(){ const t=+b.dataset.addTrack;
-      DATA.tracks[t].clips.push({title:'Нова робота', meta:'', link:'', views:'', image:'', video:'', videoUrl:''}); saveLocal(); render(); }); });
+      DATA.tracks[t].clips.push({title:'Нова робота', meta:'', link:'', views:'', likes:'', image:'', video:'', videoUrl:''}); saveLocal(); render(); }); });
 
     const bulk=document.getElementById('bulkAddBtn');
     if(bulk) bulk.addEventListener('click', function(){
       const ta=document.getElementById('bulkLinks'), ti=+document.getElementById('bulkTrack').value;
       const lines=(ta.value||'').split(/[\n\s]+/).map(function(s){return s.trim();}).filter(Boolean);
       let added=0;
-      lines.forEach(function(u){ if(!ytId(u)) return; DATA.tracks[ti].clips.push({title:'Без назви',meta:'',link:u,views:'',image:'',video:'',videoUrl:''}); added++; });
+      lines.forEach(function(u){ if(!ytId(u)) return; DATA.tracks[ti].clips.push({title:'Без назви',meta:'',link:u,views:'',likes:'',image:'',video:'',videoUrl:''}); added++; });
       ta.value='';
       if(!added){ alert('Не знайдено жодного дійсного YouTube-посилання.'); return; }
       saveLocal(); render();
@@ -1164,6 +1393,15 @@
     rng('dSat', function(v){ DATA.design.sat=v; }, '%');
     rng('dContrast', function(v){ DATA.design.contrast=v; }, '%');
     rng('dShadow', function(v){ DATA.design.shadowDepth=v; }, '%');
+    rng('dGlowTemp', function(v){ DATA.design.glowTemp=v; }, '');
+    rng('dGlowTint', function(v){ DATA.design.glowTint=v; }, '');
+    const GLOWS = { tungsten:{t:86,n:56}, daylight:{t:52,n:50}, neon:{t:18,n:38} };
+    document.querySelectorAll('[data-glow]').forEach(function(b){
+      b.addEventListener('click', function(){
+        const g = GLOWS[b.dataset.glow]; if(!g) return;
+        DATA.design.glowTemp=g.t; DATA.design.glowTint=g.n; saveLocal(); render();
+      });
+    });
     const nd=document.getElementById('dNewDust');
     if(nd) nd.addEventListener('click', function(){ if(window.__repaintDust) window.__repaintDust(); });
 
