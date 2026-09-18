@@ -293,13 +293,16 @@
   /* tall phones (9:16): keep the hero legible without scrolling */
   @media (max-width:560px){
     h1.hero-name, .hero-name-glow, .hero-name-fringe{
-      font-size:calc(clamp(30px, 15vw, 74px) * var(--hero-fit, 1)); line-height:0.94; }
+      font-size:calc(clamp(30px, 15vw, 74px) * var(--hero-size) * var(--hero-fit, 1)); line-height:0.94; }
     /* Scale optical effects with the smaller mobile typography.
        iOS/Safari otherwise makes fixed-pixel blur look much softer than desktop. */
     /* Mobile Safari: fractional filter blur softens glyphs much more than desktop Chromium.
        Keep the face/fringe crisp and use only the separate glow layer for optical bloom. */
     .hero-name-glow{ filter:blur(calc(var(--name-glow-blur) * 0.18)) saturate(1.5); }
-    .hero-name-fringe{ filter:blur(calc(var(--name-fringe-blur) * 0.10)) saturate(1.6); }
+    .hero-name-fringe{
+      filter:blur(calc(var(--name-fringe-blur) * 0.10)) saturate(1.6);
+      transform:none;
+    }
     h1.hero-name{ filter:none; }
     .hero-role-line .mono{
       font-size:11px;
