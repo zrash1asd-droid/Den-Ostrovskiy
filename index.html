@@ -296,30 +296,32 @@
       font-size:calc(clamp(30px, 15vw, 74px) * var(--hero-fit, 1)); line-height:0.94; }
     /* Scale optical effects with the smaller mobile typography.
        iOS/Safari otherwise makes fixed-pixel blur look much softer than desktop. */
-    .hero-name-glow{ filter:blur(calc(var(--name-glow-blur) * 0.22)) saturate(1.5); }
-    .hero-name-fringe{ filter:blur(calc(var(--name-fringe-blur) * 0.22)) saturate(1.6); }
-    h1.hero-name{ filter:blur(calc(var(--name-blur) * 0.35)); }
+    /* Mobile Safari: fractional filter blur softens glyphs much more than desktop Chromium.
+       Keep the face/fringe crisp and use only the separate glow layer for optical bloom. */
+    .hero-name-glow{ filter:blur(calc(var(--name-glow-blur) * 0.18)) saturate(1.5); }
+    .hero-name-fringe{ filter:blur(calc(var(--name-fringe-blur) * 0.10)) saturate(1.6); }
+    h1.hero-name{ filter:none; }
     .hero-role-line .mono{
       font-size:11px;
-      filter:blur(calc(var(--role-blur) * 0.35));
-      text-shadow:0 0 calc(24px * var(--role-glow) * 0.35) var(--glow-a),
-                  0 0 calc(9px * var(--role-fringe) * 0.35) var(--red);
+      filter:none;
+      text-shadow:0 0 calc(24px * var(--role-glow) * 0.22) var(--glow-a),
+                  0 0 calc(9px * var(--role-fringe) * 0.22) var(--red);
     }
     .hero-above{
-      filter:blur(calc(var(--above-blur) * 0.35));
-      text-shadow:0 0 calc(34px * var(--above-glow) * 0.35) var(--glow-a),
-                  0 0 calc(12px * var(--above-fringe) * 0.35) var(--red);
+      filter:none;
+      text-shadow:0 0 calc(34px * var(--above-glow) * 0.22) var(--glow-a),
+                  0 0 calc(12px * var(--above-fringe) * 0.22) var(--red);
     }
     .hero-sub{
       font-size:16px; margin-top:14px;
-      filter:blur(calc(var(--sub-blur) * 0.35));
-      text-shadow:0 0 calc(26px * var(--sub-glow) * 0.35) var(--glow-a),
-                  0 0 calc(9px * var(--sub-fringe) * 0.35) var(--red);
+      filter:none;
+      text-shadow:0 0 calc(26px * var(--sub-glow) * 0.22) var(--glow-a),
+                  0 0 calc(9px * var(--sub-fringe) * 0.22) var(--red);
     }
     .hero-meta{
-      filter:blur(calc(var(--meta-blur) * 0.35));
-      text-shadow:0 0 calc(26px * var(--meta-glow) * 0.35) var(--meta-color),
-                  0 0 calc(9px * var(--meta-glow) * 0.35) var(--meta-color);
+      filter:none;
+      text-shadow:0 0 calc(26px * var(--meta-glow) * 0.22) var(--meta-color),
+                  0 0 calc(9px * var(--meta-glow) * 0.22) var(--meta-color);
     }
     .hero-role-line{ gap:9px; margin-bottom:14px; }
     .hero-cta{ margin-top:24px; gap:10px; width:100%; }
