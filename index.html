@@ -622,21 +622,27 @@
   nav, header.hero, main, section.contact, footer,
   #adminToggle, #adminDrawer, #previewExit, #stickyBar,
   #expandBackdrop, #expandStage, #expandCaption, #lightbox{ position:relative; z-index:10; }
-  nav{ display:none; }
+  nav{ z-index:100; }
   #stickyBar{ z-index:250; }
   #adminToggle{ z-index:300; } #previewExit{ z-index:320; } #adminDrawer{ z-index:400; }
   #expandBackdrop{ z-index:480; } #expandStage{ z-index:490; } #expandCaption{ z-index:495; } #lightbox{ z-index:500; }
   .wrap{ width:100%; max-width:min(var(--wrap-max), 96vw); margin:0 auto; padding:0 clamp(14px, 2.2vw, 40px); }
   @media (max-width:640px){ .wrap{ max-width:100%; padding:0 14px; } }
 
-  nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:none; align-items:center; justify-content:space-between;
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between;
        padding:clamp(12px,1.4vw,20px) clamp(14px,2.2vw,40px);
        background:linear-gradient(to bottom, rgba(7,8,10,0.92), rgba(7,8,10,0)); }
   .nav-id span{ font-size:13px; color:var(--ink-dim); letter-spacing:0.03em; }
   .nav-links{ display:flex; gap:26px; }
   .nav-links a{ color:var(--ink); text-decoration:none; font-size:14px; font-weight:500; opacity:0.7; transition:opacity .2s; }
   .nav-links a:hover{ opacity:1; }
-  @media (max-width:760px){ .nav-links{ display:none; } }
+  @media (max-width:760px){
+    nav{ flex-wrap:wrap; row-gap:8px; }
+    .nav-id{ flex:0 0 100%; }
+    .nav-links{ flex:0 0 100%; gap:16px; justify-content:center; }
+    .nav-links a{ font-size:12px; }
+  }
+  @media (max-width:480px){ nav{ padding-left:10px; padding-right:10px; } .nav-links{ gap:10px; } .nav-links a{ font-size:11px; } }
 
   header.hero{ min-height:0; display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
     text-align:center; position:relative;
@@ -1812,7 +1818,7 @@
 
 <nav>
   <div class="nav-id"><span class="mono">DEN_OSTROVSKIY</span></div>
-  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#brands">Бренди</a><a href="#services">Послуги</a><a href="#contact">Contact</a></div>
+  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#services">Послуги</a><a href="#contact">Contact</a></div>
 </nav>
 
 <header class="hero">
