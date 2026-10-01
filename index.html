@@ -459,14 +459,14 @@
   .slide-views{ padding:2px 4px; background:rgba(7,5,4,.52); border-radius:2px; line-height:1; }
   .slide-views svg{ width:9px; height:9px; }
   .hero-sub{
-    filter:blur(calc(var(--sub-blur) * var(--m-text-blur-mult, 0) * .6)) !important;
-    text-shadow:0 0 calc(26px * var(--sub-glow) * var(--m-text-glow-mult, 0.22) * .6) var(--glow-a),
-                0 0 calc(9px * var(--sub-fringe) * var(--m-text-fringe-mult, 0.22) * .6) var(--red) !important;
+    filter:blur(calc(var(--sub-blur) * var(--m-text-blur-mult, 0) * .36)) !important;
+    text-shadow:0 0 calc(26px * var(--sub-glow) * var(--m-text-glow-mult, 0.22) * .36) var(--glow-a),
+                0 0 calc(9px * var(--sub-fringe) * var(--m-text-fringe-mult, 0.22) * .36) var(--red) !important;
   }
   .hero-meta{
-    filter:blur(calc(var(--meta-blur) * var(--m-text-blur-mult, 0) * .6)) !important;
-    text-shadow:0 0 calc(26px * var(--meta-glow) * var(--m-text-glow-mult, 0.22) * .6) var(--meta-color),
-                0 0 calc(9px * var(--meta-glow) * var(--m-text-fringe-mult, 0.22) * .6) var(--meta-color) !important;
+    filter:blur(calc(var(--meta-blur) * var(--m-text-blur-mult, 0) * .36)) !important;
+    text-shadow:0 0 calc(26px * var(--meta-glow) * var(--m-text-glow-mult, 0.22) * .36) var(--meta-color),
+                0 0 calc(9px * var(--meta-glow) * var(--m-text-fringe-mult, 0.22) * .36) var(--meta-color) !important;
   }
 }
 </style>
@@ -1347,8 +1347,8 @@
 <style>
 @media (max-width: 768px) {
   .hero-kicker, .hero-sub, .hero-meta, .hero-locations {
-    filter: blur(0.1px);
-    -webkit-filter: blur(0.1px);
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
   }
 }
 </style>
@@ -1364,6 +1364,32 @@
   window.addEventListener('load', function(){ topNow(); setTimeout(topNow, 120); }, {once:true});
 })();
 </script>
+
+<style id="mobile-real-crisp-fix">
+@media (max-width:560px){
+  /* iOS Safari: do not use CSS filter blur on the small hero copy.
+     The previous variable multiplier still rasterized these glyphs softly. */
+  .hero-role-line .mono,
+  .hero-sub,
+  .hero-meta{
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+  /* Barely-there mobile blur: just softer than DEN OSTROVSKIY, without iOS mush. */
+  .hero-role-line .mono{ -webkit-filter:none !important; filter:none !important; }
+  .hero-sub{ -webkit-filter:none !important; filter:none !important; }
+  .hero-meta{ -webkit-filter:none !important; filter:none !important; }
+  .hero-role-line .mono{
+    text-shadow:0 0 .45px var(--role-color) !important;
+  }
+  .hero-sub{
+    text-shadow:0 0 .55px var(--sub-color) !important;
+  }
+  .hero-meta{
+    text-shadow:0 0 .45px var(--meta-color) !important;
+  }
+}
+</style>
 </head>
 <body class="minimal vivid-bg editing" id="artifacts-component-root-html">
 <div id="filmLayers" style="height: 5870px;"><div id="bloom"></div>
