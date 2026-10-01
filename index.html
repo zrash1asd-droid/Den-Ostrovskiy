@@ -560,7 +560,7 @@
 
   /* warm halation on media edges */
 
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; background:var(--bg);}
   #filmLayers{ position:absolute; top:0; left:0; right:0; height:100%; max-height:100%;
     pointer-events:none; z-index:0; overflow:hidden; contain:paint; }
   body{ position:relative; color:var(--ink); font-family:'Inter',-apple-system,sans-serif; line-height:1.5; overflow-x:hidden;
@@ -1961,7 +1961,7 @@
       <div class="grp">
         <div class="grp-h">Рядки шапки (мобільна) — DIRECTOR|D.O.P, підпис, статистика</div>
         <label class="al">Розмиття<span class="rangeval" id="dMTextBlurv">38%</span></label>
-        <input type="range" id="dMTextBlur" min="0" max="150" step="2" value="0">
+        <input type="range" id="dMTextBlur" min="0" max="60" step="1" value="0">
         <label class="al">Світіння<span class="rangeval" id="dMTextGlowv">36%</span></label>
         <input type="range" id="dMTextGlow" min="0" max="150" step="2" value="22">
         <label class="al">Halation (кольоровий кант)<span class="rangeval" id="dMTextFringev">22%</span></label>
