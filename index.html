@@ -492,6 +492,18 @@
   @media (max-width:560px){
     #filmGrain, #filmGrainCoarse{ display:none !important; }
   }
+
+/* Mobile: show 4 horizontal works initially, reveal the rest on demand */
+@media (max-width:560px){
+  .slider.mobile-collapsed > .slide:nth-child(n+5){ display:none !important; }
+  .mobile-more-btn{
+    display:block; width:100%; margin:10px 0 0; padding:12px 16px;
+    border:1px solid var(--line); border-radius:3px; background:transparent;
+    color:var(--ink); font:600 12px/1 'Inter',sans-serif; letter-spacing:.04em;
+    text-transform:uppercase; cursor:pointer;
+  }
+}
+@media (min-width:561px){ .mobile-more-btn{ display:none !important; } }
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1412,6 +1424,11 @@
     text-shadow:0 0 .45px var(--meta-color) !important;
   }
 }
+
+  /* Mobile: horizontal videos one per row */
+  @media (max-width:560px){
+    .slider{ grid-template-columns:1fr !important; }
+  }
 </style>
 </head>
 <body class="minimal vivid-bg editing" id="artifacts-component-root-html">
@@ -1951,7 +1968,7 @@
     <div class="hero-name-wrap">
       <div class="hero-name-fringe display" id="heroNameFringe" aria-hidden="true">Den Ostrovskiy</div>
       <div class="hero-name-glow display" id="heroNameGlow" aria-hidden="true">Den Ostrovskiy</div>
-      <h1 class="hero-name display" id="heroName" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='270' height='270'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='270' height='270' filter='url(%23g)' opacity='1.00'/%3E%3C/svg%3E&quot;), linear-gradient(96deg, rgb(179, 107, 36) 100%, rgb(0, 0, 0) 100%, rgb(0, 0, 0) 100%); background-blend-mode: overlay, normal; background-size: 270px 270px, 100% 100%;">Den Ostrovskiy</h1>
+      <h1 class="hero-name display" id="heroName" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='270' height='270'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='270' height='270' filter='url(%23g)' opacity='1.00'/%3E%3C/svg%3E&quot;), linear-gradient(96deg, rgb(179, 107, 36) 100%, rgb(0, 0, 0) 100%, rgb(0, 0, 0) 100%); background-blend-mode: overlay, normal; background-size: 135px 135px, 100% 100%;">Den Ostrovskiy</h1>
     </div>
     <p class="hero-sub" id="heroSub">MUSIC VIDEO | CONTENT FOR BRANDS | REELS &amp; SOCIAL</p>
     <div class="hero-meta" id="heroMeta"><span>«Шугар Тьотя» 41 млн · «Шугар Токсік» 21 млн, Золота Країна,  Stimma, Oniks, D.O.T, HILLARY</span><span><b>Kyiv, Lviv, Khmelnitsky, Ukraine</b></span></div>
@@ -2703,9 +2720,14 @@
         : 'linear-gradient('+ang+'deg, '+c1+' '+s1+'%, '+c2+' '+s2+'%, '+c3+' 100%)';
 
       const gAmt = (d.nameGrain == null ? 0 : d.nameGrain) / 100;
-      const gSize = (d.nameGrainSize == null ? 140 : d.nameGrainSize);
+      const gSizeBase = (d.nameGrainSize == null ? 140 : d.nameGrainSize);
+      const isMobileNameGrain = window.matchMedia('(max-width:560px)').matches;
+      const gSize = isMobileNameGrain ? Math.max(40, Math.round(gSizeBase * 0.5)) : gSizeBase;
+      // Grain fineness is controlled by turbulence frequency, not just the tile size.
+      // Use a much higher frequency on phones so DEN OSTROVSKIY gets genuinely finer grain.
+      const gFreq = isMobileNameGrain ? 1.5 : 0.75;
       if(gAmt > 0){
-        const noise = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='"+gSize+"' height='"+gSize+"'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='"+gSize+"' height='"+gSize+"' filter='url(%23g)' opacity='"+gAmt.toFixed(2)+"'/%3E%3C/svg%3E\")";
+        const noise = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='"+gSize+"' height='"+gSize+"'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='"+gFreq+"' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='"+gSize+"' height='"+gSize+"' filter='url(%23g)' opacity='"+gAmt.toFixed(2)+"'/%3E%3C/svg%3E\")";
         nm.style.backgroundImage = noise + ', ' + ramp;
         nm.style.backgroundBlendMode = 'overlay, normal';
         nm.style.backgroundSize = gSize+'px '+gSize+'px, 100% 100%';
@@ -4332,4 +4354,27 @@
 </script>
 
 
+
+<script>
+(function(){
+  function setupMobileShowMore(){
+    document.querySelectorAll('.slider').forEach(function(slider){
+      var slides = Array.from(slider.children).filter(function(el){ return el.classList && el.classList.contains('slide'); });
+      if(slides.length <= 4 || slider.dataset.mobileMoreReady === '1') return;
+      slider.dataset.mobileMoreReady='1';
+      slider.classList.add('mobile-collapsed');
+      var btn=document.createElement('button');
+      btn.type='button'; btn.className='mobile-more-btn'; btn.textContent='Показати ще';
+      slider.insertAdjacentElement('afterend',btn);
+      btn.addEventListener('click',function(){
+        var collapsed=slider.classList.toggle('mobile-collapsed');
+        btn.textContent=collapsed?'Показати ще':'Згорнути';
+        if(collapsed) slider.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupMobileShowMore);
+  else setupMobileShowMore();
+})();
+</script>
 </body></html>
