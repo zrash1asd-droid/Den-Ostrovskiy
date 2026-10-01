@@ -450,7 +450,26 @@
         });
       })();
     </script>
-  <style id="claude-scrollbar">@layer claude-scrollbar{*{scrollbar-width:thin}html{scrollbar-color:rgb(128 128 128 / 50%) transparent}}</style>
+  <style id="claude-scrollbar">@layer claude-scrollbar{*{scrollbar-width:thin}html{scrollbar-color:rgb(128 128 128 / 50%) transparent}}
+/* Mobile refinements: 2-column works, corner views, softer hero meta. */
+@media (max-width:560px){
+  .slider{ grid-template-columns:repeat(2, minmax(0,1fr)) !important; }
+  .slide-info{ inset:0 !important; left:0 !important; right:0 !important; top:0 !important; bottom:0 !important; padding:0 !important; pointer-events:none; }
+  .slide-meta{ position:absolute !important; top:5px !important; right:5px !important; margin:0 !important; gap:0 !important; }
+  .slide-views{ padding:2px 4px; background:rgba(7,5,4,.52); border-radius:2px; line-height:1; }
+  .slide-views svg{ width:9px; height:9px; }
+  .hero-sub{
+    filter:blur(calc(var(--sub-blur) * var(--m-text-blur-mult, 0) * .6)) !important;
+    text-shadow:0 0 calc(26px * var(--sub-glow) * var(--m-text-glow-mult, 0.22) * .6) var(--glow-a),
+                0 0 calc(9px * var(--sub-fringe) * var(--m-text-fringe-mult, 0.22) * .6) var(--red) !important;
+  }
+  .hero-meta{
+    filter:blur(calc(var(--meta-blur) * var(--m-text-blur-mult, 0) * .6)) !important;
+    text-shadow:0 0 calc(26px * var(--meta-glow) * var(--m-text-glow-mult, 0.22) * .6) var(--meta-color),
+                0 0 calc(9px * var(--meta-glow) * var(--m-text-fringe-mult, 0.22) * .6) var(--meta-color) !important;
+  }
+}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Den Ostrovskiy — Director / D.O.P / Filmmaker</title>
@@ -1333,6 +1352,18 @@
   }
 }
 </style>
+
+<script>
+(function(){
+  if(!window.matchMedia('(max-width:760px)').matches) return;
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  if(location.hash) history.replaceState(null, '', location.pathname + location.search);
+  function topNow(){ window.scrollTo(0,0); }
+  topNow();
+  window.addEventListener('pageshow', function(){ topNow(); requestAnimationFrame(topNow); setTimeout(topNow, 80); });
+  window.addEventListener('load', function(){ topNow(); setTimeout(topNow, 120); }, {once:true});
+})();
+</script>
 </head>
 <body class="minimal vivid-bg editing" id="artifacts-component-root-html">
 <div id="filmLayers" style="height: 5870px;"><div id="bloom"></div>
