@@ -2933,6 +2933,13 @@
       if(clip.image) v.poster = clip.image;
       box.appendChild(v);
       v.play().catch(function(){});
+      // On phones, open self-hosted video fullscreen immediately after the tap.
+      if(window.matchMedia('(max-width: 560px)').matches){
+        try {
+          if(typeof v.webkitEnterFullscreen === 'function') v.webkitEnterFullscreen();
+          else if(typeof v.requestFullscreen === 'function') v.requestFullscreen().catch(function(){});
+        } catch(e) {}
+      }
     } else if(emb){
       const fr = document.createElement('iframe');
       fr.src = emb.replace('&mute=1','');
