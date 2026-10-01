@@ -469,6 +469,24 @@
                 0 0 calc(9px * var(--meta-glow) * var(--m-text-fringe-mult, 0.22) * .36) var(--meta-color) !important;
   }
 }
+
+/* MOBILE VIDEO: true viewport player instead of tiny tile */
+@media (max-width:560px){
+  .slide.playing .slide-player, .vtile.playing .vtile-player{
+    display:block !important; position:fixed !important; inset:0 !important;
+    width:100vw !important; height:100dvh !important; z-index:99998 !important;
+    background:#000 !important;
+  }
+  .slide.playing .slide-player iframe, .slide.playing .slide-player video,
+  .vtile.playing .vtile-player iframe, .vtile.playing .vtile-player video{
+    position:absolute !important; inset:0 !important; width:100% !important; height:100% !important;
+    object-fit:contain !important; border:0 !important; background:#000 !important;
+  }
+  .slide.playing .slide-stop, .vtile.playing .vtile-stop{
+    display:flex !important; position:fixed !important; top:max(14px, env(safe-area-inset-top)) !important;
+    right:14px !important; z-index:99999 !important; width:38px !important; height:38px !important;
+  }
+}
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
