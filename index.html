@@ -487,6 +487,11 @@
     right:14px !important; z-index:99999 !important; width:38px !important; height:38px !important;
   }
 }
+
+  /* Mobile Safari: remove tiled grain layers that can render as dark squares. */
+  @media (max-width:560px){
+    #filmGrain, #filmGrainCoarse{ display:none !important; }
+  }
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
