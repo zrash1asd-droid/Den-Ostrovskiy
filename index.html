@@ -644,6 +644,20 @@
   }
   @media (max-width:480px){ nav{ padding-left:10px; padding-right:10px; } .nav-links{ gap:10px; } .nav-links a{ font-size:11px; } }
 
+  /* Mobile: clean opening frame — hide desktop navigation and let the hero background fill the top. */
+  @media (max-width:760px){
+    nav{ display:none; }
+    header.hero{
+      padding-top:clamp(34px, 7vh, 58px);
+      margin-top:0;
+      background:
+        radial-gradient(ellipse 78% 42% at 84% 4%, rgba(240,138,38,0.18), transparent 64%),
+        radial-gradient(ellipse 58% 40% at 8% 18%, rgba(37,160,154,0.15), transparent 68%),
+        radial-gradient(ellipse 54% 38% at 14% 88%, rgba(201,65,44,0.10), transparent 66%),
+        var(--bg);
+    }
+  }
+
   header.hero{ min-height:0; display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
     text-align:center; position:relative;
     padding:clamp(64px, 8vh, 96px) clamp(14px, 2.2vw, 40px) clamp(20px, 3vh, 40px);
@@ -819,7 +833,7 @@
   /* works read as a wall of frames, the way a reel contact sheet does */
   .slider{ display:grid; grid-template-columns:repeat(var(--hcols, 3), 1fr); gap:var(--gap); }
   @media (max-width:900px){ .slider{ grid-template-columns:repeat(2, 1fr); } }
-  @media (max-width:560px){ .slider{ grid-template-columns:1fr; } }
+  @media (max-width:560px){ .slider{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:var(--gap); } }
   .slide{ position:relative; width:100%; aspect-ratio:16 / 9; height:auto;
           scroll-snap-align:center; border:1px solid var(--line); border-radius:3px; overflow:hidden; cursor:pointer;
           transition:transform .3s ease, border-color .3s ease; background:#101316; }
@@ -1292,6 +1306,10 @@
   @keyframes rvUp{ from{ opacity:0; translate:0 22px; } }
   @keyframes rvTile{ from{ opacity:0; translate:0 30px; scale:0.96; } }
 }
+</style>
+
+<style>
+@media (max-width:560px){ .slider{ grid-template-columns:repeat(2, minmax(0,1fr)) !important; } }
 </style>
 </head>
 <body class="minimal vivid-bg editing" id="artifacts-component-root-html">
@@ -1818,7 +1836,7 @@
 
 <nav>
   <div class="nav-id"><span class="mono">DEN_OSTROVSKIY</span></div>
-  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#services">Послуги</a><a href="#contact">Contact</a></div>
+  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#services">Бренди</a><a href="#contact">Contact</a></div>
 </nav>
 
 <header class="hero">
