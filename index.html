@@ -474,7 +474,7 @@
 @media (max-width:560px){
   /* the hover/tap scale creates its own stacking layer and traps the
      position:fixed player inside it — drop it the instant playback starts */
-  .slide.playing, .vtile.playing{ transform:none !important; z-index:auto !important; }
+  .slide.playing, .vtile.playing{ transform:none !important; z-index:auto !important; perspective:none !important; }
   .slide.playing .slide-player, .vtile.playing .vtile-player{
     display:block !important; position:fixed !important; inset:0 !important;
     width:100vw !important; height:100dvh !important; z-index:99998 !important;
