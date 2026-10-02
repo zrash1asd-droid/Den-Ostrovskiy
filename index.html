@@ -791,8 +791,7 @@
                 0 0 calc(9px * var(--meta-glow)) var(--meta-color);
     display:flex; justify-content:center; gap:clamp(12px,2vw,28px); flex-wrap:wrap; }
   .hero-meta b{ color:var(--meta-color); font-weight:700; }
-  .hero-cta{ display:flex; justify-content:center; gap:14px;
-    margin-top:calc(clamp(26px,4vh,40px) * var(--hero-gap)); flex-wrap:wrap; }
+  .hero-cta{ display:none; }
   .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:2px; font-size:14px; font-weight:600;
         text-decoration:none; border:1px solid var(--line); transition:transform .15s ease, background .15s ease; cursor:pointer; font-family:inherit; }
   .btn:hover{ transform:translateY(-2px); }
@@ -1060,14 +1059,14 @@
   /* ---------- ABOUT / PROCESS / SERVICES ---------- */
   /* two tabs sitting side by side; the open one grows and fills */
   .switcher{ display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap; }
-  .swtab{ display:flex; align-items:baseline; gap:10px; padding:14px 24px; cursor:pointer;
+  .swtab{ display:flex; align-items:baseline; gap:7px; padding:9px 16px; cursor:pointer;
     border:1px solid var(--line); border-radius:2px; background:rgba(10,7,5,0.45); color:var(--ink-dim);
     font-family:inherit; transition:all .35s cubic-bezier(.22,.61,.36,1); }
   .swtab:hover{ border-color:rgba(243,241,234,0.55); color:var(--ink); }
-  .swtab .sw-name{ font-size:17px; font-weight:700; transition:font-size .35s ease; white-space:nowrap; }
-  .swtab .sw-count{ font-size:12px; opacity:0.75; }
+  .swtab .sw-name{ font-size:13px; font-weight:700; transition:font-size .35s ease; white-space:nowrap; }
+  .swtab .sw-count{ font-size:10px; opacity:0.75; }
   .swtab.on{ color:#0d1016; border-color:var(--ink); background:var(--ink);
-    padding:18px 34px; }
+    padding:10px 18px; }
   /* the tab that isn't open breathes gently, so it reads as something you can press */
   .swtab:not(.on){ animation:tabBreathe 2.4s ease-in-out infinite; }
   .swtab:not(.on):hover{ animation:none; }
@@ -1076,16 +1075,20 @@
     50%{ border-color:rgba(243,241,234,0.6); color:var(--ink); }
   }
   @media (prefers-reduced-motion: reduce){ .swtab:not(.on){ animation:none; } }
-  .swtab.on .sw-name{ font-size:clamp(22px,2.8vw,32px); }
+  .swtab.on .sw-name{ font-size:clamp(14px,1.4vw,16px); }
   .swpane{ display:none; }
   .swpane.on{ display:block; animation:swIn .4s ease; }
   @keyframes swIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
   @media (max-width:560px){
-    .switcher{ gap:6px; }
-    .swtab{ padding:11px 16px; flex:1 1 auto; justify-content:center; }
-    .swtab.on{ padding:14px 18px; }
-    .swtab .sw-name{ font-size:15px; }
-    .swtab.on .sw-name{ font-size:19px; }
+    .switcher{ gap:6px; margin-bottom:20px; justify-content:flex-start; }
+    .swtab{ padding:6px 10px; gap:5px; flex:0 0 auto; justify-content:flex-start;
+      background:transparent !important; animation:none !important; }
+    .swtab.on{ padding:6px 10px; color:var(--ink); background:transparent !important;
+      border-color:var(--ink); animation:swtabBlink 1.4s ease-in-out infinite !important; }
+    .swtab .sw-name{ font-size:12px; }
+    .swtab.on .sw-name{ font-size:12px; }
+    .swtab .sw-count{ font-size:10px; }
+    @keyframes swtabBlink{ 0%,100%{ border-color:var(--ink); opacity:1; } 50%{ border-color:rgba(243,241,234,0.25); opacity:0.75; } }
   }
 
   .about{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:40px; align-items:start; }
@@ -1106,10 +1109,20 @@
     padding:7px 13px; border:1px solid var(--line); border-radius:2px; color:var(--ink-dim);
     transition:color .25s ease, border-color .25s ease; }
   .about-tags span:hover{ color:var(--ink); border-color:var(--amber); }
+  @media (max-width:560px){
+    .about-tags{ gap:5px; margin-top:14px; }
+    .about-tags span{ font-size:8px; letter-spacing:0.04em; padding:4px 7px; }
+  }
   .stat-row{ display:flex; gap:34px; margin-top:30px; flex-wrap:wrap; }
   .stat-row div{ display:flex; flex-direction:column; }
   .stat-num{ font-size:27px; font-weight:700; }
   .stat-label{ font-size:12px; color:var(--ink-dim); margin-top:2px; }
+  @media (max-width:560px){
+    .stat-row{ flex-wrap:nowrap; gap:12px; margin-top:20px; }
+    .stat-row div{ flex:1 1 0; min-width:0; }
+    .stat-num{ font-size:17px; }
+    .stat-label{ font-size:9px; line-height:1.25; }
+  }
 
 
   #services{ border-top:1px solid var(--line); margin-top:clamp(28px,4vh,60px); }
@@ -1165,14 +1178,14 @@
   .contact-grid{ display:flex; justify-content:center; gap:clamp(10px,1.6vw,18px); flex-wrap:wrap;
     max-width:960px; margin:0 auto; }
   .cbox{ background:transparent; border:1px solid var(--line); border-radius:2px;
-    padding:clamp(18px,2vw,24px) clamp(20px,2.4vw,32px); text-decoration:none; color:var(--ink);
-    display:flex; flex-direction:column; align-items:center; gap:8px; min-width:138px;
+    padding:clamp(16px,1.8vw,20px) clamp(20px,2.4vw,32px); text-decoration:none; color:var(--ink);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-width:138px;
     transition:border-color .25s ease, background .25s ease, transform .2s ease; }
   .cbox:hover{ border-color:var(--ink); background:rgba(243,241,234,0.07); transform:translateY(-3px); }
   .cbox svg{ width:clamp(22px,2.2vw,28px); height:clamp(22px,2.2vw,28px); fill:var(--ink-dim); transition:fill .25s ease; }
   .cbox:hover svg{ fill:var(--ink); }
   .cbox .k{ font-size:14px; font-weight:700; letter-spacing:0.03em; }
-  .cbox .v{ font-size:12px; color:var(--ink-dim); }
+  .cbox .v{ display:none; }
   @media (max-width:560px){
     .contact-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; max-width:100%; }
     .cbox{ min-width:0; padding:10px 4px; gap:4px; border-radius:2px; }
@@ -1181,10 +1194,10 @@
     .cbox .v{ font-size:8.5px; }
   }
   footer{ background:none; text-align:center; padding:20px 18px 84px; font-size:12px; color:#4d525a; border-top:1px solid var(--line); }
-  #stickyBar{ position:fixed; left:0; right:0; bottom:22px; z-index:250; display:flex; justify-content:center;
+  #stickyBar{ position:fixed; left:auto; right:16px; bottom:18px; z-index:250; display:flex; justify-content:flex-end;
     pointer-events:none; opacity:0; transform:translateY(14px); transition:opacity .3s ease, transform .3s ease; }
   #stickyBar.shown{ opacity:1; transform:translateY(0); pointer-events:auto; }
-  #stickyBar a{ text-align:center; padding:11px 30px; background:rgba(14,16,19,0.55);
+  #stickyBar a{ text-align:center; padding:9px 20px; font-size:12px; background:rgba(14,16,19,0.55);
     backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(243,241,234,0.25); border-radius:2px;
     text-decoration:none; color:var(--ink); font-size:13px; font-weight:600; letter-spacing:0.02em;
     transition:border-color .2s ease, background .2s ease; }
@@ -1615,16 +1628,16 @@
     "roleSize": 160,
     "sections": [
       {
-        "id": "work",
-        "show": true,
-        "align": "left",
-        "label": "Роботи"
-      },
-      {
         "id": "about",
         "show": true,
         "align": "left",
         "label": "Про мене"
+      },
+      {
+        "id": "work",
+        "show": true,
+        "align": "left",
+        "label": "Портфоліо"
       },
       {
         "id": "brands",
@@ -1963,7 +1976,7 @@
 
 <nav>
   <div class="nav-id"><span class="mono">DEN_OSTROVSKIY</span></div>
-  <div class="nav-links"><a href="#work">Роботи</a><a href="#about">Про мене</a><a href="#services">Бренди</a><a href="#contact">Contact</a></div>
+  <div class="nav-links"><a href="#work">Портфоліо</a><a href="#about">Про мене</a><a href="#services">Бренди</a><a href="#contact">Contact</a></div>
 </nav>
 
 <header class="hero">
@@ -1994,9 +2007,7 @@
   
 
   
-<section class="section" id="work" data-sec="work">
-    <div id="worksHost"><div class="block" style="--hcols: 3;"><div class="wrap"><div class="slider"><div class="slide reveal rv-tile in" data-t="0" data-c="0" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:0:-1" title="Лівіше">‹</button><button class="mover" data-move="0:0:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Зона Комфорту</div><div class="slide-meta"><span>Музичне відео</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="1" style="--d: 80ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:1:-1" title="Лівіше">‹</button><button class="mover" data-move="0:1:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Токсік</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>19 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="2" style="--d: 160ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:2:-1" title="Лівіше">‹</button><button class="mover" data-move="0:2:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Ягода</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>7 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="3" style="--d: 240ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:3:-1" title="Лівіше">‹</button><button class="mover" data-move="0:3:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Тьотя</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>41 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="4" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:4:-1" title="Лівіше">‹</button><button class="mover" data-move="0:4:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Френдзона</div><div class="slide-meta"><span>Музичне відео</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="5" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:5:-1" title="Лівіше">‹</button><button class="mover" data-move="0:5:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Онліфанс</div><div class="slide-meta"></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div></div></div></div><div class="block" style="--vcols: 5; --vcols-m: 3;"><div class="wrap"><div class="vgrid"><div class="vtile g0 reveal rv-tile in" data-t="1" data-c="0" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:0:-1" title="Лівіше">‹</button><button class="mover" data-move="1:0:1" title="Правіше">›</button><button class="mover" data-move="1:0:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:0:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Золота Країна</div><div class="vtile-meta">Бренд прикрас</div></div></div><div class="vtile g1 reveal rv-tile in" data-t="1" data-c="1" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:1:-1" title="Лівіше">‹</button><button class="mover" data-move="1:1:1" title="Правіше">›</button><button class="mover" data-move="1:1:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:1:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Reytel</div><div class="vtile-meta">Чоловічі прикраси</div></div></div><div class="vtile g2 reveal rv-tile in" data-t="1" data-c="2" style="--d: 160ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:2:-1" title="Лівіше">‹</button><button class="mover" data-move="1:2:1" title="Правіше">›</button><button class="mover" data-move="1:2:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:2:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Oniks</div><div class="vtile-meta">Бренд прикрас</div></div></div><div class="vtile g3 reveal rv-tile in" data-t="1" data-c="3" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:3:-1" title="Лівіше">‹</button><button class="mover" data-move="1:3:1" title="Правіше">›</button><button class="mover" data-move="1:3:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:3:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Wishlist</div><div class="vtile-meta">Бренд</div></div></div><div class="vtile g4 reveal rv-tile in" data-t="1" data-c="4" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:4:-1" title="Лівіше">‹</button><button class="mover" data-move="1:4:1" title="Правіше">›</button><button class="mover" data-move="1:4:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:4:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">MustHave</div><div class="vtile-meta">Бренд одягу</div></div></div><div class="vtile g5 reveal rv-tile in" data-t="1" data-c="5" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:5:-1" title="Лівіше">‹</button><button class="mover" data-move="1:5:1" title="Правіше">›</button><button class="mover" data-move="1:5:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:5:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Nonsens</div><div class="vtile-meta">Бренд одягу</div></div></div><div class="vtile g6 reveal rv-tile in" data-t="1" data-c="6" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:6:-1" title="Лівіше">‹</button><button class="mover" data-move="1:6:1" title="Правіше">›</button><button class="mover" data-move="1:6:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:6:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">HILARY</div><div class="vtile-meta">Бренд</div></div></div><div class="vtile g7 reveal rv-tile in" data-t="1" data-c="7" style="--d: 160ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:7:-1" title="Лівіше">‹</button><button class="mover" data-move="1:7:1" title="Правіше">›</button><button class="mover" data-move="1:7:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:7:5" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>6,5 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">D.O.T.</div><div class="vtile-meta">Ролик</div></div></div></div></div></div></div>
-  </section><section class="section" id="about" data-sec="about">
+<section class="section" id="about" data-sec="about">
     <div class="wrap">
       <div class="switcher reveal" id="aboutSwitcher">
         <button class="swtab on" data-sw="about"><span class="sw-name">About me</span></button>
@@ -2025,6 +2036,9 @@
         <div class="vgrid" id="backstageGrid"><div class="vtile g0 reveal rv-tile" data-t="2" data-c="0"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="2:0:-1" title="Лівіше">‹</button><button class="mover" data-move="2:0:1" title="Правіше">›</button><button class="mover" data-move="2:0:-4" title="На ряд вище">↑</button><button class="mover" data-move="2:0:4" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>41,7 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Процес монтажу</div><div class="vtile-meta">DaVinci / Premiere</div></div></div><div class="vtile g1 reveal rv-tile" data-t="2" data-c="1"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="2:1:-1" title="Лівіше">‹</button><button class="mover" data-move="2:1:1" title="Правіше">›</button><button class="mover" data-move="2:1:-4" title="На ряд вище">↑</button><button class="mover" data-move="2:1:4" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>12,4 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">На майданчику</div><div class="vtile-meta">Backstage</div></div></div><div class="vtile g2 reveal rv-tile" data-t="2" data-c="2"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="2:2:-1" title="Лівіше">‹</button><button class="mover" data-move="2:2:1" title="Правіше">›</button><button class="mover" data-move="2:2:-4" title="На ряд вище">↑</button><button class="mover" data-move="2:2:4" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>11,2 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Дорога</div><div class="vtile-meta">Life</div></div></div><div class="vtile g3 reveal rv-tile" data-t="2" data-c="3"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="2:3:-1" title="Лівіше">‹</button><button class="mover" data-move="2:3:1" title="Правіше">›</button><button class="mover" data-move="2:3:-4" title="На ряд вище">↑</button><button class="mover" data-move="2:3:4" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>9,9 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Contact sheet</div><div class="vtile-meta">BTS</div></div></div></div>
       </div>
     </div>
+  </section><section class="section" id="work" data-sec="work">
+    <div class="wrap"><div class="scene reveal"><h2>Portfolio</h2><div class="scene-line"></div></div></div>
+    <div id="worksHost"><div class="block" style="--hcols: 3;"><div class="wrap"><div class="slider"><div class="slide reveal rv-tile in" data-t="0" data-c="0" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:0:-1" title="Лівіше">‹</button><button class="mover" data-move="0:0:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Зона Комфорту</div><div class="slide-meta"><span>Музичне відео</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="1" style="--d: 80ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:1:-1" title="Лівіше">‹</button><button class="mover" data-move="0:1:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Токсік</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>19 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="2" style="--d: 160ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:2:-1" title="Лівіше">‹</button><button class="mover" data-move="0:2:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Ягода</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>7 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="3" style="--d: 240ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:3:-1" title="Лівіше">‹</button><button class="mover" data-move="0:3:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Тьотя</div><div class="slide-meta"><span>Музичне відео</span><span class="stat slide-views" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>41 млн</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="4" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:4:-1" title="Лівіше">‹</button><button class="mover" data-move="0:4:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Френдзона</div><div class="slide-meta"><span>Музичне відео</span></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div><div class="slide reveal rv-tile in" data-t="0" data-c="5" style="--d: 0ms;"><div class="flip"><div class="face"><img src="https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg'"></div></div><div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"></polygon></svg></div><div class="movers"><button class="mover" data-move="0:5:-1" title="Лівіше">‹</button><button class="mover" data-move="0:5:1" title="Правіше">›</button></div><div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button><div class="slide-info"><div class="slide-title">Онліфанс</div><div class="slide-meta"></div><div class="modes"><button class="mode-btn on" data-mode="clip">CLIP</button><button class="mode-btn" data-mode="shots" disabled="">SHOTS 0</button></div></div></div></div></div></div><div class="block" style="--vcols: 5; --vcols-m: 3;"><div class="wrap"><div class="vgrid"><div class="vtile g0 reveal rv-tile in" data-t="1" data-c="0" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:0:-1" title="Лівіше">‹</button><button class="mover" data-move="1:0:1" title="Правіше">›</button><button class="mover" data-move="1:0:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:0:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Золота Країна</div><div class="vtile-meta">Бренд прикрас</div></div></div><div class="vtile g1 reveal rv-tile in" data-t="1" data-c="1" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:1:-1" title="Лівіше">‹</button><button class="mover" data-move="1:1:1" title="Правіше">›</button><button class="mover" data-move="1:1:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:1:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Reytel</div><div class="vtile-meta">Чоловічі прикраси</div></div></div><div class="vtile g2 reveal rv-tile in" data-t="1" data-c="2" style="--d: 160ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:2:-1" title="Лівіше">‹</button><button class="mover" data-move="1:2:1" title="Правіше">›</button><button class="mover" data-move="1:2:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:2:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Oniks</div><div class="vtile-meta">Бренд прикрас</div></div></div><div class="vtile g3 reveal rv-tile in" data-t="1" data-c="3" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:3:-1" title="Лівіше">‹</button><button class="mover" data-move="1:3:1" title="Правіше">›</button><button class="mover" data-move="1:3:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:3:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Wishlist</div><div class="vtile-meta">Бренд</div></div></div><div class="vtile g4 reveal rv-tile in" data-t="1" data-c="4" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:4:-1" title="Лівіше">‹</button><button class="mover" data-move="1:4:1" title="Правіше">›</button><button class="mover" data-move="1:4:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:4:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">MustHave</div><div class="vtile-meta">Бренд одягу</div></div></div><div class="vtile g5 reveal rv-tile in" data-t="1" data-c="5" style="--d: 0ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:5:-1" title="Лівіше">‹</button><button class="mover" data-move="1:5:1" title="Правіше">›</button><button class="mover" data-move="1:5:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:5:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">Nonsens</div><div class="vtile-meta">Бренд одягу</div></div></div><div class="vtile g6 reveal rv-tile in" data-t="1" data-c="6" style="--d: 80ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:6:-1" title="Лівіше">‹</button><button class="mover" data-move="1:6:1" title="Правіше">›</button><button class="mover" data-move="1:6:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:6:5" title="На ряд нижче">↓</button></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">HILARY</div><div class="vtile-meta">Бренд</div></div></div><div class="vtile g7 reveal rv-tile in" data-t="1" data-c="7" style="--d: 160ms;"><div class="flip"><div class="face"></div></div><div class="movers grid4"><button class="mover" data-move="1:7:-1" title="Лівіше">‹</button><button class="mover" data-move="1:7:1" title="Правіше">›</button><button class="mover" data-move="1:7:-5" title="На ряд вище">↑</button><button class="mover" data-move="1:7:5" title="На ряд нижче">↓</button></div><div class="vtile-stats"><span class="" data-live="views"><svg viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path></svg>6,5 тис.</span></div><div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button><div class="vtile-info"><div class="vtile-title">D.O.T.</div><div class="vtile-meta">Ролик</div></div></div></div></div></div></div>
   </section><section class="section" id="brands" data-sec="brands">
     <div class="wrap">
       <div class="scene reveal"><h2>Brands</h2><div class="scene-line"></div></div>
@@ -4299,23 +4313,10 @@
   refreshYtStats(false);
   setTimeout(watchAboutSection, 300);
 
-  /* floating Contact pill: hidden while the hero's own button or the
-     Contact section itself is on screen, shown everywhere in between */
+  /* floating Contact pill: always visible throughout the whole page */
   (function(){
     const bar = document.getElementById('stickyBar');
-    const hero = document.querySelector('header.hero');
-    const contactSection = document.getElementById('contact');
-    if(!bar || !hero || !contactSection || !('IntersectionObserver' in window)) return;
-    let heroVisible = true, contactVisible = false;
-    function sync(){ bar.classList.toggle('shown', !heroVisible && !contactVisible); }
-    new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ heroVisible = e.isIntersecting; });
-      sync();
-    }, { threshold:0, rootMargin:'0px 0px -85% 0px' }).observe(hero);
-    new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ contactVisible = e.isIntersecting; });
-      sync();
-    }, { threshold:0.15 }).observe(contactSection);
+    if(bar) bar.classList.add('shown');
   })();
 
   /* scroll reveals + stat counters (ported) */
