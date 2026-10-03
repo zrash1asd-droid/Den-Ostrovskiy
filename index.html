@@ -507,6 +507,60 @@
   }
 }
 @media (min-width:561px){ .mobile-more-btn{ display:none !important; } }
+.slider.desktop-collapsed > .slide:nth-child(n+10){ display:none !important; }
+.desktop-more-btn{
+  display:block; width:100%; margin:14px 0 0; padding:12px 16px;
+  border:1px solid var(--line); border-radius:3px; background:transparent;
+  color:var(--ink); font:600 12px/1 'Inter',sans-serif; letter-spacing:.04em;
+  text-transform:uppercase; cursor:pointer;
+}
+@media (max-width:560px){ .desktop-more-btn{ display:none !important; } }
+#clipPage{ position:fixed; inset:0; z-index:99999; display:none;
+  background:
+    radial-gradient(ellipse 80% 30% at 8% 30%, rgba(32,138,136,0.08), transparent 62%),
+    radial-gradient(ellipse 70% 28% at 92% 68%, rgba(30,132,130,0.06), transparent 64%),
+    var(--bg);
+  flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:60px 20px; }
+#clipPage.on{ display:flex; }
+#clipPageClose{ position:absolute; top:22px; right:26px; width:40px; height:40px; border-radius:50%;
+  border:1px solid rgba(243,241,234,0.3); background:rgba(14,16,19,0.6); color:var(--ink);
+  font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+#clipPageClose:hover{ border-color:var(--ink); }
+#clipPagePlayer{ width:100%; max-width:1100px; aspect-ratio:16/9; background:#000; }
+#clipPagePlayer iframe, #clipPagePlayer video{ width:100%; height:100%; border:0; display:block; }
+#clipPageTitle{ font-family:var(--head-font); text-transform:uppercase; letter-spacing:0.04em;
+  font-size:clamp(18px,2.4vw,26px); color:var(--ink); text-align:center; }
+#clipPageViews{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-dim); }
+#clipPageCaption{ max-width:640px; text-align:center; color:var(--ink-dim); font-size:14px; line-height:1.6;
+  white-space:pre-line; }
+#clipPageCaption:empty{ display:none; }
+@media (max-width:560px){
+  #clipPage{ padding:70px 14px 30px; gap:14px; }
+  #clipPageTitle{ font-size:16px; }
+}
+#shareModalBackdrop{ position:fixed; inset:0; z-index:99996; background:rgba(5,6,7,0); pointer-events:none;
+  transition:background .25s ease; }
+#shareModalBackdrop.on{ background:rgba(5,6,7,0.8); pointer-events:auto; }
+#shareModal{ position:fixed; z-index:99997; top:50%; left:50%; transform:translate(-50%,-48%) scale(0.96); width:min(360px, 88vw);
+  background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:34px 26px 24px;
+  opacity:0; pointer-events:none; transition:opacity .22s ease, transform .22s ease; }
+#shareModal.on{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+#shareModalClose{ position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%;
+  border:1px solid var(--line); background:transparent; color:var(--ink-dim); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:13px; }
+#shareModalClose:hover{ color:var(--ink); border-color:var(--ink); }
+#shareModalIcons{ display:flex; justify-content:center; gap:16px; margin-bottom:22px; }
+.share-ic{ width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:rgba(243,241,234,0.06); color:var(--ink); transition:background .2s ease, transform .2s ease; }
+.share-ic:hover{ background:var(--teal); color:#04100f; transform:translateY(-2px); }
+.share-ic svg{ width:19px; height:19px; fill:currentColor; }
+#shareModalLinkRow{ display:flex; gap:8px; }
+#shareModalLink{ flex:1; min-width:0; background:rgba(0,0,0,0.25); border:1px solid var(--line); border-radius:3px;
+  padding:10px 12px; color:var(--ink-dim); font-size:12px; font-family:'JetBrains Mono',monospace; }
+#shareModalCopy{ width:40px; flex:0 0 40px; border-radius:3px; border:1px solid var(--line); background:transparent;
+  color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+#shareModalCopy svg{ width:16px; height:16px; fill:currentColor; }
+#shareModalCopy:hover, #shareModalCopy.copied{ background:var(--teal); border-color:var(--teal); color:#04100f; }
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -691,7 +745,7 @@
        background:linear-gradient(to bottom, rgba(7,8,10,0.92), rgba(7,8,10,0)); }
   .nav-id span{ font-size:13px; color:var(--ink-dim); letter-spacing:0.03em; }
   .nav-links{ display:flex; gap:26px; }
-  .nav-links a{ color:var(--ink); text-decoration:none; font-size:14px; font-weight:500; opacity:0.7; transition:opacity .2s; }
+  .nav-links a{ color:var(--ink); text-decoration:none; font-size:14px; font-weight:500; opacity:0.7; transition:opacity .7s; }
   .nav-links a:hover{ opacity:1; }
   @media (max-width:760px){
     nav{ flex-wrap:wrap; row-gap:8px; }
@@ -793,7 +847,7 @@
   .hero-meta b{ color:var(--meta-color); font-weight:700; }
   .hero-cta{ display:none; }
   .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 24px; border-radius:2px; font-size:14px; font-weight:600;
-        text-decoration:none; border:1px solid var(--line); transition:transform .15s ease, background .15s ease; cursor:pointer; font-family:inherit; }
+        text-decoration:none; border:1px solid var(--line); transition:transform .15s ease, background .7s ease, border-color .7s ease; cursor:pointer; font-family:inherit; }
   .btn:hover{ transform:translateY(-2px); }
   .btn-primary{ background:var(--ink); color:#07080a; border-color:var(--ink); }
   .btn-primary:hover{ background:var(--teal); border-color:var(--teal); color:#04100f; }
@@ -892,27 +946,32 @@
   @media (max-width:560px){ .slider{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:var(--gap); } }
   .slide{ position:relative; width:100%; aspect-ratio:16 / 9; height:auto;
           scroll-snap-align:center; border:1px solid var(--line); border-radius:3px; overflow:hidden; cursor:pointer;
-          transition:transform .3s ease, border-color .3s ease; background:#101316; }
-  .slide:hover{ border-color:rgba(47,182,173,0.5); transform:scale(1.04); z-index:5; }
+          transition:border-color .3s ease; background:#101316; }
+  .slide:hover{ border-color:rgba(47,182,173,0.5); z-index:5; }
   @media (max-width:560px){
-    .slide-info{ padding:8px 10px; }
-    .slide-title{ display:none !important; }
+    .slide-info{ display:none !important; }
+    .slide::after{ display:none !important; }
+    .slide-meta{ display:none !important; }
+    .vtile-info{ display:none !important; }
+    .vtile::after{ display:none !important; }
+    .vtile-stats{ display:none !important; }
     .slide-meta{ font-size:7.8px; }
     .slide-meta > span:not(.slide-views){ display:none !important; }
     .slide-meta:empty{ display:none !important; }
     .slide .modes, .vtile .modes{ display:none !important; }
   }
-  .slide img, .slide video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+  .slide img, .slide video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.2s ease; }
   .slide:hover img, .slide:hover video{ transform:scale(1.04); }
   .slide::after{ content:""; position:absolute; inset:0; z-index:1;
-    background:linear-gradient(to top, rgba(4,20,22,0.90) 0%, rgba(6,26,28,0.16) 52%, transparent 76%); }
+    background:linear-gradient(to top, rgba(4,20,22,0.96) 0%, rgba(6,26,28,0.55) 32%, rgba(6,26,28,0.1) 60%, transparent 80%); }
   .slide-info{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:14px 16px; }
   .slide-title{ font-family:var(--head-font); text-transform:uppercase; font-size:clamp(13px,1.2vw,19px); line-height:1; margin-bottom:4px; }
-  .slide-meta{ display:none !important; }
-  .slide-meta{ display:flex; gap:18px; font-size:13px; color:var(--ink-dim); flex-wrap:wrap; align-items:center; }
+  .slide-meta{ display:flex; gap:18px; font-size:13px; color:var(--ink-dim); flex-wrap:wrap; align-items:center;
+    position:absolute; top:14px; right:16px; z-index:2; }
+  .slide-meta > span:not(.slide-views){ display:none; }
   .stat{ display:inline-flex; align-items:center; gap:6px; font-weight:600; }
   .stat svg{ width:14px; height:14px; fill:currentColor; opacity:0.9; }
-  .slide-views{ color:var(--amber); }
+  .slide-views{ color:var(--amber); padding:4px 8px; background:rgba(7,5,4,0.55); border-radius:2px; backdrop-filter:blur(4px); }
   .slide-likes{ color:var(--ink); }
   .vtile-stats{ position:absolute; top:10px; right:10px; z-index:2; display:flex; flex-direction:column; gap:4px; align-items:flex-end; }
   .vtile-stats span{ font-size:10px; padding:3px 7px; border-radius:2px; background:rgba(7,5,4,0.66);
@@ -928,7 +987,9 @@
     cursor:pointer; display:none; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
   .slide.playing .slide-stop{ display:flex; }
   .slide-stop:hover{ background:var(--red); border-color:var(--red); }
-  .slide::after, .slide-info, .playbadge{ transition:opacity .3s ease; }
+  .slide::after, .slide-info, .slide-meta{ opacity:0; }
+  .slide:hover::after, .slide:hover .slide-info, .slide:hover .slide-meta{ opacity:1; }
+  .slide::after, .slide-info, .slide-meta, .playbadge{ transition:opacity .6s ease; }
 
   .vtile.playing .vtile-info, .vtile.playing::after, .vtile.playing .vtile-stats{ opacity:0; pointer-events:none; }
   .vtile-player{ position:absolute; inset:0; z-index:5; background:#000; display:none; }
@@ -938,12 +999,26 @@
     border:1px solid rgba(243,241,234,0.3); background:rgba(10,7,5,0.72); color:var(--ink); font-size:13px;
     cursor:pointer; display:none; align-items:center; justify-content:center; }
   .vtile.playing .vtile-stop{ display:flex; }
-  .vtile::after, .vtile-info, .vtile-stats{ transition:opacity .3s ease; }
+  .vtile::after, .vtile-info, .vtile-stats{ opacity:0; }
+  .vtile:hover::after, .vtile:hover .vtile-info, .vtile:hover .vtile-stats{ opacity:1; }
+  .vtile::after, .vtile-info, .vtile-stats{ transition:opacity .6s ease; }
 
   /* CLIP / SHOTS switch — always on show, right under the title */
   .localhint{ font-size:11px; color:var(--ink-dim); opacity:0.75; }
   /* reorder handles — only while editing */
   .movers{ position:absolute; top:10px; left:10px; z-index:9; display:none; gap:4px; }
+  .share-btn{ position:absolute; top:10px; right:10px; z-index:9; width:30px; height:30px;
+    border-radius:4px; border:1px solid rgba(243,241,234,0.3); background:rgba(7,5,4,0.82);
+    backdrop-filter:blur(5px); color:var(--ink); cursor:pointer; display:flex;
+    align-items:center; justify-content:center; padding:0; opacity:0; pointer-events:none;
+    transition:opacity .4s ease, background .7s ease, border-color .7s ease, color .7s ease; }
+  .slide:hover .share-btn, .vtile:hover .share-btn{ opacity:1; pointer-events:auto; }
+  .share-btn:hover{ background:rgba(243,241,234,0.9); border-color:var(--ink); color:#0d1016; }
+  .share-btn.copied{ opacity:1 !important; pointer-events:auto; background:var(--teal); border-color:var(--teal); color:#04100f; }
+  .share-btn svg{ width:14px; height:14px; }
+  .vtile .share-btn{ width:24px; height:24px; }
+  .vtile .share-btn svg{ width:12px; height:12px; }
+  @media (max-width:560px){ .share-btn{ display:none !important; } }
   .movers.grid4{ display:none; grid-template-columns:repeat(2, auto); }
   body.editing .vtile:hover .movers.grid4{ display:grid; }
   body.editing .slide:hover .movers, body.editing .vtile:hover .movers{ display:flex; }
@@ -952,7 +1027,7 @@
     cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
   .mover:hover{ background:rgba(243,241,234,0.9); border-color:var(--ink); color:#0d1016; }
   .vtile .mover{ width:24px; height:24px; font-size:12px; }
-  .modes{ display:inline-flex; gap:4px; margin-top:7px; }
+  .modes{ display:none !important; }
   .mode-btn{ font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:0.08em; padding:4px 9px;
     background:rgba(7,5,4,0.6); border:1px solid var(--line); border-radius:2px; color:var(--ink-dim);
     cursor:pointer; transition:all .2s ease; backdrop-filter:blur(6px); }
@@ -997,7 +1072,7 @@
   /* caption and switch never turn — they stay readable through the flip */
   .slide-info, .vtile-info{ z-index:8; }
   .slide::after, .vtile::after{ z-index:2; pointer-events:none; }
-  .playbadge{ pointer-events:none; }
+  .playbadge{ display:none !important; }
   /* the caption strip spans the bottom row, so only its buttons stay clickable */
   .slide-info, .vtile-info{ pointer-events:none; }
   .modes, .mode-btn{ pointer-events:auto; }
@@ -1042,11 +1117,11 @@
   @media (max-width:560px){ .vtile.h{ grid-column:1 / -1; } }
   .vtile{ position:relative; aspect-ratio:9/16; overflow:hidden; border:1px solid var(--line); border-radius:3px; cursor:pointer;
           background:#101316; transition:transform .25s ease, border-color .25s ease; }
-  .vtile:hover{ transform:translateY(-5px) scale(1.04); border-color:rgba(47,182,173,0.5); z-index:5; }
-  .vtile img, .vtile video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+  .vtile:hover{ transform:translateY(-5px); border-color:rgba(47,182,173,0.5); z-index:5; }
+  .vtile img, .vtile video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.2s ease; }
   .vtile:hover img, .vtile:hover video{ transform:scale(1.05); }
   .vtile::after{ content:""; position:absolute; inset:0; z-index:1;
-    background:linear-gradient(to top, rgba(4,20,22,0.88) 0%, rgba(6,26,28,0.14) 48%, transparent 72%); }
+    background:linear-gradient(to top, rgba(4,20,22,0.94) 0%, rgba(6,26,28,0.5) 30%, rgba(6,26,28,0.1) 55%, transparent 76%); }
   .vtile-info{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:14px; }
   .vtile-title{ font-size:14px; font-weight:700; line-height:1.25; }
   .vtile-meta{ font-size:11px; color:var(--ink-dim); margin-top:3px; }
@@ -1062,7 +1137,7 @@
   .switcher{ display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap; }
   .swtab{ display:flex; align-items:baseline; gap:7px; padding:9px 16px; cursor:pointer;
     border:1px solid var(--line); border-radius:2px; background:rgba(10,7,5,0.45); color:var(--ink-dim);
-    font-family:inherit; transition:all .35s cubic-bezier(.22,.61,.36,1); }
+    font-family:inherit; transition:all .7s cubic-bezier(.22,.61,.36,1); }
   .swtab:hover{ border-color:rgba(243,241,234,0.55); color:var(--ink); }
   .swtab .sw-name{ font-size:13px; font-weight:700; transition:font-size .35s ease; white-space:nowrap; }
   .swtab .sw-count{ font-size:10px; opacity:0.75; }
@@ -1188,7 +1263,7 @@
   .cbox{ background:transparent; border:1px solid var(--line); border-radius:2px;
     padding:clamp(16px,1.8vw,20px) clamp(20px,2.4vw,32px); text-decoration:none; color:var(--ink);
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-width:138px;
-    transition:border-color .25s ease, background .25s ease, transform .2s ease; }
+    transition:border-color .7s ease, background .7s ease, transform .2s ease; }
   .cbox:hover{ border-color:var(--ink); background:rgba(243,241,234,0.07); transform:translateY(-3px); }
   .cbox svg{ width:clamp(22px,2.2vw,28px); height:clamp(22px,2.2vw,28px); fill:var(--ink-dim); transition:fill .25s ease; }
   .cbox:hover svg{ fill:var(--ink); }
@@ -1208,7 +1283,7 @@
   #stickyBar a{ text-align:center; padding:9px 20px; font-size:12px; background:rgba(14,16,19,0.55);
     backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(243,241,234,0.25); border-radius:2px;
     text-decoration:none; color:var(--ink); font-size:13px; font-weight:600; letter-spacing:0.02em;
-    transition:border-color .2s ease, background .2s ease; }
+    transition:border-color .7s ease, background .7s ease; }
   #stickyBar a:hover{ border-color:var(--ink); background:rgba(14,16,19,0.75); }
 
   /* ---------- hover expand ---------- */
@@ -2085,6 +2160,27 @@
 <div id="expandBackdrop"></div>
 <div id="expandStage"></div>
 <div id="expandCaption"></div>
+<div id="shareModalBackdrop"></div>
+<div id="shareModal">
+  <button id="shareModalClose" aria-label="Закрити">✕</button>
+  <div id="shareModalIcons">
+    <a class="share-ic" data-ch="telegram" href="#" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.3 18.7 19.8c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.3-8.4c.4-.4-.1-.6-.6-.2L6.3 13 1.3 11.4c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.5Z"/></svg></a>
+    <a class="share-ic" data-ch="whatsapp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17 14c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.8-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg></a>
+    <a class="share-ic" data-ch="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 9h2.5l.4-3H14V4.4c0-.9.3-1.4 1.6-1.4H17V.1C16.7.1 15.7 0 14.5 0 12 0 10.5 1.5 10.5 4.2V6H8v3h2.5v9h3.5V9Z"/></svg></a>
+    <a class="share-ic" data-ch="email" href="#" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4Zm2 2v.01L12 12l8-5.99V6H4Zm16 2.5-7.4 5.55a1 1 0 0 1-1.2 0L4 8.5V18h16V8.5Z"/></svg></a>
+  </div>
+  <div id="shareModalLinkRow">
+    <input id="shareModalLink" type="text" readonly>
+    <button id="shareModalCopy" type="button" aria-label="Копіювати"><svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg></button>
+  </div>
+</div>
+<div id="clipPage">
+  <button id="clipPageClose" aria-label="Закрити">✕</button>
+  <div id="clipPagePlayer"></div>
+  <div id="clipPageTitle"></div>
+  <div id="clipPageViews"></div>
+  <div id="clipPageCaption"></div>
+</div>
 <button id="expandClose" title="Закрити (Esc)">✕</button>
 <div id="expandHintBar">Esc або ✕ — закрити</div>
 <button id="expandClose" title="Закрити (Esc)">✕</button>
@@ -2120,7 +2216,7 @@
     <button class="admin-tab" data-tab="mobile">Мобільна</button>
   </div>
   <div class="admin-body">
-    <div class="admin-pane" id="pane-clips"><div class="swtabs"><button class="swtab-mini on" data-tracktab="0">Музичні кліпи</button><button class="swtab-mini" data-tracktab="1">Контент для брендів</button><button class="swtab-mini" data-tracktab="2">BTS</button></div><div class="grp"><div class="grp-h">Доріжка</div><label class="al">Назва</label><input data-tr="0" data-trf="name" value="Музичні кліпи"><label class="al">Вигляд</label><select data-tr="0" data-trf="layout"><option value="wide" selected="">Великі горизонтальні (слайдер)</option><option value="vertical">Сітка (вертикальні + горизонтальні)</option></select><label class="al">Де показувати</label><select data-tr="0" data-trf="place"><option value="works" selected="">У розділі «Роботи»</option><option value="about">Кнопкою у «Про мене»</option></select><div class="admin-row"><button class="mini-btn" data-trup="0">↑ вище</button><button class="mini-btn" data-trdown="0">↓ нижче</button></div></div><div class="grp"><div class="grp-h">Розмір у цій доріжці</div><label class="al">Скільки в ряд на ПК<span class="rangeval" id="trColsv">3</span></label><input type="range" id="trCols" min="1" max="6" step="1" value="3"><div class="admin-note">Менше в ряд — більші кадри. На планшеті завжди дві, на телефоні одна.</div></div><div class="admin-clip" style="border-color:var(--teal);"><label class="al">Масове додавання — посилання YouTube, по одному в рядок</label><textarea id="bulkLinks" placeholder="https://youtu.be/xxxxxxxxxxx"></textarea><button class="mini-btn" id="bulkAddBtn">Додати в «Музичні кліпи»</button></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="0" data-f="title" value="Зона Комфорту"><label class="al">Підпис</label><input data-t="0" data-c="0" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="0" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="0" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="0" data-f="link" value="https://youtu.be/S_DrehQQ9iM?si=cCmjY2pUhZAbMt5G"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="0" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:0"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:0"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:0">↑</button><button class="mini-btn" data-down="0:0">↓</button><button class="mini-btn danger" data-del="0:0">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="1" data-f="title" value="Токсік"><label class="al">Підпис</label><input data-t="0" data-c="1" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="1" data-f="views" value="19 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="1" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="1" data-f="link" value="https://youtu.be/LVBcP0ewr8g?si=LqoaYBtUhYqKbSvV"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="1" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:1"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:1"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:1">↑</button><button class="mini-btn" data-down="0:1">↓</button><button class="mini-btn danger" data-del="0:1">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="2" data-f="title" value="Ягода"><label class="al">Підпис</label><input data-t="0" data-c="2" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="2" data-f="views" value="7 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="2" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="2" data-f="link" value="https://youtu.be/uxTBHUWhHQU?si=FNgy5DTNj9SBKngM"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="2" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:2"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:2"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:2">↑</button><button class="mini-btn" data-down="0:2">↓</button><button class="mini-btn danger" data-del="0:2">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="3" data-f="title" value="Тьотя"><label class="al">Підпис</label><input data-t="0" data-c="3" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="3" data-f="views" value="41 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="3" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="3" data-f="link" value="https://youtu.be/DFGO4OuvVM0?si=j3XphGu1ab2Gmy-j"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="3" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:3"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:3"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:3">↑</button><button class="mini-btn" data-down="0:3">↓</button><button class="mini-btn danger" data-del="0:3">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="4" data-f="title" value="Френдзона"><label class="al">Підпис</label><input data-t="0" data-c="4" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="4" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="4" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="4" data-f="link" value="https://youtu.be/COZqQfcM0Kw?si=ck4XCvRarqNxGrll"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="4" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:4"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:4"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:4">↑</button><button class="mini-btn" data-down="0:4">↓</button><button class="mini-btn danger" data-del="0:4">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="5" data-f="title" value="Онліфанс"><label class="al">Підпис</label><input data-t="0" data-c="5" data-f="meta" value=""><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="5" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="5" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="5" data-f="link" value="https://youtu.be/GH92DlPxuz0?si=4UJqFiPxod5Z26cw"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="5" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:5"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:5"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:5">↑</button><button class="mini-btn" data-down="0:5">↓</button><button class="mini-btn danger" data-del="0:5">Видалити</button></div></div></div><button class="mini-btn" data-add-track="0">+ Додати роботу</button></div>
+    <div class="admin-pane" id="pane-clips"><div class="swtabs"><button class="swtab-mini on" data-tracktab="0">Музичні кліпи</button><button class="swtab-mini" data-tracktab="1">Контент для брендів</button><button class="swtab-mini" data-tracktab="2">BTS</button></div><div class="grp"><div class="grp-h">Доріжка</div><label class="al">Назва</label><input data-tr="0" data-trf="name" value="Музичні кліпи"><label class="al">Вигляд</label><select data-tr="0" data-trf="layout"><option value="wide" selected="">Великі горизонтальні (слайдер)</option><option value="vertical">Сітка (вертикальні + горизонтальні)</option></select><label class="al">Де показувати</label><select data-tr="0" data-trf="place"><option value="works" selected="">У розділі «Роботи»</option><option value="about">Кнопкою у «Про мене»</option></select><div class="admin-row"><button class="mini-btn" data-trup="0">↑ вище</button><button class="mini-btn" data-trdown="0">↓ нижче</button></div></div><div class="grp"><div class="grp-h">Розмір у цій доріжці</div><label class="al">Скільки в ряд на ПК<span class="rangeval" id="trColsv">3</span></label><input type="range" id="trCols" min="1" max="6" step="1" value="3"><div class="admin-note">Менше в ряд — більші кадри. На планшеті завжди дві, на телефоні одна.</div></div><div class="admin-clip" style="border-color:var(--teal);"><label class="al">Масове додавання — посилання YouTube, по одному в рядок</label><textarea id="bulkLinks" placeholder="https://youtu.be/xxxxxxxxxxx"></textarea><button class="mini-btn" id="bulkAddBtn">Додати в «Музичні кліпи»</button></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="0" data-f="title" value="Зона Комфорту"><label class="al">Підпис</label><input data-t="0" data-c="0" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="0" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="0" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="0" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="0" data-f="link" value="https://youtu.be/S_DrehQQ9iM?si=cCmjY2pUhZAbMt5G"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="0" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:0"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/S_DrehQQ9iM/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:0"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:0:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:0">↑</button><button class="mini-btn" data-down="0:0">↓</button><button class="mini-btn danger" data-del="0:0">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="1" data-f="title" value="Токсік"><label class="al">Підпис</label><input data-t="0" data-c="1" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="1" data-f="views" value="19 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="1" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="1" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="1" data-f="link" value="https://youtu.be/LVBcP0ewr8g?si=LqoaYBtUhYqKbSvV"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="1" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:1"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/LVBcP0ewr8g/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:1"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:1:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:1">↑</button><button class="mini-btn" data-down="0:1">↓</button><button class="mini-btn danger" data-del="0:1">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="2" data-f="title" value="Ягода"><label class="al">Підпис</label><input data-t="0" data-c="2" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="2" data-f="views" value="7 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="2" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="2" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="2" data-f="link" value="https://youtu.be/uxTBHUWhHQU?si=FNgy5DTNj9SBKngM"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="2" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:2"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/uxTBHUWhHQU/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:2"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:2:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:2">↑</button><button class="mini-btn" data-down="0:2">↓</button><button class="mini-btn danger" data-del="0:2">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="3" data-f="title" value="Тьотя"><label class="al">Підпис</label><input data-t="0" data-c="3" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="3" data-f="views" value="41 млн"></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="3" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="3" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="3" data-f="link" value="https://youtu.be/DFGO4OuvVM0?si=j3XphGu1ab2Gmy-j"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="3" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:3"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DFGO4OuvVM0/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:3"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:3:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:3">↑</button><button class="mini-btn" data-down="0:3">↓</button><button class="mini-btn danger" data-del="0:3">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="4" data-f="title" value="Френдзона"><label class="al">Підпис</label><input data-t="0" data-c="4" data-f="meta" value="Музичне відео"><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="4" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="4" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="4" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="4" data-f="link" value="https://youtu.be/COZqQfcM0Kw?si=ck4XCvRarqNxGrll"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="4" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:4"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/COZqQfcM0Kw/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:4"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:4:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:4">↑</button><button class="mini-btn" data-down="0:4">↓</button><button class="mini-btn danger" data-del="0:4">Видалити</button></div></div></div><div class="admin-clip"><div class="grp"><div class="grp-h">Робота</div><label class="al">Назва</label><input data-t="0" data-c="5" data-f="title" value="Онліфанс"><label class="al">Підпис</label><input data-t="0" data-c="5" data-f="meta" value=""><div class="admin-row"><div style="flex:1;"><label class="al">Перегляди</label><input data-t="0" data-c="5" data-f="views" value=""></div><div style="flex:1;"><label class="al">Лайки</label><input data-t="0" data-c="5" data-f="likes" value=""></div></div></div><div class="grp"><div class="grp-h">Опис для сторінки кліпу</div><textarea data-t="0" data-c="5" data-f="caption" style="min-height:80px;" placeholder="Короткий опис, який покажеться внизу окремої сторінки кліпу"></textarea></div><div class="grp"><div class="grp-h">Файл</div><label class="al">Посилання YouTube</label><input data-t="0" data-c="5" data-f="link" value="https://youtu.be/GH92DlPxuz0?si=4UJqFiPxod5Z26cw"><label class="al">Відеофайл на сайті (video/назва.mp4)</label><input data-t="0" data-c="5" data-f="videoUrl" value=""><label class="al">Або вбудувати коротке відео у файл</label><input type="file" accept="video/*" data-vid="0:5"></div><div class="grp"><div class="grp-h">Обкладинка</div><div class="photo-box" style="aspect-ratio:16/9; max-height:140px;"><img src="https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg" alt="" style="opacity:.5" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/GH92DlPxuz0/hqdefault.jpg'"></div><input type="file" accept="image/*" data-img="0:5"></div><div class="grp"><div class="grp-h">Shots — кадри з кліпу (0 з 9)</div><div class="shotgrid"><div class="shotslot"><span class="num">1</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:0"></div><div class="shotslot"><span class="num">2</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:1"></div><div class="shotslot"><span class="num">3</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:2"></div><div class="shotslot"><span class="num">4</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:3"></div><div class="shotslot"><span class="num">5</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:4"></div><div class="shotslot"><span class="num">6</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:5"></div><div class="shotslot"><span class="num">7</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:6"></div><div class="shotslot"><span class="num">8</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:7"></div><div class="shotslot"><span class="num">9</span><span class="plus">+</span><input type="file" accept="image/*" data-shot="0:5:8"></div></div></div><div class="grp"><div class="admin-row"><button class="mini-btn" data-up="0:5">↑</button><button class="mini-btn" data-down="0:5">↓</button><button class="mini-btn danger" data-del="0:5">Видалити</button></div></div></div><button class="mini-btn" data-add-track="0">+ Додати роботу</button></div>
     <div class="admin-pane" id="pane-color"><div class="admin-note">Три кола задають усю гаму. Червоний акцент виводиться з першого автоматично, щоб палітра трималась купи.</div><div class="grp"><div class="grp-h">Фон</div><div class="admin-note" style="margin-bottom:6px;">Основа всієї сторінки. Світлий фон автоматично перемикає текст на темний.</div><div class="wheel-wrap"><canvas id="wBgWheel" width="190" height="190"></canvas></div><label class="al">Яскравість<span class="rangeval" id="wBgLightv">6%</span></label><input type="range" id="wBgLight" min="5" max="96" step="1" value="50"><input type="color" id="wBgHex" value="#02151d"></div><div class="grp"><div class="grp-h">Акцент</div><div class="admin-note" style="margin-bottom:6px;">Цифри, підсвітка, активні кнопки, світіння.</div><div class="wheel-wrap"><canvas id="wAccWheel" width="190" height="190"></canvas></div><label class="al">Яскравість<span class="rangeval" id="wAccLightv">61%</span></label><input type="range" id="wAccLight" min="5" max="96" step="1" value="50"><input type="color" id="wAccHex" value="#e8b84f"></div><div class="grp"><div class="grp-h">Другий акцент</div><div class="admin-note" style="margin-bottom:6px;">Рамки при наведенні, мітки доріжок, холодні відтінки.</div><div class="wheel-wrap"><canvas id="wSecWheel" width="190" height="190"></canvas></div><label class="al">Яскравість<span class="rangeval" id="wSecLightv">45%</span></label><input type="range" id="wSecLight" min="5" max="96" step="1" value="50"><input type="color" id="wSecHex" value="#2FB6AD"></div><div class="admin-track-h">З кадру</div><div class="admin-note" style="margin-bottom:6px;">Кольори, зняті прямо з референсу.</div><div class="admin-row" style="flex-wrap:wrap; gap:4px;"><button class="mini-btn swatch-mini" data-pick="#1447C4" style="background:#1447C4; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button><button class="mini-btn swatch-mini" data-pick="#66C4AE" style="background:#66C4AE; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button><button class="mini-btn swatch-mini" data-pick="#D8412F" style="background:#D8412F; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button><button class="mini-btn swatch-mini" data-pick="#EFE3CE" style="background:#EFE3CE; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button><button class="mini-btn swatch-mini" data-pick="#0E3B45" style="background:#0E3B45; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button><button class="mini-btn swatch-mini" data-pick="#E0A87C" style="background:#E0A87C; min-width:34px; height:30px; border-color:rgba(255,255,255,0.25);"></button></div><div class="admin-note">Клік по зразку фарбує те коло, під яким ви востаннє щось міняли.</div><div class="admin-track-h">Готові образи</div><div class="admin-row" style="flex-wrap:wrap; gap:4px;"><button class="mini-btn" data-look="gym">Ретро · спортзал</button><button class="mini-btn" data-look="film">Ретро · плівка</button><button class="mini-btn" data-look="dark">Темний кінець</button></div><div class="admin-note">Образ ставить фон, акценти, шрифт і всю плівку одразу.</div></div>
     <div class="admin-pane" id="pane-film"><label class="al" style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="dFilm" style="width:auto;" checked=""> Ретро-ефект плівки</label><label class="al" style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="dMinimal" style="width:auto;" checked=""> Мінімалізм — без рамок і нумерації сцен</label><div class="admin-track-h">Світло</div><label class="al">Halation — світіння країв<span class="rangeval" id="dHalov">55%</span></label><input type="range" id="dHalo" min="0" max="180" step="5" value="55"><label class="al">Bloom — широке сяйво<span class="rangeval" id="dBloomv">55%</span></label><input type="range" id="dBloom" min="0" max="180" step="5" value="55"><label class="al">Червона обводка на світлому<span class="rangeval" id="dFringev">40%</span></label><input type="range" id="dFringe" min="0" max="160" step="5" value="40"><div class="admin-track-h">Колір світіння</div><label class="al">Температура · холодне → тепле<span class="rangeval" id="dGlowTempv">48</span></label><input type="range" id="dGlowTemp" min="0" max="100" step="2" value="48"><label class="al">Відтінок · зелене → жовте<span class="rangeval" id="dGlowTintv">46</span></label><input type="range" id="dGlowTint" min="0" max="100" step="2" value="46"><div class="admin-row"><button class="mini-btn" data-glow="tungsten">Лампа</button><button class="mini-btn" data-glow="daylight">Денне</button><button class="mini-btn" data-glow="neon">Неон</button></div><div class="admin-track-h">Колірність</div><label class="al">Насиченість<span class="rangeval" id="dSatv">105%</span></label><input type="range" id="dSat" min="0" max="160" step="5" value="105"><label class="al">Контраст<span class="rangeval" id="dContrastv">90%</span></label><input type="range" id="dContrast" min="60" max="160" step="5" value="90"><div class="admin-track-h">Матеріал плівки</div><label class="al">Зерно<span class="rangeval" id="dGrainv">13%</span></label><input type="range" id="dGrain" min="0" max="45" step="0.5" value="13"><label class="al">Пил і подряпини<span class="rangeval" id="dDustv">25%</span></label><input type="range" id="dDust" min="0" max="180" step="5" value="25"><label class="al">Потертості<span class="rangeval" id="dWearv">85%</span></label><input type="range" id="dWear" min="0" max="200" step="5" value="85"><button class="mini-btn" id="dNewDust">Перемішати текстуру</button><div class="admin-track-h">Глибина</div><label class="al">Теплий грейд<span class="rangeval" id="dWarmv">0%</span></label><input type="range" id="dWarm" min="0" max="100" step="5" value="0"><label class="al">Затемнення фону<span class="rangeval" id="dShadowv">45%</span></label><input type="range" id="dShadow" min="0" max="80" step="5" value="45"><label class="al">Віньєтка<span class="rangeval" id="dVigv">38%</span></label><input type="range" id="dVig" min="0" max="100" step="2" value="38"></div>
     <div class="admin-pane" id="pane-design"><div class="grp"><div class="grp-h">Макет</div><label class="al">Ширина контенту<span class="rangeval" id="dWrapv">2200px</span></label><input type="range" id="dWrap" min="900" max="2200" step="20" value="2200"><label class="al">Відступи між секціями<span class="rangeval" id="dSecv">12px</span></label><input type="range" id="dSec" min="12" max="140" step="2" value="12"><label class="al">Проміжок між плитками<span class="rangeval" id="dGapv">5px</span></label><input type="range" id="dGap" min="0" max="40" step="1" value="5"><label class="al">Розмір тексту<span class="rangeval" id="dFontv">0.98×</span></label><input type="range" id="dFont" min="0.85" max="1.3" step="0.01" value="0.98"></div><div class="grp"><div class="grp-h">Порядок секцій</div><div class="admin-row" style="margin-bottom:5px; align-items:center;"><span style="flex:1; font-size:12px;">Роботи</span><button class="mini-btn" data-secup="0" style="flex:0 0 32px;">↑</button><button class="mini-btn" data-secdown="0" style="flex:0 0 32px;">↓</button><button class="mini-btn" data-secshow="0" style="flex:0 0 46px;">Видно</button><button class="mini-btn" data-secalign="0" style="flex:0 0 46px;">Зліва</button></div><div class="admin-row" style="margin-bottom:5px; align-items:center;"><span style="flex:1; font-size:12px;">Про мене</span><button class="mini-btn" data-secup="1" style="flex:0 0 32px;">↑</button><button class="mini-btn" data-secdown="1" style="flex:0 0 32px;">↓</button><button class="mini-btn" data-secshow="1" style="flex:0 0 46px;">Видно</button><button class="mini-btn" data-secalign="1" style="flex:0 0 46px;">Зліва</button></div><div class="admin-row" style="margin-bottom:5px; align-items:center;"><span style="flex:1; font-size:12px;">Бренди</span><button class="mini-btn" data-secup="2" style="flex:0 0 32px;">↑</button><button class="mini-btn" data-secdown="2" style="flex:0 0 32px;">↓</button><button class="mini-btn" data-secshow="2" style="flex:0 0 46px;">Видно</button><button class="mini-btn" data-secalign="2" style="flex:0 0 46px;">Зліва</button></div><div class="admin-row" style="margin-bottom:5px; align-items:center;"><span style="flex:1; font-size:12px;">Що я роблю</span><button class="mini-btn" data-secup="3" style="flex:0 0 32px;">↑</button><button class="mini-btn" data-secdown="3" style="flex:0 0 32px;">↓</button><button class="mini-btn" data-secshow="3" style="flex:0 0 46px;">Видно</button><button class="mini-btn" data-secalign="3" style="flex:0 0 46px;">Зліва</button></div><div class="admin-note">Порядок, видимість і вирівнювання кожної секції сторінки.</div></div><div class="grp"><div class="grp-h">Розмір великих кліпів</div><div class="admin-note">Кількість колонок у кожній доріжці задається окремо — вкладка «Роботи», угорі оберіть доріжку.</div></div></div>
@@ -2629,6 +2725,79 @@
   function ytThumbBig(url){ var id = ytId(url); return id ? ('https://img.youtube.com/vi/'+id+'/maxresdefault.jpg') : ''; }
   function ytEmbed(url, auto){ var id=ytId(url); if(!id) return '';
     return 'https://www.youtube.com/embed/'+id+'?rel=0&modestbranding=1&playsinline=1'+(auto?'&autoplay=1&mute=1':''); }
+
+  function openShareModal(url, title){
+    const backdrop = document.getElementById('shareModalBackdrop');
+    const modal = document.getElementById('shareModal');
+    const input = document.getElementById('shareModalLink');
+    input.value = url;
+    const text = encodeURIComponent(title ? (title + ' — ' + url) : url);
+    const enc = encodeURIComponent(url);
+    modal.querySelector('[data-ch="telegram"]').href = 'https://t.me/share/url?url='+enc+'&text='+encodeURIComponent(title||'');
+    modal.querySelector('[data-ch="whatsapp"]').href = 'https://wa.me/?text='+text;
+    modal.querySelector('[data-ch="facebook"]').href = 'https://www.facebook.com/sharer/sharer.php?u='+enc;
+    modal.querySelector('[data-ch="email"]').href = 'mailto:?subject='+encodeURIComponent(title||'Дивись цей кліп')+'&body='+text;
+    backdrop.classList.add('on'); modal.classList.add('on');
+  }
+  function closeShareModal(){
+    document.getElementById('shareModalBackdrop').classList.remove('on');
+    document.getElementById('shareModal').classList.remove('on');
+  }
+  document.getElementById('shareModalClose').addEventListener('click', closeShareModal);
+  document.getElementById('shareModalBackdrop').addEventListener('click', closeShareModal);
+  document.getElementById('shareModalCopy').addEventListener('click', function(){
+    const input = document.getElementById('shareModalLink');
+    const btn = document.getElementById('shareModalCopy');
+    const done = function(){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); }, 1500); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(input.value).then(done).catch(function(){ input.select(); document.execCommand('copy'); done(); });
+    } else { input.select(); document.execCommand('copy'); done(); }
+  });
+
+  function clipHash(ti, ci){ return '#clip-'+ti+'-'+ci; }
+  function clipUrl(ti, ci){ return location.origin + location.pathname + location.search + clipHash(ti, ci); }
+  function openClipPage(clip, ti, ci){
+    const page = document.getElementById('clipPage');
+    const box = document.getElementById('clipPagePlayer');
+    box.innerHTML = '';
+    const local = playableVideo(clip), emb = ytEmbed(clip.link, true);
+    if(local){
+      const v = document.createElement('video');
+      v.src = local; v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+      if(clip.image) v.poster = clip.image;
+      box.appendChild(v);
+      v.play().catch(function(){});
+    } else if(emb){
+      const fr = document.createElement('iframe');
+      fr.src = emb.replace('&mute=1','');
+      fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      fr.allowFullscreen = true;
+      box.appendChild(fr);
+    } else {
+      if(clip.image){ const img = document.createElement('img'); img.src = clip.image; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain'; box.appendChild(img); }
+    }
+    document.getElementById('clipPageTitle').textContent = clip.title || '';
+    let viewsText = clip.views || '';
+    const ytIdForClip = ytId(clip.link);
+    if(ytIdForClip && ytStats[ytIdForClip] && ytStats[ytIdForClip].v) viewsText = fmtCount(ytStats[ytIdForClip].v);
+    document.getElementById('clipPageViews').textContent = viewsText ? (viewsText + ' переглядів') : '';
+    document.getElementById('clipPageCaption').textContent = clip.caption || '';
+    page.classList.add('on');
+    document.body.classList.add('clip-page-open');
+    if(ti != null && ci != null && location.hash !== clipHash(ti, ci)){
+      history.pushState({clipPage:true, ti:ti, ci:ci}, '', clipHash(ti, ci));
+    }
+  }
+  function closeClipPage(){
+    const page = document.getElementById('clipPage');
+    if(!page.classList.contains('on')) return;
+    page.classList.remove('on');
+    document.getElementById('clipPagePlayer').innerHTML = '';
+    document.body.classList.remove('clip-page-open');
+  }
+  document.getElementById('clipPageClose').addEventListener('click', function(){ closeClipPage(); history.back(); });
+  window.addEventListener('popstate', closeClipPage);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeClipPage(); closeShareModal(); } });
   function playableVideo(c){ return c.videoUrl || c.video || ''; }
   function anyMedia(c){ return !!(c.videoUrl || c.video || c.image || ytId(c.link)); }
   function preview(c){
@@ -2985,6 +3154,7 @@
             '<div class="flip"><div class="face">'+mediaTag(c, ci)+'</div></div>'+
             (anyMedia(c) ? '<div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"/></svg></div>' : '')+
             moversHtml(ti, ci, true)+
+            '<button class="share-btn" data-t="'+ti+'" data-c="'+ci+'" title="Поширити" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V5l8 7-8 7v-4.08C7.7 14.92 4.6 16.78 2 21c0-6.5 3.5-11.3 12-12Z"/></svg></button>'+
             '<div class="slide-player"></div><button class="slide-stop" title="Зупинити">✕</button>'+
             '<div class="slide-info">'+
               '<div class="slide-title">'+esc(c.title)+'</div>'+
@@ -3005,6 +3175,7 @@
             '<div class="flip"><div class="face">'+mediaTag(c, ci)+'</div>'+shotReelHtml(c)+'</div>'+
             (anyMedia(c) ? '<div class="playbadge"><svg viewBox="0 0 20 22" aria-hidden="true"><polygon points="1,0 20,11 1,22"/></svg></div>' : '')+
             moversHtml(ti, ci, false, track.cols)+
+            '<button class="share-btn" data-t="'+ti+'" data-c="'+ci+'" title="Поширити" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V5l8 7-8 7v-4.08C7.7 14.92 4.6 16.78 2 21c0-6.5 3.5-11.3 12-12Z"/></svg></button>'+
             statBadges(c)+
             '<div class="vtile-player"></div><button class="vtile-stop" title="Зупинити">✕</button>'+
             '<div class="vtile-info"><div class="vtile-title">'+esc(c.title)+'</div><div class="vtile-meta">'+esc(c.meta||'')+'</div></div>'+
@@ -3092,6 +3263,14 @@
         });
       }
 
+      const shareBtn = el.querySelector('.share-btn');
+      if(shareBtn){
+        shareBtn.addEventListener('click', function(e){
+          e.stopPropagation(); e.preventDefault();
+          openShareModal(clipUrl(shareBtn.dataset.t, shareBtn.dataset.c), clip.title || '');
+        });
+      }
+
       el.querySelectorAll('.mover').forEach(function(mv){
         mv.addEventListener('click', function(e){
           e.stopPropagation(); e.preventDefault();
@@ -3111,18 +3290,14 @@
       if(stop) stop.addEventListener('click', function(e){ e.stopPropagation(); stopInline(); });
 
       el.addEventListener('click', function(e){
-        if(el.classList.contains('playing')) return;
-        if(e.target.closest('.slide-stop, .vtile-stop, .mode-btn')) return;
-        if(el.classList.contains('shots')) return;
-
-        // only the play button starts the video
-        if(!e.target.closest('.playbadge')) return;
+        if(e.target.closest('.slide-stop, .vtile-stop, .mode-btn, .mover')) return;
+        if(!document.body.classList.contains('editing') && e.target.closest('.mover')) return;
         if(!playableVideo(clip) && !ytId(clip.link)){
           if(clip.image){ e.preventDefault(); openLightbox(clip); }
           return;
         }
         e.preventDefault();
-        playInline(el, clip);
+        openClipPage(clip, el.dataset.t, el.dataset.c);
       });
     });
   }
@@ -3824,6 +3999,9 @@
     q('#pane-clips input[data-f]').forEach(function(i){
       i.addEventListener('input', function(){ DATA.tracks[i.dataset.t].clips[i.dataset.c][i.dataset.f]=i.value; saveLocal(); softRender(); });
     });
+    q('#pane-clips textarea[data-f]').forEach(function(i){
+      i.addEventListener('input', function(){ DATA.tracks[i.dataset.t].clips[i.dataset.c][i.dataset.f]=i.value; saveLocal(); });
+    });
     q('#pane-clips select[data-f]').forEach(function(s){
       s.addEventListener('change', function(){ DATA.tracks[s.dataset.t].clips[s.dataset.c][s.dataset.f]=s.value; saveLocal(); render(); });
     });
@@ -4371,6 +4549,14 @@
   refreshYtStats(false);
   setTimeout(watchAboutSection, 300);
 
+  (function openClipFromHash(){
+    const m = /^#clip-(\d+)-(\d+)$/.exec(location.hash);
+    if(!m) return;
+    const ti = +m[1], ci = +m[2];
+    const track = DATA.tracks[ti], clip = track && track.clips[ci];
+    if(clip) openClipPage(clip, ti, ci);
+  })();
+
   /* floating Contact pill: always visible throughout the whole page */
   (function(){
     const bar = document.getElementById('stickyBar');
@@ -4453,6 +4639,25 @@
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupMobileShowMore);
   else setupMobileShowMore();
+
+  function setupDesktopShowMore(){
+    document.querySelectorAll('.slider').forEach(function(slider){
+      var slides = Array.from(slider.children).filter(function(el){ return el.classList && el.classList.contains('slide'); });
+      if(slides.length <= 9 || slider.dataset.desktopMoreReady === '1') return;
+      slider.dataset.desktopMoreReady='1';
+      slider.classList.add('desktop-collapsed');
+      var btn=document.createElement('button');
+      btn.type='button'; btn.className='desktop-more-btn'; btn.textContent='Показати ще';
+      slider.insertAdjacentElement('afterend',btn);
+      btn.addEventListener('click',function(){
+        var collapsed=slider.classList.toggle('desktop-collapsed');
+        btn.textContent=collapsed?'Показати ще':'Згорнути';
+        if(collapsed) slider.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupDesktopShowMore);
+  else setupDesktopShowMore();
 })();
 
   // Section heading size controls
