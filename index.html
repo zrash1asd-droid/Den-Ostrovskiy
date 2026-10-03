@@ -4698,7 +4698,7 @@
         var mobile = window.matchMedia('(max-width:560px)').matches;
         var n = parseInt(cs.getPropertyValue(mobile ? '--vcols-m' : '--vcols'), 10);
         var cols = (n > 0) ? n : (mobile ? 3 : 4);
-        return mobile ? cols * 3 : cols; // 3 rows on mobile, 1 row on desktop
+        return mobile ? cols * 2 : cols; // 2 rows on mobile, 1 row on desktop
       }
       if(tiles.length <= colsFor()) return;
       grid.dataset.gridMoreReady = '1';
