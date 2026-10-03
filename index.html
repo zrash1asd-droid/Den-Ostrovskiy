@@ -534,9 +534,18 @@
 #clipPageClose:hover{ border-color:var(--ink); }
 #clipPagePlayer{ width:100%; max-width:1100px; aspect-ratio:16/9; background:#000; }
 #clipPagePlayer iframe, #clipPagePlayer video{ width:100%; height:100%; border:0; display:block; }
+#clipPageTitleRow{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
 #clipPageTitle{ font-family:var(--head-font); text-transform:uppercase; letter-spacing:0.04em;
   font-size:clamp(18px,2.4vw,26px); color:var(--ink); text-align:center; }
-#clipPageViews{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-dim); }
+#clipPageViews{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--amber);
+  display:inline-flex; align-items:center; gap:6px; }
+#clipPageViews:empty{ display:none; }
+#clipPageViews svg{ width:16px; height:16px; fill:currentColor; }
+#clipPageShare{ width:34px; height:34px; border-radius:50%; border:1px solid rgba(243,241,234,0.3);
+  background:rgba(243,241,234,0.06); color:var(--ink); cursor:pointer; display:flex;
+  align-items:center; justify-content:center; padding:0; transition:background .3s ease, border-color .3s ease, color .3s ease; }
+#clipPageShare:hover{ background:var(--teal); border-color:var(--teal); color:#04100f; }
+#clipPageShare svg{ width:15px; height:15px; }
 #clipPageCaption{ max-width:640px; text-align:center; color:var(--ink-dim); font-size:14px; line-height:1.6;
   white-space:pre-line; }
 #clipPageCaption:empty{ display:none; }
@@ -2183,8 +2192,11 @@
 <div id="clipPage">
   <button id="clipPageClose" aria-label="Закрити">✕</button>
   <div id="clipPagePlayer"></div>
-  <div id="clipPageTitle"></div>
-  <div id="clipPageViews"></div>
+  <div id="clipPageTitleRow">
+    <div id="clipPageTitle"></div>
+    <div id="clipPageViews"></div>
+    <button id="clipPageShare" type="button" title="Поширити" aria-label="Поширити"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V5l8 7-8 7v-4.08C7.7 14.92 4.6 16.78 2 21c0-6.5 3.5-11.3 12-12Z"/></svg></button>
+  </div>
   <div id="clipPageCaption"></div>
 </div>
 <button id="expandClose" title="Закрити (Esc)">✕</button>
@@ -2786,10 +2798,11 @@
     let viewsText = clip.views || '';
     const ytIdForClip = ytId(clip.link);
     if(ytIdForClip && ytStats[ytIdForClip] && ytStats[ytIdForClip].v) viewsText = fmtCount(ytStats[ytIdForClip].v);
-    document.getElementById('clipPageViews').textContent = viewsText ? (viewsText + ' переглядів') : '';
+    document.getElementById('clipPageViews').innerHTML = viewsText ? (ICON_EYE + esc(viewsText)) : '';
     document.getElementById('clipPageCaption').textContent = clip.caption || '';
     page.classList.add('on');
     document.body.classList.add('clip-page-open');
+    page.dataset.ti = ti; page.dataset.ci = ci;
     if(ti != null && ci != null && location.hash !== clipHash(ti, ci)){
       history.pushState({clipPage:true, ti:ti, ci:ci}, '', clipHash(ti, ci));
     }
@@ -2802,6 +2815,13 @@
     document.body.classList.remove('clip-page-open');
   }
   document.getElementById('clipPageClose').addEventListener('click', function(){ closeClipPage(); history.back(); });
+  document.getElementById('clipPageShare').addEventListener('click', function(){
+    const page = document.getElementById('clipPage');
+    const ti = page.dataset.ti, ci = page.dataset.ci;
+    if(ti == null || ci == null) return;
+    const track = DATA.tracks[ti], clip = track && track.clips[ci];
+    openShareModal(clipUrl(ti, ci), clip ? clip.title : '');
+  });
   window.addEventListener('popstate', closeClipPage);
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeClipPage(); closeShareModal(); } });
   function playableVideo(c){ return c.videoUrl || c.video || ''; }
@@ -4677,7 +4697,8 @@
         var cs = getComputedStyle(block || grid);
         var mobile = window.matchMedia('(max-width:560px)').matches;
         var n = parseInt(cs.getPropertyValue(mobile ? '--vcols-m' : '--vcols'), 10);
-        return (n > 0) ? n : (mobile ? 3 : 4);
+        var cols = (n > 0) ? n : (mobile ? 3 : 4);
+        return mobile ? cols * 3 : cols; // 3 rows on mobile, 1 row on desktop
       }
       if(tiles.length <= colsFor()) return;
       grid.dataset.gridMoreReady = '1';
