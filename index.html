@@ -507,7 +507,7 @@
   }
 }
 @media (min-width:561px){ .mobile-more-btn{ display:none !important; } }
-.slider.desktop-collapsed > .slide:nth-child(n+10){ display:none !important; }
+.slider.desktop-collapsed > .slide:nth-child(n+7){ display:none !important; }
 .desktop-more-btn{
   display:block; width:100%; margin:14px 0 0; padding:12px 16px;
   border:1px solid var(--line); border-radius:3px; background:transparent;
@@ -4652,7 +4652,7 @@
   function setupDesktopShowMore(){
     document.querySelectorAll('.slider').forEach(function(slider){
       var slides = Array.from(slider.children).filter(function(el){ return el.classList && el.classList.contains('slide'); });
-      if(slides.length <= 9 || slider.dataset.desktopMoreReady === '1') return;
+      if(slides.length <= 6 || slider.dataset.desktopMoreReady === '1') return;
       slider.dataset.desktopMoreReady='1';
       slider.classList.add('desktop-collapsed');
       var btn=document.createElement('button');
